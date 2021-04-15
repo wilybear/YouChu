@@ -1,0 +1,32 @@
+PODS:
+  - ActiveLabel (1.1.0)
+  - ChameleonFramework/Default (2.1.0)
+  - ChameleonFramework/Swift (2.1.0):
+    - ChameleonFramework/Default
+  - JGProgressHUD (2.2)
+  - SDWebImage (5.11.0):
+    - SDWebImage/Core (= 5.11.0)
+  - SDWebImage/Core (5.11.0)
+
+DEPENDENCIES:
+  - ActiveLabel
+  - ChameleonFramework/Swift
+  - JGProgressHUD
+  - SDWebImage
+
+SPEC REPOS:
+  trunk:
+    - ActiveLabel
+    - ChameleonFramework
+    - JGProgressHUD
+    - SDWebImage
+
+SPEC CHECKSUMS:
+  ActiveLabel: 5e3f4de79a1952d4604b845a0610d4776e4b82b3
+  ChameleonFramework: d21a3cc247abfe5e37609a283a8238b03575cf64
+  JGProgressHUD: d83d7a981b85d11205e19ff8ad5bb9c40571c847
+  SDWebImage: 7acbb57630ac7db4a495547fb73916ff3e432f6b
+
+PODFILE CHECKSUM: d9ba30eea255a56821d5f7ab372a3fc1d3a9ca0f
+
+COCOAPODS: 1.10.1
