@@ -1,31 +1,32 @@
 //
-//  ChannelCell.swift
+//  CarouselChannelCell.swift
 //  YouChu
 //
-//  Created by 김현식 on 2021/04/15.
+//  Created by 김현식 on 2021/04/17.
 //
 
 import UIKit
 
-class ChannelCell: UICollectionViewCell {
+class CarouselChannelCell: UICollectionViewCell {
 
     // MARK: - Properties
-
-    private let imageSize:CGFloat = 80
 
     private let channelImageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
-        iv.image = #imageLiteral(resourceName: "paka")
+        iv.backgroundColor = .lightGray
+        iv.image = #imageLiteral(resourceName: "iu")
         return iv
     }()
 
     private let channelTitle: UILabel = {
         let label = UILabel()
-        label.text = "PAKA"
+        label.text = "🌻아이유의 산뜻하고, 계속 듣고 싶어지는 노래모음 | PLAYLIST🎵"
         label.textAlignment = .center
-        label.font = UIFont.boldSystemFont(ofSize: 14)
+        label.font = UIFont.boldSystemFont(ofSize: 12)
+        label.textColor = .white
+        label.backgroundColor = UIColor.black.withAlphaComponent(0.4)
         return label
     }()
 
@@ -36,16 +37,16 @@ class ChannelCell: UICollectionViewCell {
 
         backgroundColor = .white
         addSubview(channelImageView)
-        channelImageView.setDimensions(height: imageSize, width: imageSize)
-        channelImageView.layer.cornerRadius = imageSize/2
-        channelImageView.centerX(inView: contentView)
+        channelImageView.fillSuperview()
+
         addSubview(channelTitle)
-        channelTitle.anchor(top: channelImageView.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 5)
+        channelTitle.anchor(left: leftAnchor, bottom: channelImageView.bottomAnchor, right: rightAnchor)
+        channelImageView.bringSubviewToFront(channelTitle)
 
 
 
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
