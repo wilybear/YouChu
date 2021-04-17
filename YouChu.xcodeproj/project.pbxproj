@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		37E814B52628796E00B3C75B /* ChannelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37E814B42628796E00B3C75B /* ChannelCell.swift */; };
 		37FB47092628440A008781C0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37FB47082628440A008781C0 /* AppDelegate.swift */; };
 		37FB470B2628440A008781C0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37FB470A2628440A008781C0 /* SceneDelegate.swift */; };
 		37FB470D2628440A008781C0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37FB470C2628440A008781C0 /* ViewController.swift */; };
@@ -23,6 +24,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		37E814B42628796E00B3C75B /* ChannelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelCell.swift; sourceTree = "<group>"; };
 		37FB47052628440A008781C0 /* YouChu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YouChu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		37FB47082628440A008781C0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		37FB470A2628440A008781C0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -110,6 +112,7 @@
 		37FB472826284513008781C0 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				37E814B42628796E00B3C75B /* ChannelCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -280,6 +283,7 @@
 				37FB470B2628440A008781C0 /* SceneDelegate.swift in Sources */,
 				37FB472E2628456E008781C0 /* Extensions.swift in Sources */,
 				37FB473E2628467B008781C0 /* RecommendationController.swift in Sources */,
+				37E814B52628796E00B3C75B /* ChannelCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -25,10 +25,10 @@ class MainTabController: UITabBarController {
     func configureViewControllers(){
         view.backgroundColor = .white
 
-        let myPage = MyPageController()
-        let ranking = RankingController()
-        let home = HomeController()
-        let recommendation = RecommendationController()
+        let myPage = templateNavigationController(unselectedImage: #imageLiteral(resourceName: "profile"), selectedImage: #imageLiteral(resourceName: "profile"), rootViewController:  MyPageController())
+        let ranking =  templateNavigationController(unselectedImage: #imageLiteral(resourceName: "trophy"), selectedImage: #imageLiteral(resourceName: "trophy"), rootViewController:  RankingController())
+        let home = templateNavigationController(unselectedImage: #imageLiteral(resourceName: "home"), selectedImage: #imageLiteral(resourceName: "home"), rootViewController:  HomeController())
+        let recommendation =  templateNavigationController(unselectedImage: #imageLiteral(resourceName: "discover"), selectedImage: #imageLiteral(resourceName: "discover"), rootViewController:  RecommendationController())
 
         viewControllers = [home, recommendation, ranking, myPage]
     }
