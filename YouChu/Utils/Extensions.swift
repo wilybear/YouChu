@@ -145,18 +145,22 @@ extension UIView {
         self.layer.shadowRadius = 5
         self.layer.shadowPath = UIBezierPath(rect: self.bounds).cgPath
     }
-}
 
-extension UIImageView {
-    func applyshadowWithCorner(containerView : UIView, cornerRadious : CGFloat){
-        containerView.clipsToBounds = false
-        containerView.layer.shadowColor = UIColor.black.cgColor
-        containerView.layer.shadowOpacity = 1
-        containerView.layer.shadowOffset = CGSize.zero
-        containerView.layer.shadowRadius = 10
-        containerView.layer.cornerRadius = cornerRadious
-        containerView.layer.shadowPath = UIBezierPath(roundedRect: containerView.bounds, cornerRadius: cornerRadious).cgPath
-        self.clipsToBounds = true
-        self.layer.cornerRadius = cornerRadious
+    func dropShadow(shadowColor: UIColor = UIColor.black,
+                    fillColor: UIColor = UIColor.white,
+                    opacity: Float = 0.2,
+                    offset: CGSize = CGSize(width: 0.0, height: 1.0),
+                    radius: CGFloat = 10) -> CAShapeLayer {
+
+        let shadowLayer = CAShapeLayer()
+        shadowLayer.path = UIBezierPath(roundedRect: self.bounds, cornerRadius: radius).cgPath
+        shadowLayer.fillColor = fillColor.cgColor
+        shadowLayer.shadowColor = shadowColor.cgColor
+        shadowLayer.shadowPath = shadowLayer.path
+        shadowLayer.shadowOffset = offset
+        shadowLayer.shadowOpacity = opacity
+        shadowLayer.shadowRadius = radius
+        layer.insertSublayer(shadowLayer, at: 0)
+        return shadowLayer
     }
 }

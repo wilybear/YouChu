@@ -3,30 +3,38 @@ PODS:
   - ChameleonFramework/Default (2.1.0)
   - ChameleonFramework/Swift (2.1.0):
     - ChameleonFramework/Default
+  - ExpandableLabel (0.5.2)
   - JGProgressHUD (2.2)
   - SDWebImage (5.11.0):
     - SDWebImage/Core (= 5.11.0)
   - SDWebImage/Core (5.11.0)
+  - TTTAttributedLabel (2.0.0)
 
 DEPENDENCIES:
   - ActiveLabel
   - ChameleonFramework/Swift
+  - ExpandableLabel
   - JGProgressHUD
   - SDWebImage
+  - TTTAttributedLabel
 
 SPEC REPOS:
   trunk:
     - ActiveLabel
     - ChameleonFramework
+    - ExpandableLabel
     - JGProgressHUD
     - SDWebImage
+    - TTTAttributedLabel
 
 SPEC CHECKSUMS:
   ActiveLabel: 5e3f4de79a1952d4604b845a0610d4776e4b82b3
   ChameleonFramework: d21a3cc247abfe5e37609a283a8238b03575cf64
+  ExpandableLabel: c2fab6d27860c572d67134b30522a5917746171d
   JGProgressHUD: d83d7a981b85d11205e19ff8ad5bb9c40571c847
   SDWebImage: 7acbb57630ac7db4a495547fb73916ff3e432f6b
+  TTTAttributedLabel: 8cffe8e127e4e82ff3af1e5386d4cd0ad000b656
 
-PODFILE CHECKSUM: d9ba30eea255a56821d5f7ab372a3fc1d3a9ca0f
+PODFILE CHECKSUM: eb26036141f263c05bdff6490b6eb0a03b5b1a08
 
 COCOAPODS: 1.10.1

@@ -24,7 +24,7 @@ class CarouselChannelCell: UICollectionViewCell {
         let label = UILabel()
         label.text = "🌻아이유의 산뜻하고, 계속 듣고 싶어지는 노래모음 | PLAYLIST🎵"
         label.textAlignment = .center
-        label.font = UIFont.boldSystemFont(ofSize: 12)
+        label.font = UIFont.boldSystemFont(ofSize: 13)
         label.textColor = .white
         label.backgroundColor = UIColor.black.withAlphaComponent(0.4)
         return label
@@ -42,8 +42,6 @@ class CarouselChannelCell: UICollectionViewCell {
         addSubview(channelTitle)
         channelTitle.anchor(left: leftAnchor, bottom: channelImageView.bottomAnchor, right: rightAnchor)
         channelImageView.bringSubviewToFront(channelTitle)
-
-
 
     }
 

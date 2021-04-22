@@ -7,8 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3778ACE7262CAE22008F95AB /* CircularImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3778ACE6262CAE22008F95AB /* CircularImageButton.swift */; };
+		3778ACFD2631C358008F95AB /* UILabel+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3778ACFC2631C358008F95AB /* UILabel+Extensions.swift */; };
 		37DC810A262B1CAF00711CF0 /* CarouselChannelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DC8109262B1CAF00711CF0 /* CarouselChannelCell.swift */; };
 		37DC810D262B2D5500711CF0 /* BannerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DC810C262B2D5500711CF0 /* BannerCell.swift */; };
+		37DC8110262B9BAE00711CF0 /* ChannelCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DC810F262B9BAE00711CF0 /* ChannelCardView.swift */; };
 		37E814B52628796E00B3C75B /* ChannelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37E814B42628796E00B3C75B /* ChannelCell.swift */; };
 		37FB47092628440A008781C0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37FB47082628440A008781C0 /* AppDelegate.swift */; };
 		37FB470B2628440A008781C0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37FB470A2628440A008781C0 /* SceneDelegate.swift */; };
@@ -26,8 +29,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3778ACE6262CAE22008F95AB /* CircularImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularImageButton.swift; sourceTree = "<group>"; };
+		3778ACFC2631C358008F95AB /* UILabel+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extensions.swift"; sourceTree = "<group>"; };
 		37DC8109262B1CAF00711CF0 /* CarouselChannelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselChannelCell.swift; sourceTree = "<group>"; };
 		37DC810C262B2D5500711CF0 /* BannerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerCell.swift; sourceTree = "<group>"; };
+		37DC810F262B9BAE00711CF0 /* ChannelCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelCardView.swift; sourceTree = "<group>"; };
 		37E814B42628796E00B3C75B /* ChannelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelCell.swift; sourceTree = "<group>"; };
 		37FB47052628440A008781C0 /* YouChu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YouChu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		37FB47082628440A008781C0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -119,6 +125,8 @@
 				37E814B42628796E00B3C75B /* ChannelCell.swift */,
 				37DC8109262B1CAF00711CF0 /* CarouselChannelCell.swift */,
 				37DC810C262B2D5500711CF0 /* BannerCell.swift */,
+				37DC810F262B9BAE00711CF0 /* ChannelCardView.swift */,
+				3778ACE6262CAE22008F95AB /* CircularImageButton.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -153,6 +161,7 @@
 			isa = PBXGroup;
 			children = (
 				37FB472D2628456E008781C0 /* Extensions.swift */,
+				3778ACFC2631C358008F95AB /* UILabel+Extensions.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -284,9 +293,12 @@
 				37FB47382628465E008781C0 /* RankingController.swift in Sources */,
 				37FB470D2628440A008781C0 /* ViewController.swift in Sources */,
 				37FB47092628440A008781C0 /* AppDelegate.swift in Sources */,
+				3778ACE7262CAE22008F95AB /* CircularImageButton.swift in Sources */,
 				37FB473B2628466E008781C0 /* HomeController.swift in Sources */,
+				3778ACFD2631C358008F95AB /* UILabel+Extensions.swift in Sources */,
 				37DC810D262B2D5500711CF0 /* BannerCell.swift in Sources */,
 				37FB47312628457F008781C0 /* MainTabController.swift in Sources */,
+				37DC8110262B9BAE00711CF0 /* ChannelCardView.swift in Sources */,
 				37FB470B2628440A008781C0 /* SceneDelegate.swift in Sources */,
 				37FB472E2628456E008781C0 /* Extensions.swift in Sources */,
 				37DC810A262B1CAF00711CF0 /* CarouselChannelCell.swift in Sources */,

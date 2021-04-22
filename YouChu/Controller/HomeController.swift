@@ -24,7 +24,6 @@ class HomeController: UIViewController {
         let pc = UIPageControl()
         pc.numberOfPages = bannerImages.count
         pc.currentPage = 0
-        pc.translatesAutoresizingMaskIntoConstraints = false
         return pc
     }()
 
@@ -35,6 +34,9 @@ class HomeController: UIViewController {
         UIImage(named: "banner")
     ]
 
+    private let scrollView = UIScrollView()
+    private let contentView = UIView()
+
     lazy var bannerCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: view.frame.width , height: 250)
@@ -42,8 +44,6 @@ class HomeController: UIViewController {
         layout.minimumLineSpacing = 0.0
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         let cv = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
-        cv.translatesAutoresizingMaskIntoConstraints = false
-        cv.backgroundColor = .black
         cv.setCollectionViewLayout(layout, animated: true)
         cv.delegate = self
         cv.dataSource = self
@@ -62,7 +62,6 @@ class HomeController: UIViewController {
         layout.minimumLineSpacing = 20
         layout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         let cv = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
-        cv.translatesAutoresizingMaskIntoConstraints = false
         cv.setCollectionViewLayout(layout, animated: true)
         cv.delegate = self
         cv.dataSource = self
@@ -81,14 +80,13 @@ class HomeController: UIViewController {
         layout.scrollDirection = .horizontal
         layout.minimumInteritemSpacing = 20
         layout.minimumLineSpacing = 20
-        layout.sectionInset = UIEdgeInsets(top: 10, left: 20, bottom: 5, right: 20)
-        layout.itemSize = CGSize(width: (view.frame.width - 5)/itemsPerRow, height: 110)
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 5, right: 20)
+        layout.itemSize = CGSize(width: (view.frame.width - 5)/itemsPerRow, height: 100)
         return layout
     }()
 
     lazy var circularCollectionView: UICollectionView = {
         let cv = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
-        cv.translatesAutoresizingMaskIntoConstraints = false
         cv.setCollectionViewLayout(layout, animated: true)
         cv.delegate = self
         cv.dataSource = self
@@ -105,14 +103,14 @@ class HomeController: UIViewController {
     private let labelForFirstCollectionView: UILabel = {
         let label = UILabel()
         label.text = "요즘 핫한 채널"
-        label.font = UIFont.boldSystemFont(ofSize: 22)
+        label.font = UIFont.boldSystemFont(ofSize: 20)
         return label
     }()
 
     private let labelForSecondCollectionView: UILabel = {
         let label = UILabel()
         label.text = "00과 비슷한 채널"
-        label.font = UIFont.boldSystemFont(ofSize: 22)
+        label.font = UIFont.boldSystemFont(ofSize: 20)
         return label
     }()
 
@@ -153,31 +151,43 @@ class HomeController: UIViewController {
 //       self.navigationController?.navigationBar.backgroundColor = .systemGreen
        let attributes = [NSAttributedString.Key.foregroundColor:UIColor.black, NSAttributedString.Key.font:UIFont(name: "Verdana-bold", size: 22 )]
        self.navigationController?.navigationBar.titleTextAttributes = attributes as [NSAttributedString.Key : Any]
+        navigationController?.navigationBar.isTranslucent = true
+        navigationController?.navigationBar.barTintColor = .white
     }
 
     func configureUI(){
 
-        view.addSubview(bannerCollectionView)
+        scrollView.showsVerticalScrollIndicator = false
+        view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
+        scrollView.anchor(top:view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor)
+        scrollView.centerX(inView: view)
+
+        contentView.anchor(top:scrollView.topAnchor, left: scrollView.leftAnchor, bottom: scrollView.bottomAnchor, right: scrollView.rightAnchor)
+        contentView.centerX(inView: scrollView)
+
+        contentView.addSubview(bannerCollectionView)
         bannerCollectionView.setHeight(250)
-        bannerCollectionView.anchor(top:view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor)
+        bannerCollectionView.anchor(top:contentView.safeAreaLayoutGuide.topAnchor, left: contentView.leftAnchor, right: contentView.rightAnchor)
 
-        view.addSubview(pageControl)
-        pageControl.anchor(left: view.leftAnchor, bottom: bannerCollectionView.bottomAnchor, right: view.rightAnchor, paddingBottom: 10)
+        contentView.addSubview(pageControl)
+        pageControl.anchor(left: contentView.leftAnchor, bottom: bannerCollectionView.bottomAnchor, right: contentView.rightAnchor, paddingBottom: 10)
 
-        view.addSubview(labelForFirstCollectionView)
+        contentView.addSubview(labelForFirstCollectionView)
 
-        labelForFirstCollectionView.anchor(top:bannerCollectionView.bottomAnchor, left: view.leftAnchor, paddingTop: 30, paddingLeft: 15)
+        labelForFirstCollectionView.anchor(top:bannerCollectionView.bottomAnchor, left: contentView.leftAnchor, paddingTop: 30, paddingLeft: 15)
 
-        view.addSubview(circularCollectionView)
+        contentView.addSubview(circularCollectionView)
         circularCollectionView.setHeight(115)
-        circularCollectionView.anchor(top: labelForFirstCollectionView.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 10)
+        circularCollectionView.anchor(top: labelForFirstCollectionView.bottomAnchor, left: contentView.leftAnchor, right: contentView.rightAnchor, paddingTop: 10)
 
-        view.addSubview(labelForSecondCollectionView)
-        labelForSecondCollectionView.anchor(top:circularCollectionView.bottomAnchor, left: view.leftAnchor, paddingTop: 15 ,paddingLeft: 15)
+        contentView.addSubview(labelForSecondCollectionView)
+        labelForSecondCollectionView.anchor(top:circularCollectionView.bottomAnchor, left: contentView.leftAnchor, paddingTop: 15 ,paddingLeft: 15)
 
-        view.addSubview(carouselCollectionView)
+        contentView.addSubview(carouselCollectionView)
         carouselCollectionView.setHeight(200)
-        carouselCollectionView.anchor(top: labelForSecondCollectionView.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 10)
+        carouselCollectionView.anchor(top: labelForSecondCollectionView.bottomAnchor, left: contentView.leftAnchor, bottom: contentView.safeAreaLayoutGuide.bottomAnchor, right: contentView.rightAnchor ,paddingTop: 10)
+
     }
 
 

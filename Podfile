@@ -12,6 +12,5 @@ target 'YouChu' do
 	pod 'SDWebImage'
 	pod 'JGProgressHUD'
 	pod 'ChameleonFramework/Swift'
-
-
+	pod 'TTTAttributedLabel'
 end
