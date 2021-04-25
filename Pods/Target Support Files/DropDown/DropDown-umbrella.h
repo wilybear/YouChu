@@ -11,6 +11,6 @@
 #endif
 
 
-FOUNDATION_EXPORT double ExpandableLabelVersionNumber;
-FOUNDATION_EXPORT const unsigned char ExpandableLabelVersionString[];
+FOUNDATION_EXPORT double DropDownVersionNumber;
+FOUNDATION_EXPORT const unsigned char DropDownVersionString[];
 

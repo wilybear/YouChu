@@ -42,3 +42,13 @@ class MainTabController: UITabBarController {
     }
 
 }
+
+
+
+// MARK: - Properties
+
+// MARK: - LifeCycle
+
+// MARK: - Helpers
+
+// MARK: - Actions

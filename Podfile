@@ -13,4 +13,5 @@ target 'YouChu' do
 	pod 'JGProgressHUD'
 	pod 'ChameleonFramework/Swift'
 	pod 'TTTAttributedLabel'
+	pod 'DropDown'
 end

@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		3778ACE7262CAE22008F95AB /* CircularImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3778ACE6262CAE22008F95AB /* CircularImageButton.swift */; };
 		3778ACFD2631C358008F95AB /* UILabel+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3778ACFC2631C358008F95AB /* UILabel+Extensions.swift */; };
+		3778AD002632A2DF008F95AB /* TagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3778ACFF2632A2DF008F95AB /* TagCell.swift */; };
+		3778AD0426343F1E008F95AB /* RankingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3778AD0326343F1E008F95AB /* RankingTableViewCell.swift */; };
+		3778AD0C26345810008F95AB /* RankingHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3778AD0B26345810008F95AB /* RankingHeader.swift */; };
+		3778AD1726345CB3008F95AB /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3778AD1626345CB3008F95AB /* Category.swift */; };
 		37DC810A262B1CAF00711CF0 /* CarouselChannelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DC8109262B1CAF00711CF0 /* CarouselChannelCell.swift */; };
 		37DC810D262B2D5500711CF0 /* BannerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DC810C262B2D5500711CF0 /* BannerCell.swift */; };
 		37DC8110262B9BAE00711CF0 /* ChannelCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DC810F262B9BAE00711CF0 /* ChannelCardView.swift */; };
@@ -31,6 +35,10 @@
 /* Begin PBXFileReference section */
 		3778ACE6262CAE22008F95AB /* CircularImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularImageButton.swift; sourceTree = "<group>"; };
 		3778ACFC2631C358008F95AB /* UILabel+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extensions.swift"; sourceTree = "<group>"; };
+		3778ACFF2632A2DF008F95AB /* TagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCell.swift; sourceTree = "<group>"; };
+		3778AD0326343F1E008F95AB /* RankingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingTableViewCell.swift; sourceTree = "<group>"; };
+		3778AD0B26345810008F95AB /* RankingHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingHeader.swift; sourceTree = "<group>"; };
+		3778AD1626345CB3008F95AB /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		37DC8109262B1CAF00711CF0 /* CarouselChannelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselChannelCell.swift; sourceTree = "<group>"; };
 		37DC810C262B2D5500711CF0 /* BannerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerCell.swift; sourceTree = "<group>"; };
 		37DC810F262B9BAE00711CF0 /* ChannelCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelCardView.swift; sourceTree = "<group>"; };
@@ -74,6 +82,16 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		3778AD0626343F28008F95AB /* CellsInHome */ = {
+			isa = PBXGroup;
+			children = (
+				37DC810C262B2D5500711CF0 /* BannerCell.swift */,
+				37E814B42628796E00B3C75B /* ChannelCell.swift */,
+				37DC8109262B1CAF00711CF0 /* CarouselChannelCell.swift */,
+			);
+			path = CellsInHome;
+			sourceTree = "<group>";
+		};
 		37FB46FC2628440A008781C0 = {
 			isa = PBXGroup;
 			children = (
@@ -115,6 +133,7 @@
 		37FB4724262844F8008781C0 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				3778AD1626345CB3008F95AB /* Category.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -122,11 +141,12 @@
 		37FB472826284513008781C0 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				37E814B42628796E00B3C75B /* ChannelCell.swift */,
-				37DC8109262B1CAF00711CF0 /* CarouselChannelCell.swift */,
-				37DC810C262B2D5500711CF0 /* BannerCell.swift */,
+				3778AD0626343F28008F95AB /* CellsInHome */,
 				37DC810F262B9BAE00711CF0 /* ChannelCardView.swift */,
 				3778ACE6262CAE22008F95AB /* CircularImageButton.swift */,
+				3778ACFF2632A2DF008F95AB /* TagCell.swift */,
+				3778AD0326343F1E008F95AB /* RankingTableViewCell.swift */,
+				3778AD0B26345810008F95AB /* RankingHeader.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -291,13 +311,17 @@
 			files = (
 				37FB473526284656008781C0 /* MyPageController.swift in Sources */,
 				37FB47382628465E008781C0 /* RankingController.swift in Sources */,
+				3778AD1726345CB3008F95AB /* Category.swift in Sources */,
 				37FB470D2628440A008781C0 /* ViewController.swift in Sources */,
+				3778AD0426343F1E008F95AB /* RankingTableViewCell.swift in Sources */,
 				37FB47092628440A008781C0 /* AppDelegate.swift in Sources */,
 				3778ACE7262CAE22008F95AB /* CircularImageButton.swift in Sources */,
+				3778AD002632A2DF008F95AB /* TagCell.swift in Sources */,
 				37FB473B2628466E008781C0 /* HomeController.swift in Sources */,
 				3778ACFD2631C358008F95AB /* UILabel+Extensions.swift in Sources */,
 				37DC810D262B2D5500711CF0 /* BannerCell.swift in Sources */,
 				37FB47312628457F008781C0 /* MainTabController.swift in Sources */,
+				3778AD0C26345810008F95AB /* RankingHeader.swift in Sources */,
 				37DC8110262B9BAE00711CF0 /* ChannelCardView.swift in Sources */,
 				37FB470B2628440A008781C0 /* SceneDelegate.swift in Sources */,
 				37FB472E2628456E008781C0 /* Extensions.swift in Sources */,

@@ -77,6 +77,8 @@ class ChannelCardView: UIView {
         return label
     }()
 
+    private let sampleTagData = ["승우아빠", "요리", "국진화", "레시피","철원"]
+
     private let TagListTitle: UILabel = {
         let label = UILabel()
         label.text = "구독자 반응 태그"
@@ -85,13 +87,22 @@ class ChannelCardView: UIView {
         return label
     }()
 
+    private lazy var DetailButton: UIButton = {
+        let bt = UIButton(type: .system)
+        bt.setImage(#imageLiteral(resourceName: "search_selected"), for: .normal)
+        bt.addTarget(self, action: #selector(handleDetailButton), for: .touchUpInside)
+        bt.tintColor = .black
+        return bt
+
+    }()
+
     private lazy var TagListCollectionView: UICollectionView =  {
         let layout = UICollectionViewFlowLayout()
         let cv = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
         cv.backgroundColor = .clear
         cv.delegate = self
         cv.dataSource = self
-        cv.register(UICollectionViewCell.self, forCellWithReuseIdentifier: tagIdentifier)
+        cv.register(TagCell.self, forCellWithReuseIdentifier: tagIdentifier)
         return cv
     }()
 
@@ -131,6 +142,10 @@ class ChannelCardView: UIView {
         instruction.numberOfLines = instruction.numberOfLines == 3 ? 5 : 3
     }
 
+    @objc func handleDetailButton(){
+
+    }
+
     // MARK: - Helpers
 
     private func configureUI(){
@@ -139,6 +154,9 @@ class ChannelCardView: UIView {
         containerView.layer.cornerRadius = 15
         containerView.clipsToBounds = true
         containerView.backgroundColor = .white
+
+        containerView.addSubview(DetailButton)
+        DetailButton.anchor(top: containerView.safeAreaLayoutGuide.topAnchor, right: containerView.rightAnchor, paddingTop: 10, paddingRight: 15)
 
         containerView.addSubview(channelImageView)
         channelImageView.setDimensions(height: imageSize, width: imageSize)
@@ -171,14 +189,28 @@ class ChannelCardView: UIView {
 
 extension ChannelCardView : UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return sampleTagData.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: tagIdentifier, for: indexPath) as UICollectionViewCell
-        cell.backgroundColor = .systemGreen
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: tagIdentifier, for: indexPath) as! TagCell
+        cell.subscriberTag = sampleTagData[indexPath.row]
+        cell.layer.masksToBounds = true
+        cell.layer.cornerRadius = 5
+        cell.backgroundColor = .systemBlue
         return cell
     }
 
 
+}
+
+extension ChannelCardView: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        // dataArary is the managing array for your UICollectionView.
+        let item = sampleTagData[indexPath.row]
+        let itemSize = item.size(withAttributes: [
+            NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 14)
+        ])
+        return CGSize(width: itemSize.width + 10, height: itemSize.height + 7)
+    }
 }

@@ -29,7 +29,6 @@ class ChannelCell: UICollectionViewCell {
         return label
     }()
 
-
     // MARK: - Lifecycle
 
     override init(frame: CGRect) {

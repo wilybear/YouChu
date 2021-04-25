@@ -43,6 +43,7 @@ class RecommendationController: UIViewController {
     }()
 
 
+
     // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -82,4 +83,12 @@ class RecommendationController: UIViewController {
     }
 
 
+}
+
+// MARK: DumiData
+
+extension RecommendationController {
+    func fetchData() -> [String]{
+        return ["승우 아빠", "Black Pink - Official channel"]
+    }
 }
