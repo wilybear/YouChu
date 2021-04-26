@@ -13,6 +13,7 @@
 		3778AD0426343F1E008F95AB /* RankingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3778AD0326343F1E008F95AB /* RankingTableViewCell.swift */; };
 		3778AD0C26345810008F95AB /* RankingHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3778AD0B26345810008F95AB /* RankingHeader.swift */; };
 		3778AD1726345CB3008F95AB /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3778AD1626345CB3008F95AB /* Category.swift */; };
+		3778AD1A2635C917008F95AB /* CircularProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3778AD192635C917008F95AB /* CircularProfileView.swift */; };
 		37DC810A262B1CAF00711CF0 /* CarouselChannelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DC8109262B1CAF00711CF0 /* CarouselChannelCell.swift */; };
 		37DC810D262B2D5500711CF0 /* BannerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DC810C262B2D5500711CF0 /* BannerCell.swift */; };
 		37DC8110262B9BAE00711CF0 /* ChannelCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DC810F262B9BAE00711CF0 /* ChannelCardView.swift */; };
@@ -39,6 +40,7 @@
 		3778AD0326343F1E008F95AB /* RankingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingTableViewCell.swift; sourceTree = "<group>"; };
 		3778AD0B26345810008F95AB /* RankingHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingHeader.swift; sourceTree = "<group>"; };
 		3778AD1626345CB3008F95AB /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
+		3778AD192635C917008F95AB /* CircularProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProfileView.swift; sourceTree = "<group>"; };
 		37DC8109262B1CAF00711CF0 /* CarouselChannelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselChannelCell.swift; sourceTree = "<group>"; };
 		37DC810C262B2D5500711CF0 /* BannerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerCell.swift; sourceTree = "<group>"; };
 		37DC810F262B9BAE00711CF0 /* ChannelCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelCardView.swift; sourceTree = "<group>"; };
@@ -147,6 +149,7 @@
 				3778ACFF2632A2DF008F95AB /* TagCell.swift */,
 				3778AD0326343F1E008F95AB /* RankingTableViewCell.swift */,
 				3778AD0B26345810008F95AB /* RankingHeader.swift */,
+				3778AD192635C917008F95AB /* CircularProfileView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -314,6 +317,7 @@
 				3778AD1726345CB3008F95AB /* Category.swift in Sources */,
 				37FB470D2628440A008781C0 /* ViewController.swift in Sources */,
 				3778AD0426343F1E008F95AB /* RankingTableViewCell.swift in Sources */,
+				3778AD1A2635C917008F95AB /* CircularProfileView.swift in Sources */,
 				37FB47092628440A008781C0 /* AppDelegate.swift in Sources */,
 				3778ACE7262CAE22008F95AB /* CircularImageButton.swift in Sources */,
 				3778AD002632A2DF008F95AB /* TagCell.swift in Sources */,

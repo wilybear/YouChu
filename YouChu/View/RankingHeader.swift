@@ -37,7 +37,7 @@ class RankingHeader: UIView {
         let label = UILabel()
         label.text = "카테고리"
         label.textColor = .white
-        label.font = .systemFont(ofSize: 18)
+        label.font = .boldSystemFont(ofSize: 18)
         return label
     }()
 
@@ -67,7 +67,8 @@ class RankingHeader: UIView {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        print(categoryBtn.frame.height)
+        categoryBtn.layoutIfNeeded()
+        categoryMenu.bottomOffset = CGPoint(x: 0, y:(categoryMenu.anchorView?.plainView.bounds.height)!)
     }
 
 
@@ -91,9 +92,6 @@ class RankingHeader: UIView {
         let btnSize = category.size(withAttributes: [
             NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 25)
         ])
-        categoryMenu.bottomOffset = CGPoint(x: 0, y:btnSize.height + 10)
-
-
         categoryMenu.selectionAction = { [unowned self] (index: Int, item: String) in
             category = item
         }

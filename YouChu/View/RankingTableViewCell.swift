@@ -8,6 +8,13 @@
 import UIKit
 
 class RankingTableViewCell: UITableViewCell {
+    private let imageSize: CGFloat = 70
+
+    var rank:Int?{
+        didSet{
+            rankingLabel.text = String(rank ?? 0)
+        }
+    }
 
     // MARK: - Properties
     private let thumbnailImageView: UIImageView = {
@@ -78,8 +85,8 @@ class RankingTableViewCell: UITableViewCell {
         rankingLabel.anchor(left: leftAnchor, paddingLeft: 15, paddingRight: 5)
 
         addSubview(thumbnailImageView)
-        thumbnailImageView.setDimensions(height: 80, width: 80)
-        thumbnailImageView.layer.cornerRadius = 80/2
+        thumbnailImageView.setDimensions(height: imageSize, width: imageSize)
+        thumbnailImageView.layer.cornerRadius = imageSize/2
         thumbnailImageView.centerY(inView: contentView)
         thumbnailImageView.anchor(left: rankingLabel.rightAnchor, paddingLeft: 5, paddingRight: 10)
 

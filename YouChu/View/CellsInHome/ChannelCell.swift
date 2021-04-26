@@ -11,22 +11,13 @@ class ChannelCell: UICollectionViewCell {
 
     // MARK: - Properties
 
-    private let imageSize:CGFloat = 80
-
-    private let channelImageView: UIImageView = {
-        let iv = UIImageView()
-        iv.contentMode = .scaleAspectFill
-        iv.clipsToBounds = true
-        iv.image = #imageLiteral(resourceName: "paka")
-        return iv
-    }()
-
-    private let channelTitle: UILabel = {
-        let label = UILabel()
-        label.text = "PAKA"
-        label.textAlignment = .center
-        label.font = UIFont.boldSystemFont(ofSize: 14)
-        return label
+    private let channelCell: CircularProfileView = {
+        let cpv = CircularProfileView()
+        cpv.image = #imageLiteral(resourceName: "paka")
+        cpv.title = "PAKA"
+        cpv.fontSize = 14
+        cpv.imageSize = 80
+        return cpv
     }()
 
     // MARK: - Lifecycle
@@ -35,15 +26,8 @@ class ChannelCell: UICollectionViewCell {
         super.init(frame: frame)
 
         backgroundColor = .white
-        addSubview(channelImageView)
-        channelImageView.setDimensions(height: imageSize, width: imageSize)
-        channelImageView.layer.cornerRadius = imageSize/2
-        channelImageView.centerX(inView: contentView)
-        addSubview(channelTitle)
-        channelTitle.anchor(top: channelImageView.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 5)
-
-
-
+        addSubview(channelCell)
+        channelCell.fillSuperview()
     }
     
     required init?(coder: NSCoder) {

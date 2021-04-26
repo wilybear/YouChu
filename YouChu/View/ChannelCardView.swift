@@ -19,13 +19,13 @@ class ChannelCardView: UIView {
     private var shadowLayer: CAShapeLayer!
     private var fillColor: UIColor = .blue
 
-    private let channelTitle: UILabel = {
-        let label = UILabel()
-        label.text = "승우아빠"
-        label.textAlignment = .center
-        label.font = UIFont.boldSystemFont(ofSize: 17)
-        return label
-    }()
+//    private let channelTitle: UILabel = {
+//        let label = UILabel()
+//        label.text = "승우아빠"
+//        label.textAlignment = .center
+//        label.font = UIFont.boldSystemFont(ofSize: 17)
+//        return label
+//    }()
     private let subscriberCount: UILabel = {
         let label = UILabel()
         label.text = "구독자 140만명"
@@ -34,14 +34,21 @@ class ChannelCardView: UIView {
         return label
     }()
 
-    private let imageSize:CGFloat = 80
+//    private let channelImageView: UIImageView = {
+//        let iv = UIImageView()
+//        iv.contentMode = .scaleAspectFill
+//        iv.clipsToBounds = true
+//        iv.image = #imageLiteral(resourceName: "sougu")
+//        return iv
+//    }()
 
-    private let channelImageView: UIImageView = {
-        let iv = UIImageView()
-        iv.contentMode = .scaleAspectFill
-        iv.clipsToBounds = true
-        iv.image = #imageLiteral(resourceName: "sougu")
-        return iv
+    private let channelProfileView: CircularProfileView = {
+        let cpv = CircularProfileView()
+        cpv.fontSize = 17
+        cpv.image = #imageLiteral(resourceName: "sougu")
+        cpv.title = "승우아빠"
+        cpv.imageSize = 80
+        return cpv
     }()
 
     private let instructionTitle: UILabel = {
@@ -158,17 +165,22 @@ class ChannelCardView: UIView {
         containerView.addSubview(DetailButton)
         DetailButton.anchor(top: containerView.safeAreaLayoutGuide.topAnchor, right: containerView.rightAnchor, paddingTop: 10, paddingRight: 15)
 
-        containerView.addSubview(channelImageView)
-        channelImageView.setDimensions(height: imageSize, width: imageSize)
-        channelImageView.layer.cornerRadius = imageSize/2
-        channelImageView.centerX(inView: containerView)
-        channelImageView.anchor(top: containerView.safeAreaLayoutGuide.topAnchor, paddingTop: 10)
+//        containerView.addSubview(channelImageView)
+//        channelImageView.setDimensions(height: imageSize, width: imageSize)
+//        channelImageView.layer.cornerRadius = imageSize/2
+//        channelImageView.centerX(inView: containerView)
+//        channelImageView.anchor(top: containerView.safeAreaLayoutGuide.topAnchor, paddingTop: 10)
+//
+//        containerView.addSubview(channelTitle)
+//        channelTitle.anchor(top: channelImageView.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 5)
 
-        containerView.addSubview(channelTitle)
-        channelTitle.anchor(top: channelImageView.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 5)
+        containerView.addSubview(channelProfileView)
+        channelProfileView.centerX(inView: containerView)
+        channelProfileView.anchor(top: containerView.safeAreaLayoutGuide.topAnchor, paddingTop: 10)
+
 
         containerView.addSubview(subscriberCount)
-        subscriberCount.anchor(top: channelTitle.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 3)
+        subscriberCount.anchor(top: channelProfileView.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 3)
 
 
         containerView.addSubview(instructionTitle)

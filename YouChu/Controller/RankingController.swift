@@ -12,13 +12,13 @@ let rankCellIdentifier = "rankCell"
 
 class RankingController: UIViewController {
 
+    var count = 1
     // MARK: - Properties
     private lazy var tableView: UITableView = {
         let tv = UITableView()
         tv.rowHeight = 100
         tv.delegate = self
         tv.dataSource = self
-
         tv.register(RankingTableViewCell.self, forCellReuseIdentifier: rankCellIdentifier)
         return tv
     }()
@@ -51,7 +51,7 @@ class RankingController: UIViewController {
 
     private func configureUI(){
         view.addSubview(header)
-        header.setHeight(125)
+        header.setHeight(105)
         header.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor,right: view.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingRight: 10)
         view.addSubview(tableView)
         tableView.rowHeight = 100
@@ -69,7 +69,7 @@ extension RankingController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: rankCellIdentifier, for: indexPath) as! RankingTableViewCell
-
+        cell.rank = indexPath.row + 1
         return cell
     }
 }

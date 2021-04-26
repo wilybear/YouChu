@@ -9,9 +9,117 @@ import UIKit
 
 class MyPageController: UIViewController {
 
+    // MARK: - Properties
+
+    private let googleLogoView: UIImageView = {
+        let iv = UIImageView()
+        iv.image = #imageLiteral(resourceName: "google")
+        return iv
+    }()
+
+    private let gmailAddressLabel: UILabel = {
+        let label = UILabel()
+        label.text = "pokari237@gmail.com"
+        label.textAlignment = .left
+        label.textColor = .darkGray
+        label.font = UIFont.boldSystemFont(ofSize: 16)
+        return label
+    }()
+
+    private let logoutButton: UIButton = {
+        let bt = UIButton(type: .system)
+        bt.setTitle("로그아웃", for: .normal)
+        let color = UIColor.systemRed.withAlphaComponent(0.8)
+        bt.setTitleColor(color, for: .normal)
+        bt.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        return bt
+    }()
+
+    private lazy var accountStack: UIStackView = {
+        let stack = UIStackView(arrangedSubviews: [googleLogoView,gmailAddressLabel,logoutButton])
+        stack.axis = .horizontal
+        stack.distribution = .fillProportionally
+        stack.alignment = .center
+        stack.spacing = 15
+        stack.setDimensions(height: 60, width: view.frame.width - 60)
+        stack.layoutMargins = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 10)
+        stack.isLayoutMarginsRelativeArrangement = true
+        stack.backgroundColor = .white
+        stack.clipsToBounds = true
+        stack.layer.cornerRadius = 10
+        return stack
+    }()
+
+    private lazy var preferedLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        label.clipsToBounds = true
+        label.layer.cornerRadius = 10
+        label.backgroundColor = .white
+        return label
+    }()
+
+    private lazy var dislikedLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        label.clipsToBounds = true
+        label.layer.cornerRadius = 10
+        label.backgroundColor = .white
+        return label
+    }()
+
+    private lazy var channelStack: UIStackView = {
+        let stack = UIStackView(arrangedSubviews: [preferedLabel,dislikedLabel])
+        stack.axis = .horizontal
+        stack.distribution = .fillEqually
+        stack.alignment = .center
+        stack.spacing = 20
+        stack.setDimensions(height: 75, width: view.frame.width - 60)
+        preferedLabel.attributedText = attributedStatText(value: 35, label: "선호 채널")
+        preferedLabel.setHeight(75)
+        dislikedLabel.attributedText = attributedStatText(value: 35, label: "비선호 채널")
+        dislikedLabel.setHeight(75)
+
+        return stack
+    }()
+
+
+
     // MARK: - LifeCycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemGray
+        configureUI()
     }
+
+    // MARK: - Helpers
+    private func configureUI(){
+        let bgColor = UIColor.systemGray6.withAlphaComponent(0.6)
+        view.backgroundColor = bgColor
+
+        navigationItem.title = "내 정보"
+        view.addSubview(accountStack)
+
+        googleLogoView.setDimensions(height: 20, width: 20)
+        accountStack.anchor(top:view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 20, paddingLeft: 30, paddingRight: 30)
+
+        view.addSubview(channelStack)
+        channelStack.centerX(inView: view)
+        channelStack.anchor(top:accountStack.bottomAnchor,left: view.leftAnchor, right: view.rightAnchor, paddingTop: 20,paddingLeft: 30, paddingRight: 30 )
+        
+    }
+
+    private func attributedStatText(value: Int, label: String) -> NSAttributedString {
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 10
+        paragraphStyle.alignment = .center
+        let attributedText = NSMutableAttributedString(string: "\(value)\n",attributes: [.font:UIFont.boldSystemFont(ofSize: 17)])
+        attributedText.append(NSAttributedString(string: label,attributes: [.font:UIFont.systemFont(ofSize: 17), .foregroundColor: UIColor.lightGray]))
+        attributedText.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, attributedText.length))
+        return attributedText
+    }
+
+    // MARK: - Actions
 }
