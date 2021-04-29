@@ -11,7 +11,6 @@
 		375FE44726371EAA00740866 /* ChannelDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375FE44626371EAA00740866 /* ChannelDetailController.swift */; };
 		375FE46A2639754F00740866 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375FE4692639754F00740866 /* DetailViewController.swift */; };
 		375FE46D2639755E00740866 /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375FE46C2639755E00740866 /* VideoViewController.swift */; };
-		375FE475263A985100740866 /* ChannelDetailPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375FE474263A985100740866 /* ChannelDetailPageView.swift */; };
 		3778ACE7262CAE22008F95AB /* CircularImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3778ACE6262CAE22008F95AB /* CircularImageButton.swift */; };
 		3778ACFD2631C358008F95AB /* UILabel+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3778ACFC2631C358008F95AB /* UILabel+Extensions.swift */; };
 		3778AD002632A2DF008F95AB /* TagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3778ACFF2632A2DF008F95AB /* TagCell.swift */; };
@@ -43,7 +42,6 @@
 		375FE44626371EAA00740866 /* ChannelDetailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelDetailController.swift; sourceTree = "<group>"; };
 		375FE4692639754F00740866 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		375FE46C2639755E00740866 /* VideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
-		375FE474263A985100740866 /* ChannelDetailPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelDetailPageView.swift; sourceTree = "<group>"; };
 		3778ACE6262CAE22008F95AB /* CircularImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularImageButton.swift; sourceTree = "<group>"; };
 		3778ACFC2631C358008F95AB /* UILabel+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extensions.swift"; sourceTree = "<group>"; };
 		3778ACFF2632A2DF008F95AB /* TagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCell.swift; sourceTree = "<group>"; };
@@ -170,7 +168,6 @@
 				3778ACE6262CAE22008F95AB /* CircularImageButton.swift */,
 				3778AD0B26345810008F95AB /* RankingHeader.swift */,
 				3778AD192635C917008F95AB /* CircularProfileView.swift */,
-				375FE474263A985100740866 /* ChannelDetailPageView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -345,7 +342,6 @@
 				3778AD1A2635C917008F95AB /* CircularProfileView.swift in Sources */,
 				37FB47092628440A008781C0 /* AppDelegate.swift in Sources */,
 				3778ACE7262CAE22008F95AB /* CircularImageButton.swift in Sources */,
-				375FE475263A985100740866 /* ChannelDetailPageView.swift in Sources */,
 				3778AD002632A2DF008F95AB /* TagCell.swift in Sources */,
 				37FB473B2628466E008781C0 /* HomeController.swift in Sources */,
 				3778ACFD2631C358008F95AB /* UILabel+Extensions.swift in Sources */,
