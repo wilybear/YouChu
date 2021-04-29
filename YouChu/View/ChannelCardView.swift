@@ -43,11 +43,9 @@ class ChannelCardView: UIView {
 //    }()
 
     private let channelProfileView: CircularProfileView = {
-        let cpv = CircularProfileView()
-        cpv.fontSize = 17
+        let cpv = CircularProfileView(fontSize: 17, imageSize: 100)
         cpv.image = #imageLiteral(resourceName: "sougu")
         cpv.title = "승우아빠"
-        cpv.imageSize = 80
         return cpv
     }()
 

@@ -14,4 +14,5 @@ target 'YouChu' do
 	pod 'ChameleonFramework/Swift'
 	pod 'TTTAttributedLabel'
 	pod 'DropDown'
+	pod 'Parchment', '~> 3.0'
 end

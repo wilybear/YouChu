@@ -52,7 +52,7 @@ class RankingTableViewCell: UITableViewCell {
 
     private let heartImageButton: UIButton = {
         let bt = UIButton(type: .system)
-        bt.setImage(#imageLiteral(resourceName: "like_unselected"), for: .normal)
+        bt.setImage(UIImage(systemName: "heart"), for: .normal)
         bt.tintColor = .systemRed
         return bt
     }()

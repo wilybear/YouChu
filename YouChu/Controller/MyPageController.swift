@@ -7,9 +7,23 @@
 
 import UIKit
 
+let mypageCellIdentifier = "mypageCell"
+
 class MyPageController: UIViewController {
 
+    private let mypageTitle = ["버전 정보","문의하기","리뷰 작성하기","구독 채널 동기화하기","회원 탈퇴"];
+
     // MARK: - Properties
+    private lazy var tableView: UITableView = {
+        let tv = UITableView()
+        tv.rowHeight = 54
+        tv.delegate = self
+        tv.dataSource = self
+        tv.alwaysBounceVertical = false
+        tv.separatorStyle = .none
+        tv.register(MyPageTableViewCell.self, forCellReuseIdentifier: mypageCellIdentifier)
+        return tv
+    }()
 
     private let googleLogoView: UIImageView = {
         let iv = UIImageView()
@@ -107,10 +121,14 @@ class MyPageController: UIViewController {
 
         view.addSubview(channelStack)
         channelStack.centerX(inView: view)
-        channelStack.anchor(top:accountStack.bottomAnchor,left: view.leftAnchor, right: view.rightAnchor, paddingTop: 20,paddingLeft: 30, paddingRight: 30 )
+        channelStack.anchor(top:accountStack.bottomAnchor,left: view.leftAnchor, right: view.rightAnchor, paddingTop: 20,paddingLeft: 30, paddingRight: 30)
+
+        view.addSubview(tableView)
+        tableView.centerX(inView: view)
+        tableView.anchor(top: channelStack.bottomAnchor,left: view.leftAnchor, right: view.rightAnchor, paddingTop: 20, paddingLeft: 30, paddingRight: 30 )
+        tableView.setHeight(CGFloat(54 * mypageTitle.count))
         
     }
-
     private func attributedStatText(value: Int, label: String) -> NSAttributedString {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 10
@@ -122,4 +140,26 @@ class MyPageController: UIViewController {
     }
 
     // MARK: - Actions
+}
+
+
+// MARK: - TableViewDelegate, DataSource
+
+extension MyPageController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 5
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard  let cell = tableView.dequeueReusableCell(withIdentifier: mypageCellIdentifier, for: indexPath) as? MyPageTableViewCell else {
+            return UITableViewCell()
+        }
+        cell.title = mypageTitle[indexPath.row]
+        if indexPath.row == 0 { cell.addVersionInfo() }
+
+        return cell
+
+    }
+
+
 }

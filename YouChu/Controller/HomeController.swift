@@ -126,6 +126,10 @@ class HomeController: UIViewController {
 
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationItem.title = "유추"
+    }
+
     // MARK: - Actions
 
     @objc func changeImage(){
@@ -146,7 +150,6 @@ class HomeController: UIViewController {
     // MARK: - Helpers
 
     func configureNavigation()  {
-       self.navigationItem.title = "유추"
 //       self.navigationController?.navigationBar.barTintColor = .systemGreen
 //       self.navigationController?.navigationBar.backgroundColor = .systemGreen
        let attributes = [NSAttributedString.Key.foregroundColor:UIColor.black, NSAttributedString.Key.font:UIFont(name: "Verdana-bold", size: 22 )]
@@ -223,6 +226,11 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource {
             cell.image = bannerImages[indexPath.row]
             return cell
         }
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let controller = ChannelDetailController()
+        navigationController?.pushViewController(controller, animated: true)
     }
 
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
