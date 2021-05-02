@@ -15,4 +15,5 @@ target 'YouChu' do
 	pod 'TTTAttributedLabel'
 	pod 'DropDown'
 	pod 'Parchment', '~> 3.0'
+	pod 'GoogleSignIn'
 end
