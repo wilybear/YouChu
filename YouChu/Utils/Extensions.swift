@@ -165,9 +165,6 @@ extension UIView {
     }
 
     func addOverlay() {
-        let overlay: UIView = UIView(frame: CGRect(x: 0, y: 0, width: frame.size.width, height: frame.size.height))
-        let color = UIColor.black.withAlphaComponent(0.3)
-        overlay.backgroundColor = color
-        addSubview(overlay)
+
     }
 }

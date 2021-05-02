@@ -10,6 +10,10 @@ import ActiveLabel
 
 let tagIdentifier = "SubscriberTag"
 
+protocol ChannelCardViewDelegate: class {
+    func handleDetailButton(_ channelCardView: ChannelCardView)
+}
+
 class ChannelCardView: UIView {
 
     // MARK: - Properites
@@ -18,6 +22,8 @@ class ChannelCardView: UIView {
     private let cornerRadius: CGFloat = 15.0
     private var shadowLayer: CAShapeLayer!
     private var fillColor: UIColor = .blue
+
+    weak var delegate: ChannelCardViewDelegate?
 
 //    private let channelTitle: UILabel = {
 //        let label = UILabel()
@@ -148,7 +154,7 @@ class ChannelCardView: UIView {
     }
 
     @objc func handleDetailButton(){
-
+        delegate?.handleDetailButton(self)
     }
 
     // MARK: - Helpers

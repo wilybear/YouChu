@@ -1,4 +1,11 @@
 //
+//  Test2.swift
+//  YouChu
+//
+//  Created by 김현식 on 2021/04/29.
+//
+
+//
 //  ChannelDetailController.swift
 //  YouChu
 //
@@ -8,46 +15,75 @@
 import UIKit
 import Parchment
 
-let imageSize:CGFloat = 100
+let imageSize: CGFloat = 100
 
 class ChannelDetailController: UIViewController{
 
     // MARK: - Properties
 
-    let headerHeight: CGFloat = 325
-    let minHeight: CGFloat = 100
+    let headerHeight: CGFloat = 310
+    let bannerImageHeight: CGFloat = 225
+
+    var minHeight: CGFloat {
+        var height: CGFloat = 0
+        if #available(iOS 13.0, *) {
+            let window = UIApplication.shared.windows[0]
+            height = window.safeAreaInsets.top
+        }else if #available(iOS 11.0, *) {
+            let window = UIApplication.shared.keyWindow
+            height = (window?.safeAreaInsets.top)!
+        }
+        return (self.navigationController?.navigationBar.frame.height ?? 0) + height
+    }
+
+    private let titles = [
+        "상세정보",
+        "인기영상"
+    ]
 
     var headerHeightConstraint: NSLayoutConstraint?
+    var bannerHeightConstraint: NSLayoutConstraint?
+
 
     private var pagingViewController = PagingViewController()
-
-
-    private lazy var bannerImage: UIImageView = {
-        let iv = UIImageView()
-        iv.image = #imageLiteral(resourceName: "dingo_banner")
-        iv.contentMode = .scaleAspectFill
-        iv.clipsToBounds = true
-        return iv
-    }()
-
-    private lazy var thumbnailImageView: CircularProfileView = {
-        let cpv = CircularProfileView(fontSize: 20, imageSize: imageSize)
-        cpv.image = #imageLiteral(resourceName: "dingo")
-        cpv.title = "딩고 뮤직 / dingo music"
-        return cpv
-    }()
-
-    private lazy var container = UIView()
 
     private let viewControllers = [
         DetailViewController(),
         VideoViewController()
     ]
 
-    private let titles = [
-        "상세정보",
-        "인기영상"
-    ]
+    private lazy var bannerImage: UIImageView = {
+        let iv = UIImageView()
+        iv.image =  #imageLiteral(resourceName: "dingo_banner")
+        iv.contentMode = .scaleAspectFill
+        iv.clipsToBounds = true
+        return iv
+    }()
+
+    private lazy var thumbnailImageView: CircularProfileView = {
+        let cpv = CircularProfileView(fontSize: 15, imageSize: imageSize)
+        cpv.image = #imageLiteral(resourceName: "dingo")
+        cpv.title = "딩고 뮤직 / dingo music"
+        return cpv
+    }()
+
+    private let subscriberCount: UILabel = {
+        let label = UILabel()
+        label.text = "구독자 293만명"
+        label.textColor = .black
+        label.textAlignment = .center
+        label.font = .systemFont(ofSize: 14)
+        return label
+    }()
+
+    private lazy var youtubeLinkButton: UIButton = {
+        let bt = UIButton(type: .system)
+        bt.setImage(UIImage(systemName: "play.rectangle.fill"), for: .normal)
+        bt.tintColor = .systemRed
+        return bt
+    }()
+
+    private lazy var container = UIView()
 
     // MARK: - LifeCycle
 
@@ -60,9 +96,13 @@ class ChannelDetailController: UIViewController{
         configureNavBar()
     }
 
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-    //    bannerImage.addOverlay()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        configureNavBar()
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        resetNavBar()
     }
 
     // MARK: - API
@@ -81,18 +121,26 @@ class ChannelDetailController: UIViewController{
         pagingViewController.indicatorColor = .systemOrange
         pagingViewController.selectedTextColor = .systemOrange
 
-
         pagingViewController.view.anchor(top: container.bottomAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor)
 
     }
 
     private func configureUI(){
         view.addSubview(container)
+
         container.clipsToBounds = true
-        container.backgroundColor = .systemGreen
         container.addSubview(bannerImage)
-        bannerImage.heightAnchor.constraint(lessThanOrEqualToConstant: 225).isActive = true
-        bannerImage.anchor(top:container.topAnchor, left: container.leftAnchor, right: container.rightAnchor)
+
+        bannerImage.anchor(top:container.topAnchor, left: container.leftAnchor , right: container.rightAnchor)
+        bannerHeightConstraint = bannerImage.heightAnchor.constraint(equalToConstant: bannerImageHeight)
+        bannerHeightConstraint?.isActive = true
+
+        let overlay: UIView = UIView()
+        let color = UIColor.black.withAlphaComponent(0.4)
+        overlay.backgroundColor = color
+        bannerImage.addSubview(overlay)
+        overlay.fillSuperview()
+
         container.addSubview(thumbnailImageView)
         thumbnailImageView.centerX(inView: container)
         thumbnailImageView.anchor(top: bannerImage.bottomAnchor, paddingTop: -imageSize/2)
@@ -101,6 +149,13 @@ class ChannelDetailController: UIViewController{
         headerHeightConstraint = container.heightAnchor.constraint(equalToConstant: headerHeight)
         headerHeightConstraint?.isActive = true
 
+        container.addSubview(subscriberCount)
+        subscriberCount.anchor(left: container.leftAnchor, bottom: container.bottomAnchor,paddingLeft: 15, paddingBottom: 50)
+        subscriberCount.layer.zPosition = -1
+
+        container.addSubview(youtubeLinkButton)
+        youtubeLinkButton.anchor(bottom: container.bottomAnchor, right: container.rightAnchor, paddingBottom: 50, paddingRight: 15)
+        youtubeLinkButton.layer.zPosition = -1
     }
 
     // transparent navigation bar
@@ -108,9 +163,22 @@ class ChannelDetailController: UIViewController{
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = true
-        self.navigationController?.view.backgroundColor = UIColor.clear
+        self.navigationController?.view.backgroundColor = .clear
         self.navigationController?.navigationBar.tintColor = .white
         self.navigationController?.navigationBar.topItem?.title = " "
+        navigationController?.navigationBar.titleTextAttributes =  [NSAttributedString.Key.foregroundColor: UIColor.white, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20, weight: .semibold)]
+        self.navigationItem.title = " "
+    }
+
+    private func resetNavBar(){
+        self.navigationController?.navigationBar.setBackgroundImage(nil, for: UIBarMetrics.default)
+        self.navigationController?.navigationBar.shadowImage = nil
+        self.navigationController?.navigationBar.isTranslucent = false
+        self.navigationController?.view.backgroundColor = .clear
+        self.navigationController?.navigationBar.tintColor = .black
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20, weight: .semibold)]
+
+        print("called")
     }
 
 }
@@ -127,7 +195,7 @@ extension ChannelDetailController: PagingViewControllerDataSource {
 //        let insets = UIEdgeInsets(top: height, left: 0, bottom: 0, right: 0)
 //        viewController.tableView.contentInset = insets
 //        viewController.tableView.scrollIndicatorInsets = insets
-        viewController.tableView.bounces = false
+      //  viewController.tableView.bounces = false
         return viewController
     }
 
@@ -163,7 +231,7 @@ extension ChannelDetailController: PagingViewControllerDelegate {
 //    }
 }
 
-extension ChannelDetailController: UITableViewDelegate {
+extension ChannelDetailController: UITableViewDelegate{
 //    func updateScrollIndicatorInsets(in scrollView: UIScrollView) {
 //        let offset = min(0, scrollView.contentOffset.y) * -1
 //        let insetTop = max(pagingViewController.options.menuHeight, offset)
@@ -173,22 +241,44 @@ extension ChannelDetailController: UITableViewDelegate {
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
 
-        print(scrollView.contentOffset.y)
-//        guard scrollView.contentOffset.y < 0 else {
-//            // Reset the header constraint in case we scrolled so fast that
-//            // the height was not set to zero before the content offset
-//            // became negative.
-//            if headerHeightConstraint!.constant > 0 {
-//                headerHeightConstraint!.constant = 0
-//            }
-//            return
-//        }
+      //  print(scrollView.contentOffset.y)
 
-        if headerHeightConstraint!.constant > minHeight {
-            headerHeightConstraint!.constant -= scrollView.contentOffset.y / 30
-        } else if headerHeightConstraint!.constant < headerHeight {
-            headerHeightConstraint!.constant += scrollView.contentOffset.y / 10
+        let changeStartOffset: CGFloat = -100
+        let changeSpeed: CGFloat = 50
+        thumbnailImageView.alpha = min(1.0, (bannerHeightConstraint!.constant - minHeight) / changeSpeed)
+        print(bannerHeightConstraint!.constant, headerHeightConstraint!.constant)
+        if headerHeightConstraint!.constant == minHeight {
+            self.navigationItem.title = "딩고 뮤직 / dingo music"
+            //TODO: alpha 조정
+            //TODO: 다른 정보들
+        }else{
+            self.navigationItem.title = " "
         }
+        guard scrollView.contentOffset.y > 0 else {
+            if headerHeightConstraint!.constant < headerHeight {
+                headerHeightConstraint!.constant += min(abs(scrollView.contentOffset.y) * 3,10)
+                if bannerHeightConstraint!.constant < bannerImageHeight {
+                    bannerHeightConstraint!.constant += min(abs(scrollView.contentOffset.y) * 3,10)
+                }
+
+                scrollView.contentOffset.y = 0
+            }
+            if headerHeightConstraint!.constant > headerHeight {
+                headerHeightConstraint!.constant = headerHeight
+            }
+            if bannerHeightConstraint!.constant > bannerImageHeight {
+                bannerHeightConstraint!.constant = bannerImageHeight
+            }
+            return
+        }
+        print("DEBUG: height: \( headerHeightConstraint!.constant) ,minHeight:\(minHeight)")
+        if headerHeightConstraint!.constant > minHeight {
+            headerHeightConstraint!.constant = max(headerHeightConstraint!.constant - scrollView.contentOffset.y, minHeight )
+            bannerHeightConstraint!.constant = max(bannerHeightConstraint!.constant - scrollView.contentOffset.y, minHeight )
+            scrollView.contentOffset.y = 0
+        }
+
+
 
 //        let percentage = (offset-100)/50
 //        container.alpha = percentage

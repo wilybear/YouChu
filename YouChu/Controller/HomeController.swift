@@ -118,7 +118,6 @@ class HomeController: UIViewController {
     // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureNavigation()
         configureUI()
         DispatchQueue.main.async {
             self.timer = Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(self.changeImage), userInfo: nil, repeats: true)
@@ -128,6 +127,7 @@ class HomeController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         self.navigationItem.title = "유추"
+
     }
 
     // MARK: - Actions
@@ -148,15 +148,6 @@ class HomeController: UIViewController {
     }
 
     // MARK: - Helpers
-
-    func configureNavigation()  {
-//       self.navigationController?.navigationBar.barTintColor = .systemGreen
-//       self.navigationController?.navigationBar.backgroundColor = .systemGreen
-       let attributes = [NSAttributedString.Key.foregroundColor:UIColor.black, NSAttributedString.Key.font:UIFont(name: "Verdana-bold", size: 22 )]
-       self.navigationController?.navigationBar.titleTextAttributes = attributes as [NSAttributedString.Key : Any]
-        navigationController?.navigationBar.isTranslucent = true
-        navigationController?.navigationBar.barTintColor = .white
-    }
 
     func configureUI(){
 

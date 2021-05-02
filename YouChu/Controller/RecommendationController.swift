@@ -12,8 +12,9 @@ class RecommendationController: UIViewController {
 
     // MARK: - Properties
 
-    private let channelCardView: UIView = {
+    private lazy var channelCardView: UIView = {
         let view = ChannelCardView()
+        view.delegate = self
 
         return view
     }()
@@ -86,6 +87,13 @@ class RecommendationController: UIViewController {
 }
 
 // MARK: DumiData
+
+extension RecommendationController: ChannelCardViewDelegate {
+    func handleDetailButton(_ channelCardView: ChannelCardView) {
+        let controller = ChannelDetailController()
+        navigationController?.pushViewController(controller, animated: true)
+    }
+}
 
 extension RecommendationController {
     func fetchData() -> [String]{

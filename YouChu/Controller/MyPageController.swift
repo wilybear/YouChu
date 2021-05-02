@@ -71,6 +71,9 @@ class MyPageController: UIViewController {
         label.clipsToBounds = true
         label.layer.cornerRadius = 10
         label.backgroundColor = .white
+        let tap = UITapGestureRecognizer(target: self, action: #selector(tapFunction))
+        label.isUserInteractionEnabled = true
+        label.addGestureRecognizer(tap)
         return label
     }()
 
@@ -81,6 +84,9 @@ class MyPageController: UIViewController {
         label.clipsToBounds = true
         label.layer.cornerRadius = 10
         label.backgroundColor = .white
+        let tap = UITapGestureRecognizer(target: self, action: #selector(tapFunction))
+        label.isUserInteractionEnabled = true
+        label.addGestureRecognizer(tap)
         return label
     }()
 
@@ -140,6 +146,12 @@ class MyPageController: UIViewController {
     }
 
     // MARK: - Actions
+    @objc func tapFunction(sender:UITapGestureRecognizer) {
+        let controller = ChannelListController()
+        navigationController?.pushViewController(controller, animated: true)
+    }
+
+
 }
 
 

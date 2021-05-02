@@ -72,6 +72,11 @@ extension RankingController: UITableViewDataSource, UITableViewDelegate {
         cell.rank = indexPath.row + 1
         return cell
     }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let controller = ChannelDetailController()
+        navigationController?.pushViewController(controller, animated: true)
+    }
 }
 
 
