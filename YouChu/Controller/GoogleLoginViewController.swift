@@ -10,7 +10,7 @@ import GoogleSignIn
 
 class GoogleLoginViewController: UIViewController {
 
-    private var googleSignInButton: GIDSignInButton = {
+    private lazy var googleSignInButton: GIDSignInButton = {
         let gidButton = GIDSignInButton()
         GIDSignIn.sharedInstance()?.presentingViewController = self
         GIDSignIn.sharedInstance()?.delegate = self
@@ -20,7 +20,15 @@ class GoogleLoginViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .white
+        view.addSubview(googleSignInButton)
+        googleSignInButton.center(inView: view)
     }
+
+
+}
+
+extension GoogleLoginViewController: GIDSignInDelegate {
 
     // 연동을 시도 했을때 불러오는 메소드
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
@@ -55,5 +63,6 @@ class GoogleLoginViewController: UIViewController {
     func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
         print("Disconnect")
     }
-
 }
+
+
