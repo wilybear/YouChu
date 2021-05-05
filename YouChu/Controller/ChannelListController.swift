@@ -13,11 +13,13 @@ class ChannelListController: UIViewController {
 
     var channels: [Channel] = []
 
+
     private lazy var tableView: UITableView = {
         let tv = UITableView()
         tv.rowHeight = 100
         tv.delegate = self
         tv.dataSource = self
+        tv.separatorStyle = .none
         tv.register(ChannelTableViewCell.self, forCellReuseIdentifier: ChannelListController.CellIdentifier)
         return tv
     }()
@@ -28,7 +30,7 @@ class ChannelListController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        channels = fetchData()
+        channels = Test.fetchData()
         configureUI()
     }
 
@@ -47,18 +49,7 @@ class ChannelListController: UIViewController {
         tableView.anchor(top:view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor)
     }
 
-    private func fetchData() -> [Channel]{
-        [
-            Channel(thumbnail: #imageLiteral(resourceName: "yebit"), channelName: "Yebit 예빛", subscriberCount: 27, isprefered: true),
-            Channel(thumbnail: #imageLiteral(resourceName: "sougu"), channelName: "승우아빠", subscriberCount: 141, isprefered: true),
-            Channel(thumbnail: #imageLiteral(resourceName: "dingo"), channelName: "딩고 뮤직 / dingo music", subscriberCount: 293, isprefered: true),
-            Channel(thumbnail: #imageLiteral(resourceName: "paka"), channelName: "PAKA", subscriberCount: 28, isprefered: true),
-
-        ]
-    }
-
     // MARK: - Actions
-
 
 }
 
@@ -76,6 +67,15 @@ extension ChannelListController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let controller = ChannelDetailController()
         navigationController?.pushViewController(controller, animated: true)
+    }
+
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            channels.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        } else if editingStyle == .insert {
+            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
+        }
     }
 }
 

@@ -8,6 +8,10 @@
 import UIKit
 import DropDown
 
+protocol RankingHeaderDelegate: class{
+    func sendCategoryIndex()
+}
+
 class RankingHeader: UIView {
 
     var category: String = "전체" {
@@ -15,6 +19,8 @@ class RankingHeader: UIView {
             categoryBtn.setTitle(category, for: .normal)
         }
     }
+
+    weak var delegate:RankingHeaderDelegate?
 
     // MARK: - Properties
     private let container: UIView = {
@@ -94,6 +100,7 @@ class RankingHeader: UIView {
         ])
         categoryMenu.selectionAction = { [unowned self] (index: Int, item: String) in
             category = item
+            delegate?.sendCategoryIndex()
         }
 
     }
@@ -107,3 +114,4 @@ class RankingHeader: UIView {
 
 
 }
+

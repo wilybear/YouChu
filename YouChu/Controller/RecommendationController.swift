@@ -12,10 +12,9 @@ class RecommendationController: UIViewController {
 
     // MARK: - Properties
 
-    private lazy var channelCardView: UIView = {
+    private lazy var channelCardView: ChannelCardView = {
         let view = ChannelCardView()
         view.delegate = self
-
         return view
     }()
 
@@ -32,6 +31,7 @@ class RecommendationController: UIViewController {
         button.setImage(#imageLiteral(resourceName: "like").withTintColor(.white), for: .normal)
         button.tintColor = .white
         button.layerBackgroundColor = .systemPink
+        button.addTarget(self, action: #selector(handleLikeAction), for: .touchUpInside)
         return button
     }()
 
@@ -40,15 +40,43 @@ class RecommendationController: UIViewController {
         button.setImage(#imageLiteral(resourceName: "ic_close").withTintColor(.white), for: .normal)
         button.tintColor = .white
         button.layerBackgroundColor = .systemGray
+        button.addTarget(self, action: #selector(handleDislikeAction), for: .touchUpInside)
         return button
     }()
 
+    private var recommendingChannel: Channel? {
+        didSet{
+            guard let channel = recommendingChannel else {
+                return
+            }
+            channelCardView.channel = channel
+        }
+    }
 
 
     // MARK: - LifeCycle
+
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        recommendingChannel = Test.fetchData().randomElement()!
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        channelCardView.channel = recommendingChannel!
         configureUI()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        lockButton(true)
+        _ = channelCardView.slideIn(from:.top) { _ in
+            self.lockButton(false)
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -61,6 +89,7 @@ class RecommendationController: UIViewController {
 
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
     }
+
 
     // MARK: - Helpers
 
@@ -76,14 +105,35 @@ class RecommendationController: UIViewController {
         stack.centerX(inView: view)
         stack.anchor(bottom: view.safeAreaLayoutGuide.bottomAnchor, paddingBottom: 20)
 
-
         view.addSubview(channelCardView)
         channelCardView.anchor(top:helpLabel.bottomAnchor, left: view.leftAnchor, bottom: stack.topAnchor, right: view.rightAnchor ,paddingTop: 20, paddingLeft: 50, paddingBottom: 20, paddingRight: 50)
-
-
+        channelCardView.alpha = 0.2
     }
 
 
+    func lockButton(_ isAnimating:Bool){
+        likeButton.isUserInteractionEnabled = !isAnimating
+        dislikeButton.isUserInteractionEnabled = !isAnimating
+    }
+
+    // MARK: - Actions
+
+    @objc func handleLikeAction(){
+        lockButton(true)
+        _ = self.channelCardView.slideOut(from: .right) { finished in
+            self.recommendingChannel = Test.fetchData().randomElement()!
+            _ = self.channelCardView.slideIn(from: .top)
+            self.lockButton(false)
+        }
+    }
+
+    @objc func handleDislikeAction(){
+        _ = self.channelCardView.slideOut(from: .left) { finished in
+            self.recommendingChannel = Test.fetchData().randomElement()!
+            _ = self.channelCardView.slideIn(from: .top)
+            self.lockButton(false)
+        }
+    }
 }
 
 // MARK: DumiData

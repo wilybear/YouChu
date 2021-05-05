@@ -13,10 +13,14 @@ let rankCellIdentifier = "rankCell"
 class RankingController: UIViewController {
 
     var count = 1
+    var idx = 1
+    var channels:[Channel] = []
+
+
     // MARK: - Properties
     private lazy var tableView: UITableView = {
         let tv = UITableView()
-        tv.rowHeight = 100
+        tv.rowHeight = 80
         tv.delegate = self
         tv.dataSource = self
         tv.register(RankingTableViewCell.self, forCellReuseIdentifier: rankCellIdentifier)
@@ -31,6 +35,7 @@ class RankingController: UIViewController {
     // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        channels = Test.fetchData()
         configureUI()
 
     }
@@ -51,10 +56,10 @@ class RankingController: UIViewController {
 
     private func configureUI(){
         view.addSubview(header)
+        header.delegate = self
         header.setHeight(105)
         header.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor,right: view.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingRight: 10)
         view.addSubview(tableView)
-        tableView.rowHeight = 100
         tableView.anchor(top: header.bottomAnchor, left: view.leftAnchor,bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor)
 
     }
@@ -70,6 +75,7 @@ extension RankingController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: rankCellIdentifier, for: indexPath) as! RankingTableViewCell
         cell.rank = indexPath.row + 1
+        cell.channel = channels[idx]
         return cell
     }
 
@@ -86,4 +92,12 @@ extension RankingController {
     func fetchData() -> [String]{
         return ["승우 아빠", "Black Pink - Official channel"]
     }
+}
+
+extension RankingController: RankingHeaderDelegate {
+    func sendCategoryIndex() {
+        idx += 1
+        tableView.reloadData()
+    }
+
 }

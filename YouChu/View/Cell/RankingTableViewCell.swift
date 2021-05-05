@@ -10,6 +10,12 @@ import UIKit
 class RankingTableViewCell: UITableViewCell {
     private let imageSize: CGFloat = 70
 
+    var channel: Channel? {
+        didSet{
+            setChannelInfo()
+        }
+    }
+
     var rank:Int?{
         didSet{
             rankingLabel.text = String(rank ?? 0)
@@ -27,7 +33,6 @@ class RankingTableViewCell: UITableViewCell {
 
     private let nameLabel: UILabel = {
         let label = UILabel()
-        label.text = "승우 아빠"
         label.numberOfLines = 0
         label.font = UIFont.boldSystemFont(ofSize: 23)
         label.adjustsFontSizeToFitWidth = true
@@ -35,9 +40,8 @@ class RankingTableViewCell: UITableViewCell {
         return label
     }()
 
-    private let subscriberCountLabel: UILabel = {
+    private var subscriberCountLabel: UILabel = {
         let label = UILabel()
-        label.text = "구독자 140만명"
         label.font = UIFont.boldSystemFont(ofSize: 15)
         return label
     }()
@@ -52,7 +56,6 @@ class RankingTableViewCell: UITableViewCell {
 
     private let heartImageButton: UIButton = {
         let bt = UIButton(type: .system)
-        bt.setImage(UIImage(systemName: "heart"), for: .normal)
         bt.tintColor = .systemRed
         return bt
     }()
@@ -97,6 +100,17 @@ class RankingTableViewCell: UITableViewCell {
         addSubview(middleStack)
         middleStack.centerY(inView: contentView)
         middleStack.anchor( left: thumbnailImageView.rightAnchor, right: heartImageButton.leftAnchor , paddingLeft: 10, paddingRight: 10)
+    }
+
+    func setChannelInfo() {
+        guard let channel = channel else {
+            return
+        }
+
+        thumbnailImageView.image = channel.thumbnail
+        heartImageButton.setImage(channel.isprefered ? UIImage(systemName: "heart") : UIImage(systemName: "heart.fill"), for: .normal)
+        nameLabel.text = channel.channelName
+        subscriberCountLabel.text = "구독자 \(channel.subscriberCount)만명"
 
 
     }

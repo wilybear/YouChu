@@ -164,7 +164,108 @@ extension UIView {
         return shadowLayer
     }
 
-    func addOverlay() {
+    public enum Animation {
+        case left
+        case right
+        case top
+        case none
+    }
 
+    func slideIn(from edge: Animation = .none, x: CGFloat = 0, y: CGFloat = 0, duration: TimeInterval = 1, delay: TimeInterval = 0, completion: ((Bool) -> Void)? = nil) -> UIView {
+        let offset = offsetFor(edge: edge)
+        self.alpha = 0.1
+        isHidden = false
+        transform = CGAffineTransform(translationX: offset.x + x, y: offset.y + y)
+        UIView.animate(withDuration: duration, delay: delay, usingSpringWithDamping: 1, initialSpringVelocity: 2, options: .curveEaseIn, animations: {
+            self.transform = .identity
+            self.alpha = 1
+        }, completion: completion)
+
+        return self
+    }
+
+    func slideOut(from edge: Animation = .none, x: CGFloat = 0, y: CGFloat = 0, duration: TimeInterval = 1, delay: TimeInterval = 0, completion: ((Bool) -> Void)? = nil) -> UIView {
+
+        let offset = offsetFor(edge: edge)
+        isHidden = false
+        let endtransform = CGAffineTransform(translationX: offset.x + x, y: offset.y + y)
+        UIView.animate(withDuration: duration, delay: delay, usingSpringWithDamping: 1, initialSpringVelocity: 2, options: .curveEaseOut, animations: {
+            self.transform = endtransform
+            self.alpha = 0.1
+        }, completion: completion)
+
+        return self
+    }
+
+    private func offsetFor(edge:Animation) -> CGPoint {
+        if let size = self.superview?.frame.size {
+            switch edge {
+            case .none:
+                return CGPoint.zero
+            case .left:
+                return CGPoint(x: -frame.maxX, y:0)
+            case .right:
+                return CGPoint(x: size.width - frame.minX, y:0)
+            case .top:
+                return CGPoint(x: 0,y: -frame.maxY)
+            }
+        }
+        return .zero
     }
 }
+
+extension UILabel {
+  func dynamicFont(fontSize size: CGFloat, weight: UIFont.Weight) {
+    let currentFontName = self.font.fontName
+    var calculatedFont: UIFont?
+    let bounds = UIScreen.main.bounds
+    let height = bounds.size.height
+
+    switch height {
+    case 480.0: //Iphone 3,4S => 3.5 inch
+      calculatedFont = UIFont(name: currentFontName, size: size * 0.7)
+      resizeFont(calculatedFont: calculatedFont, weight: weight)
+      break
+    case 568.0: //iphone 5, SE => 4 inch
+      calculatedFont = UIFont(name: currentFontName, size: size * 0.8)
+      resizeFont(calculatedFont: calculatedFont, weight: weight)
+      break
+    case 667.0: //iphone 6, 6s, 7, 8 => 4.7 inch
+      calculatedFont = UIFont(name: currentFontName, size: size * 0.92)
+      resizeFont(calculatedFont: calculatedFont, weight: weight)
+      break
+    case 736.0: //iphone 6s+ 6+, 7+, 8+ => 5.5 inch
+      calculatedFont = UIFont(name: currentFontName, size: size * 0.95)
+     resizeFont(calculatedFont: calculatedFont, weight: weight)
+      break
+    case 812.0: //iphone X, XS => 5.8 inch
+      calculatedFont = UIFont(name: currentFontName, size: size)
+      resizeFont(calculatedFont: calculatedFont, weight: weight)
+      break
+    case 896.0: //iphone XR => 6.1 inch  // iphone XS MAX => 6.5 inch
+      calculatedFont = UIFont(name: currentFontName, size: size * 1.15)
+      resizeFont(calculatedFont: calculatedFont, weight: weight)
+      break
+    default:
+      print("not an iPhone")
+      break
+    }
+  }
+
+  private func resizeFont(calculatedFont: UIFont?, weight: UIFont.Weight) {
+    self.font = calculatedFont
+    self.font = UIFont.systemFont(ofSize: calculatedFont!.pointSize, weight: weight)
+  }
+}
+
+extension UIFont {
+    static func preferredFont(for style: TextStyle, weight: Weight) -> UIFont {
+        let metrics = UIFontMetrics(forTextStyle: style)
+        let desc = UIFontDescriptor.preferredFontDescriptor(withTextStyle: style)
+        let font = UIFont.systemFont(ofSize: desc.pointSize, weight: weight)
+        return metrics.scaledFont(for: font)
+    }
+}
+
+
+

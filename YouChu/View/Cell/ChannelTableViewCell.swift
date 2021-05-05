@@ -75,13 +75,9 @@ class ChannelTableViewCell: UITableViewCell {
         thumbnailImageView.centerY(inView: contentView)
         thumbnailImageView.anchor(left: leftAnchor, paddingLeft: 15, paddingRight: 10)
 
-        addSubview(heartImageButton)
-        heartImageButton.centerY(inView: contentView)
-        heartImageButton.anchor(right: rightAnchor , paddingLeft: 10, paddingRight: 30)
-
         addSubview(middleStack)
         middleStack.centerY(inView: contentView)
-        middleStack.anchor( left: thumbnailImageView.rightAnchor, right: heartImageButton.leftAnchor , paddingLeft: 20, paddingRight: 15)
+        middleStack.anchor( left: thumbnailImageView.rightAnchor, right: rightAnchor , paddingLeft: 20, paddingRight: 20)
     }
 
     private func setUpChannelInfo(){

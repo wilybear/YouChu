@@ -68,7 +68,6 @@ class DetailViewController: UITableViewController {
         if infoTypeList[indexPath.row] == "키워드" {
             cell.keywordList = keywordList
         }
-
         return cell
     }
 

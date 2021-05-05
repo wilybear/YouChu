@@ -25,33 +25,21 @@ class ChannelCardView: UIView {
 
     weak var delegate: ChannelCardViewDelegate?
 
-//    private let channelTitle: UILabel = {
-//        let label = UILabel()
-//        label.text = "승우아빠"
-//        label.textAlignment = .center
-//        label.font = UIFont.boldSystemFont(ofSize: 17)
-//        return label
-//    }()
+    var channel: Channel? {
+        didSet{
+            setChannelInfo()
+        }
+    }
+
     private let subscriberCount: UILabel = {
         let label = UILabel()
-        label.text = "구독자 140만명"
         label.textAlignment = .center
         label.font = UIFont.boldSystemFont(ofSize: 15)
         return label
     }()
 
-//    private let channelImageView: UIImageView = {
-//        let iv = UIImageView()
-//        iv.contentMode = .scaleAspectFill
-//        iv.clipsToBounds = true
-//        iv.image = #imageLiteral(resourceName: "sougu")
-//        return iv
-//    }()
-
-    private let channelProfileView: CircularProfileView = {
+    private lazy var channelProfileView: CircularProfileView = {
         let cpv = CircularProfileView(fontSize: 17, imageSize: 100)
-        cpv.image = #imageLiteral(resourceName: "sougu")
-        cpv.title = "승우아빠"
         return cpv
     }()
 
@@ -65,22 +53,10 @@ class ChannelCardView: UIView {
 
     private lazy var instruction: ActiveLabel = {
         let label = ActiveLabel()
-        label.text = """
-눈으로 보기만 할수 있는 채널이 아닌,
-그냥 스쳐 지나가는 어려운 레시피가 아닌,
-누구나 따라할 수 있는 레시피 채널을 만들고 싶어요!
-
-*https://www.twitch.tv/swab85
-"""
         label.textAlignment = .left
         label.font = .systemFont(ofSize: 14)
         label.textColor = .darkGray
         label.enabledTypes = [.url]
-//        let truncString = "...더보기"
-//        var trunc = NSMutableAttributedString(string: truncString)
-//        trunc.addAttribute(NSAttributedString.Key.font, value: UIFont.systemFont(ofSize: 11), range: NSMakeRange(0, truncString.count))
-//        trunc.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.lightGray, range: NSMakeRange(0, truncString.count))
-
         label.numberOfLines = 8
         label.handleURLTap { url in
             print(url)
@@ -88,11 +64,11 @@ class ChannelCardView: UIView {
         return label
     }()
 
-    private let sampleTagData = ["승우아빠", "요리", "국진화", "레시피","철원"]
+    private var sampleTagData:[String] = []
 
     private let TagListTitle: UILabel = {
         let label = UILabel()
-        label.text = "구독자 반응 태그"
+        label.text = "채널 키워드"
         label.textAlignment = .left
         label.font = UIFont.boldSystemFont(ofSize: 18)
         return label
@@ -121,8 +97,8 @@ class ChannelCardView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-
         configureUI()
+        setChannelInfo()
     }
 
     override func layoutSubviews() {
@@ -169,15 +145,6 @@ class ChannelCardView: UIView {
         containerView.addSubview(DetailButton)
         DetailButton.anchor(top: containerView.safeAreaLayoutGuide.topAnchor, right: containerView.rightAnchor, paddingTop: 10, paddingRight: 15)
 
-//        containerView.addSubview(channelImageView)
-//        channelImageView.setDimensions(height: imageSize, width: imageSize)
-//        channelImageView.layer.cornerRadius = imageSize/2
-//        channelImageView.centerX(inView: containerView)
-//        channelImageView.anchor(top: containerView.safeAreaLayoutGuide.topAnchor, paddingTop: 10)
-//
-//        containerView.addSubview(channelTitle)
-//        channelTitle.anchor(top: channelImageView.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 5)
-
         containerView.addSubview(channelProfileView)
         channelProfileView.centerX(inView: containerView)
         channelProfileView.anchor(top: containerView.safeAreaLayoutGuide.topAnchor, paddingTop: 10)
@@ -198,10 +165,23 @@ class ChannelCardView: UIView {
         containerView.addSubview(TagListCollectionView)
         TagListCollectionView.centerX(inView: containerView)
         TagListCollectionView.anchor(top: TagListTitle.bottomAnchor, left: leftAnchor, bottom: containerView.safeAreaLayoutGuide.bottomAnchor, right: rightAnchor ,paddingTop: 5, paddingLeft: 20, paddingBottom: 20, paddingRight: 20)
+        //TagListCollectionView.setHeight(CGFloat(30 * (sampleTagData.count / 5) + 50) )
 
     }
 
+    func setChannelInfo(){
+        guard let channel = channel else {
+            return
+        }
+        subscriberCount.text = "구독자 \(channel.subscriberCount) 만명"
+        channelProfileView.image = channel.thumbnail
+        channelProfileView.title = channel.channelName
+        instruction.text = channel.instruction
+        sampleTagData = channel.keyword
+        TagListCollectionView.reloadData()
+    }
 }
+
 
 extension ChannelCardView : UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
