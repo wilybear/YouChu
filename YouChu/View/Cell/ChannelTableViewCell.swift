@@ -9,7 +9,7 @@ import UIKit
 
 class ChannelTableViewCell: UITableViewCell {
 
-    private let imageSize: CGFloat = 70
+    private let imageSize: CGFloat = 70.adjusted(by: .vertical)
 
     var channel : Channel? {
         didSet{
@@ -29,7 +29,7 @@ class ChannelTableViewCell: UITableViewCell {
     private let nameLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.font = UIFont.boldSystemFont(ofSize: 23)
+        label.font = UIFont.boldSystemFont(ofSize: 17.adjusted(by: .horizontal))
         label.adjustsFontSizeToFitWidth = true
         label.minimumScaleFactor = 0.8
         return label
@@ -37,7 +37,7 @@ class ChannelTableViewCell: UITableViewCell {
 
     private let subscriberCountLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 15)
+        label.font = UIFont.boldSystemFont(ofSize: 15.adjusted(by: .horizontal))
         return label
     }()
 
@@ -66,7 +66,7 @@ class ChannelTableViewCell: UITableViewCell {
         let middleStack = UIStackView(arrangedSubviews: [nameLabel, subscriberCountLabel])
         middleStack.axis = .vertical
         middleStack.distribution = .fill
-        middleStack.spacing = 15
+        middleStack.spacing = 15.adjusted(by: .horizontal)
         middleStack.alignment = .leading
 
         addSubview(thumbnailImageView)

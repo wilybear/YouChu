@@ -19,7 +19,7 @@ class TagCell: UICollectionViewCell {
     private let tagLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.font = UIFont.boldSystemFont(ofSize: 14)
+        label.font = UIFont.boldSystemFont(ofSize: 14.adjusted(by: .horizontal))
     
         label.textColor = .white
 

@@ -51,7 +51,7 @@ class DetailViewController: UITableViewController {
     private func configureUI(){
         tableView.register(DetailTableViewCell.self, forCellReuseIdentifier: DetailViewController.CellIdentifier)
         tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 30
+        tableView.estimatedRowHeight = 30.adjusted(by: .vertical)
         tableView.allowsSelection = false
         tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
         tableView.anchor(paddingTop: 30)

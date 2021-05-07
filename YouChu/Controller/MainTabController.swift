@@ -40,7 +40,7 @@ class MainTabController: UITabBarController {
         nav.navigationBar.tintColor = .black
        // nav.navigationBar.barTintColor = UIColor.init(named: "soft_red")
         nav.navigationBar.barTintColor = .white
-        nav.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20, weight: .semibold)]
+        nav.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20.adjusted(by: .horizontal), weight: .semibold)]
         return nav
     }
 

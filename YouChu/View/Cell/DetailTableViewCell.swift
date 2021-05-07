@@ -12,14 +12,14 @@ class DetailTableViewCell: UITableViewCell {
     // MARK: - Properties
     private let infoTypeLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 16)
+        label.font = UIFont.boldSystemFont(ofSize: 16.adjusted(by: .horizontal))
         label.textAlignment = .right
         return label
     }()
 
     private let infoLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 15)
+        label.font = UIFont.systemFont(ofSize: 15.adjusted(by: .horizontal))
         label.textColor = .darkGray
         label.textAlignment = .left
         label.numberOfLines = 0
@@ -67,7 +67,7 @@ class DetailTableViewCell: UITableViewCell {
 
         addSubview(infoTypeLabel)
         infoTypeLabel.anchor(top:topAnchor, left: leftAnchor, paddingTop: 15, paddingLeft: 10)
-        infoTypeLabel.setWidth(80)
+        infoTypeLabel.setWidth(90.adjusted(by: .horizontal))
         addSubview(infoLabel)
         infoLabel.anchor(top:topAnchor, left: infoTypeLabel.rightAnchor, bottom: bottomAnchor, right: rightAnchor ,paddingTop:15, paddingLeft: 10,paddingRight: 15)
     }
@@ -105,8 +105,8 @@ extension DetailTableViewCell: UICollectionViewDelegateFlowLayout {
         // dataArary is the managing array for your UICollectionView.
         let item = keywordList![indexPath.row]
         let itemSize = item.size(withAttributes: [
-            NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 14)
+            NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 14.adjusted(by: .horizontal))
         ])
-        return CGSize(width: itemSize.width + 10, height: itemSize.height + 7)
+        return CGSize(width: itemSize.width + 10.adjusted(by: .horizontal), height: itemSize.height + 7.adjusted(by: .vertical))
     }
 }

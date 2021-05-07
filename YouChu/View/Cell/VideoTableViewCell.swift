@@ -19,7 +19,7 @@ class VideoTableViewCell: UITableViewCell {
 
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 15)
+        label.font = UIFont.boldSystemFont(ofSize: 15.adjusted(by: .horizontal))
         label.textAlignment = .left
         label.numberOfLines = 2
         return label
@@ -27,7 +27,7 @@ class VideoTableViewCell: UITableViewCell {
 
     private let viewCountLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14)
+        label.font = UIFont.systemFont(ofSize: 14.adjusted(by: .horizontal))
         label.textColor = .darkGray
         label.textAlignment = .left
         return label
@@ -41,7 +41,7 @@ class VideoTableViewCell: UITableViewCell {
 
     private let publishedAtLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14)
+        label.font = UIFont.systemFont(ofSize: 14.adjusted(by: .horizontal))
         label.textColor = .darkGray
         label.textAlignment = .left
         return label
@@ -61,7 +61,7 @@ class VideoTableViewCell: UITableViewCell {
 
         addSubview(thumbnailImageView)
         thumbnailImageView.centerY(inView: contentView)
-        thumbnailImageView.setWidth(200)
+        thumbnailImageView.setWidth(200.adjusted(by: .horizontal))
         thumbnailImageView.anchor(top:topAnchor, left: leftAnchor, bottom: bottomAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 10)
 
         addSubview(titleLabel)

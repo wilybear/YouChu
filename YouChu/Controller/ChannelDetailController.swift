@@ -15,14 +15,14 @@
 import UIKit
 import Parchment
 
-let imageSize: CGFloat = 100
+let imageSize: CGFloat = 100.adjusted(by: .vertical)
 
 class ChannelDetailController: UIViewController{
 
     // MARK: - Properties
 
-    let headerHeight: CGFloat = 310
-    let bannerImageHeight: CGFloat = 225
+    let headerHeight: CGFloat = 310.adjusted(by: .horizontal)
+    let bannerImageHeight: CGFloat = 225.adjusted(by: .horizontal)
 
     var minHeight: CGFloat {
         var height: CGFloat = 0
@@ -61,7 +61,7 @@ class ChannelDetailController: UIViewController{
     }()
 
     private lazy var thumbnailImageView: CircularProfileView = {
-        let cpv = CircularProfileView(fontSize: 15, imageSize: imageSize)
+        let cpv = CircularProfileView(fontSize: 15.adjusted(by: .horizontal), imageSize: imageSize)
         cpv.image = #imageLiteral(resourceName: "dingo")
         cpv.title = "딩고 뮤직 / dingo music"
         return cpv
@@ -72,7 +72,7 @@ class ChannelDetailController: UIViewController{
         label.text = "구독자 293만명"
         label.textColor = .black
         label.textAlignment = .center
-        label.font = .systemFont(ofSize: 14)
+        label.font = .systemFont(ofSize: 14.adjusted(by: .horizontal))
         return label
     }()
 
@@ -159,6 +159,7 @@ class ChannelDetailController: UIViewController{
     }
 
     // transparent navigation bar
+    // 블로그 기록
     private func configureNavBar(){
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
@@ -166,7 +167,7 @@ class ChannelDetailController: UIViewController{
         self.navigationController?.view.backgroundColor = .clear
         self.navigationController?.navigationBar.tintColor = .white
         self.navigationController?.navigationBar.topItem?.title = " "
-        navigationController?.navigationBar.titleTextAttributes =  [NSAttributedString.Key.foregroundColor: UIColor.white, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20, weight: .semibold)]
+        navigationController?.navigationBar.titleTextAttributes =  [NSAttributedString.Key.foregroundColor: UIColor.white, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20.adjusted(by: .horizontal), weight: .semibold)]
         self.navigationItem.title = " "
     }
 
@@ -176,9 +177,7 @@ class ChannelDetailController: UIViewController{
         self.navigationController?.navigationBar.isTranslucent = false
         self.navigationController?.view.backgroundColor = .clear
         self.navigationController?.navigationBar.tintColor = .black
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20, weight: .semibold)]
-
-        print("called")
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20.adjusted(by: .horizontal), weight: .semibold)]
     }
 
 }
@@ -242,15 +241,12 @@ extension ChannelDetailController: UITableViewDelegate{
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
 
       //  print(scrollView.contentOffset.y)
-
-        let changeStartOffset: CGFloat = -100
-        let changeSpeed: CGFloat = 50
+        let changeStartOffset: CGFloat = -100.adjusted(by: .vertical)
+        let changeSpeed: CGFloat = 50.adjusted(by: .vertical)
         thumbnailImageView.alpha = min(1.0, (bannerHeightConstraint!.constant - minHeight) / changeSpeed)
-        print(bannerHeightConstraint!.constant, headerHeightConstraint!.constant)
+        //print(bannerHeightConstraint!.constant, headerHeightConstraint!.constant)
         if headerHeightConstraint!.constant == minHeight {
             self.navigationItem.title = "딩고 뮤직 / dingo music"
-            //TODO: alpha 조정
-            //TODO: 다른 정보들
         }else{
             self.navigationItem.title = " "
         }
@@ -271,7 +267,7 @@ extension ChannelDetailController: UITableViewDelegate{
             }
             return
         }
-        print("DEBUG: height: \( headerHeightConstraint!.constant) ,minHeight:\(minHeight)")
+        //print("DEBUG: height: \( headerHeightConstraint!.constant) ,minHeight:\(minHeight)")
         if headerHeightConstraint!.constant > minHeight {
             headerHeightConstraint!.constant = max(headerHeightConstraint!.constant - scrollView.contentOffset.y, minHeight )
             bannerHeightConstraint!.constant = max(bannerHeightConstraint!.constant - scrollView.contentOffset.y, minHeight )

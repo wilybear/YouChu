@@ -34,7 +34,7 @@ class RankingHeader: UIView {
         bt.backgroundColor = .clear
         bt.setTitle(category, for: .normal)
         bt.setTitleColor(.white, for: .normal)
-        bt.titleLabel?.font = UIFont.boldSystemFont(ofSize: 25)
+        bt.titleLabel?.font = UIFont.boldSystemFont(ofSize: 25.adjusted(by: .horizontal))
         bt.addTarget(self, action: #selector(dropCategoryMenu), for: .touchUpInside)
         return bt
     }()
@@ -43,7 +43,7 @@ class RankingHeader: UIView {
         let label = UILabel()
         label.text = "카테고리"
         label.textColor = .white
-        label.font = .boldSystemFont(ofSize: 18)
+        label.font = .boldSystemFont(ofSize: 18.adjusted(by: .horizontal))
         return label
     }()
 
@@ -91,12 +91,12 @@ class RankingHeader: UIView {
         categoryBtn.anchor(left: container.leftAnchor,paddingLeft: 20)
 
         container.addSubview(categoryLabel)
-        categoryLabel.anchor(left:leftAnchor, bottom: categoryBtn.topAnchor, paddingLeft: 20)
+        categoryLabel.anchor(top: container.topAnchor ,left:container.leftAnchor, bottom: categoryBtn.topAnchor, paddingTop: 10, paddingLeft: 20)
 
         container.addSubview(categoryMenu)
         categoryMenu.anchorView = categoryBtn
         let btnSize = category.size(withAttributes: [
-            NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 25)
+            NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 25.adjusted(by: .horizontal))
         ])
         categoryMenu.selectionAction = { [unowned self] (index: Int, item: String) in
             category = item

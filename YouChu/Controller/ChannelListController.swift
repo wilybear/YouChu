@@ -16,7 +16,7 @@ class ChannelListController: UIViewController {
 
     private lazy var tableView: UITableView = {
         let tv = UITableView()
-        tv.rowHeight = 100
+        tv.rowHeight = 100.adjusted(by: .vertical)
         tv.delegate = self
         tv.dataSource = self
         tv.separatorStyle = .none

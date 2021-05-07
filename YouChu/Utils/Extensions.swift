@@ -63,27 +63,27 @@ extension UIView {
         translatesAutoresizingMaskIntoConstraints = false
 
         if let top = top {
-            topAnchor.constraint(equalTo: top, constant: paddingTop).isActive = true
+            topAnchor.constraint(equalTo: top, constant: paddingTop.adjusted(by: .vertical)).isActive = true
         }
 
         if let left = left {
-            leftAnchor.constraint(equalTo: left, constant: paddingLeft).isActive = true
+            leftAnchor.constraint(equalTo: left, constant: paddingLeft.adjusted(by: .horizontal)).isActive = true
         }
 
         if let bottom = bottom {
-            bottomAnchor.constraint(equalTo: bottom, constant: -paddingBottom).isActive = true
+            bottomAnchor.constraint(equalTo: bottom, constant: -paddingBottom.adjusted(by: .vertical)).isActive = true
         }
 
         if let right = right {
-            rightAnchor.constraint(equalTo: right, constant: -paddingRight).isActive = true
+            rightAnchor.constraint(equalTo: right, constant: -paddingRight.adjusted(by: .horizontal)).isActive = true
         }
 
         if let width = width {
-            widthAnchor.constraint(equalToConstant: width).isActive = true
+            widthAnchor.constraint(equalToConstant: width.adjusted(by: .horizontal)).isActive = true
         }
 
         if let height = height {
-            heightAnchor.constraint(equalToConstant: height).isActive = true
+            heightAnchor.constraint(equalToConstant: height.adjusted(by: .vertical)).isActive = true
         }
     }
 
@@ -119,14 +119,20 @@ extension UIView {
         widthAnchor.constraint(equalToConstant: width).isActive = true
     }
 
+    func setDimensions(height: CGFloat, width: CGFloat, by dir: Direction) {
+        translatesAutoresizingMaskIntoConstraints = false
+        heightAnchor.constraint(equalToConstant: height.adjusted(by: dir)).isActive = true
+        widthAnchor.constraint(equalToConstant: width.adjusted(by: dir)).isActive = true
+    }
+
     func setHeight(_ height: CGFloat) {
         translatesAutoresizingMaskIntoConstraints = false
-        heightAnchor.constraint(equalToConstant: height).isActive = true
+        heightAnchor.constraint(equalToConstant: height.adjusted(by: .vertical)).isActive = true
     }
 
     func setWidth(_ width: CGFloat) {
         translatesAutoresizingMaskIntoConstraints = false
-        widthAnchor.constraint(equalToConstant: width).isActive = true
+        widthAnchor.constraint(equalToConstant: width.adjusted(by: .horizontal)).isActive = true
     }
 
     func fillSuperview() {
@@ -164,6 +170,8 @@ extension UIView {
         return shadowLayer
     }
 
+
+    // https://www.youtube.com/watch?v=S4iygtaoYCs 블로그 기록
     public enum Animation {
         case left
         case right
@@ -214,58 +222,32 @@ extension UIView {
     }
 }
 
-extension UILabel {
-  func dynamicFont(fontSize size: CGFloat, weight: UIFont.Weight) {
-    let currentFontName = self.font.fontName
-    var calculatedFont: UIFont?
-    let bounds = UIScreen.main.bounds
-    let height = bounds.size.height
+extension CGFloat {
 
-    switch height {
-    case 480.0: //Iphone 3,4S => 3.5 inch
-      calculatedFont = UIFont(name: currentFontName, size: size * 0.7)
-      resizeFont(calculatedFont: calculatedFont, weight: weight)
-      break
-    case 568.0: //iphone 5, SE => 4 inch
-      calculatedFont = UIFont(name: currentFontName, size: size * 0.8)
-      resizeFont(calculatedFont: calculatedFont, weight: weight)
-      break
-    case 667.0: //iphone 6, 6s, 7, 8 => 4.7 inch
-      calculatedFont = UIFont(name: currentFontName, size: size * 0.92)
-      resizeFont(calculatedFont: calculatedFont, weight: weight)
-      break
-    case 736.0: //iphone 6s+ 6+, 7+, 8+ => 5.5 inch
-      calculatedFont = UIFont(name: currentFontName, size: size * 0.95)
-     resizeFont(calculatedFont: calculatedFont, weight: weight)
-      break
-    case 812.0: //iphone X, XS => 5.8 inch
-      calculatedFont = UIFont(name: currentFontName, size: size)
-      resizeFont(calculatedFont: calculatedFont, weight: weight)
-      break
-    case 896.0: //iphone XR => 6.1 inch  // iphone XS MAX => 6.5 inch
-      calculatedFont = UIFont(name: currentFontName, size: size * 1.15)
-      resizeFont(calculatedFont: calculatedFont, weight: weight)
-      break
-    default:
-      print("not an iPhone")
-      break
+    func adjusted(by dir: Direction) -> (CGFloat) {
+        switch dir {
+        case .horizontal:
+            return self * Device.widthRatio
+        case .vertical:
+            return self * Device.heightRatio
+        }
     }
-  }
-
-  private func resizeFont(calculatedFont: UIFont?, weight: UIFont.Weight) {
-    self.font = calculatedFont
-    self.font = UIFont.systemFont(ofSize: calculatedFont!.pointSize, weight: weight)
-  }
 }
+extension Int {
 
-extension UIFont {
-    static func preferredFont(for style: TextStyle, weight: Weight) -> UIFont {
-        let metrics = UIFontMetrics(forTextStyle: style)
-        let desc = UIFontDescriptor.preferredFontDescriptor(withTextStyle: style)
-        let font = UIFont.systemFont(ofSize: desc.pointSize, weight: weight)
-        return metrics.scaledFont(for: font)
+    func adjusted(by dir: Direction) -> (CGFloat) {
+        switch dir {
+        case .horizontal:
+            return CGFloat(self) * Device.widthRatio
+        case .vertical:
+            return CGFloat(self) * Device.heightRatio
+        }
     }
 }
 
 
+enum Direction {
+    case vertical
+    case horizontal
+}
 

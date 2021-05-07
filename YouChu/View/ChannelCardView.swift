@@ -19,7 +19,7 @@ class ChannelCardView: UIView {
     // MARK: - Properites
 
     private let containerView = UIView()
-    private let cornerRadius: CGFloat = 15.0
+    private let cornerRadius: CGFloat = 15.adjusted(by: .vertical)
     private var shadowLayer: CAShapeLayer!
     private var fillColor: UIColor = .blue
 
@@ -34,12 +34,12 @@ class ChannelCardView: UIView {
     private let subscriberCount: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.font = UIFont.boldSystemFont(ofSize: 15)
+        label.font = UIFont.boldSystemFont(ofSize: 15.adjusted(by: .horizontal))
         return label
     }()
 
     private lazy var channelProfileView: CircularProfileView = {
-        let cpv = CircularProfileView(fontSize: 17, imageSize: 100)
+        let cpv = CircularProfileView(fontSize: 17.adjusted(by: .horizontal), imageSize: 85.adjusted(by: .vertical))
         return cpv
     }()
 
@@ -47,14 +47,14 @@ class ChannelCardView: UIView {
         let label = UILabel()
         label.text = "채널 소개"
         label.textAlignment = .left
-        label.font = UIFont.boldSystemFont(ofSize: 18)
+        label.font = UIFont.boldSystemFont(ofSize: 18.adjusted(by: .horizontal))
         return label
     }()
 
     private lazy var instruction: ActiveLabel = {
         let label = ActiveLabel()
         label.textAlignment = .left
-        label.font = .systemFont(ofSize: 14)
+        label.font = .systemFont(ofSize: 14.adjusted(by: .horizontal))
         label.textColor = .darkGray
         label.enabledTypes = [.url]
         label.numberOfLines = 8
@@ -70,7 +70,7 @@ class ChannelCardView: UIView {
         let label = UILabel()
         label.text = "채널 키워드"
         label.textAlignment = .left
-        label.font = UIFont.boldSystemFont(ofSize: 18)
+        label.font = UIFont.boldSystemFont(ofSize: 18.adjusted(by: .horizontal))
         return label
     }()
 
@@ -138,7 +138,7 @@ class ChannelCardView: UIView {
     private func configureUI(){
         addSubview(containerView)
         containerView.anchor(top:topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor)
-        containerView.layer.cornerRadius = 15
+        containerView.layer.cornerRadius = cornerRadius
         containerView.clipsToBounds = true
         containerView.backgroundColor = .white
 
@@ -205,8 +205,8 @@ extension ChannelCardView: UICollectionViewDelegateFlowLayout {
         // dataArary is the managing array for your UICollectionView.
         let item = sampleTagData[indexPath.row]
         let itemSize = item.size(withAttributes: [
-            NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 14)
+            NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 14.adjusted(by: .horizontal))
         ])
-        return CGSize(width: itemSize.width + 10, height: itemSize.height + 7)
+        return CGSize(width: itemSize.width + 10.adjusted(by: .horizontal), height: itemSize.height + 7.adjusted(by: .vertical))
     }
 }

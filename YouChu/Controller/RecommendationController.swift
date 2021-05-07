@@ -21,7 +21,7 @@ class RecommendationController: UIViewController {
     private let helpLabel: UILabel = {
         let label = UILabel()
         label.text = "이런 채널은 어떠세요?"
-        label.font = UIFont.boldSystemFont(ofSize: 22)
+        label.font = UIFont.boldSystemFont(ofSize: 22.adjusted(by: .horizontal))
         label.textAlignment = .center
         return label
     }()
@@ -100,8 +100,8 @@ class RecommendationController: UIViewController {
         let stack = UIStackView(arrangedSubviews: [dislikeButton, likeButton])
         stack.distribution = .fillEqually
         view.addSubview(stack)
-        stack.setDimensions(height: 60, width: 140)
-        stack.setCustomSpacing(20, after: dislikeButton)
+        stack.setDimensions(height: 60, width: 140, by: .vertical)
+        stack.setCustomSpacing(20.adjusted(by: .vertical), after: dislikeButton)
         stack.centerX(inView: view)
         stack.anchor(bottom: view.safeAreaLayoutGuide.bottomAnchor, paddingBottom: 20)
 

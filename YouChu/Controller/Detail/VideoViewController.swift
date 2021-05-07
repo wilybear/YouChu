@@ -27,7 +27,7 @@ class VideoViewController: UITableViewController {
     // MARK: - Helpers
     private func configureUI(){
         tableView.register(VideoTableViewCell.self, forCellReuseIdentifier: VideoViewController.CellIdentifier)
-        tableView.rowHeight = 125
+        tableView.rowHeight = 125.adjusted(by: .vertical)
         tableView.separatorStyle = .none
     }
 

@@ -22,12 +22,13 @@
 		3778AD0C26345810008F95AB /* RankingHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3778AD0B26345810008F95AB /* RankingHeader.swift */; };
 		3778AD1726345CB3008F95AB /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3778AD1626345CB3008F95AB /* Category.swift */; };
 		3778AD1A2635C917008F95AB /* CircularProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3778AD192635C917008F95AB /* CircularProfileView.swift */; };
+		3789E0B62642F43C00894656 /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3789E0B52642F43C00894656 /* Device.swift */; };
 		37A918AF263AF886006C96F7 /* ChannelDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A918AE263AF886006C96F7 /* ChannelDetailController.swift */; };
 		37A918B6263BF552006C96F7 /* DetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A918B5263BF552006C96F7 /* DetailTableViewCell.swift */; };
 		37DC810A262B1CAF00711CF0 /* CarouselChannelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DC8109262B1CAF00711CF0 /* CarouselChannelCell.swift */; };
 		37DC810D262B2D5500711CF0 /* BannerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DC810C262B2D5500711CF0 /* BannerCell.swift */; };
 		37DC8110262B9BAE00711CF0 /* ChannelCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DC810F262B9BAE00711CF0 /* ChannelCardView.swift */; };
-		37E814B52628796E00B3C75B /* ChannelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37E814B42628796E00B3C75B /* ChannelCell.swift */; };
+		37E814B52628796E00B3C75B /* CircularChannelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37E814B42628796E00B3C75B /* CircularChannelCell.swift */; };
 		37FB47092628440A008781C0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37FB47082628440A008781C0 /* AppDelegate.swift */; };
 		37FB470B2628440A008781C0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37FB470A2628440A008781C0 /* SceneDelegate.swift */; };
 		37FB470D2628440A008781C0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37FB470C2628440A008781C0 /* ViewController.swift */; };
@@ -59,12 +60,13 @@
 		3778AD0B26345810008F95AB /* RankingHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingHeader.swift; sourceTree = "<group>"; };
 		3778AD1626345CB3008F95AB /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		3778AD192635C917008F95AB /* CircularProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProfileView.swift; sourceTree = "<group>"; };
+		3789E0B52642F43C00894656 /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
 		37A918AE263AF886006C96F7 /* ChannelDetailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelDetailController.swift; sourceTree = "<group>"; };
 		37A918B5263BF552006C96F7 /* DetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTableViewCell.swift; sourceTree = "<group>"; };
 		37DC8109262B1CAF00711CF0 /* CarouselChannelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselChannelCell.swift; sourceTree = "<group>"; };
 		37DC810C262B2D5500711CF0 /* BannerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerCell.swift; sourceTree = "<group>"; };
 		37DC810F262B9BAE00711CF0 /* ChannelCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelCardView.swift; sourceTree = "<group>"; };
-		37E814B42628796E00B3C75B /* ChannelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelCell.swift; sourceTree = "<group>"; };
+		37E814B42628796E00B3C75B /* CircularChannelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularChannelCell.swift; sourceTree = "<group>"; };
 		37FB47052628440A008781C0 /* YouChu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YouChu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		37FB47082628440A008781C0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		37FB470A2628440A008781C0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -109,7 +111,7 @@
 			children = (
 				3778ACFF2632A2DF008F95AB /* TagCell.swift */,
 				37DC810C262B2D5500711CF0 /* BannerCell.swift */,
-				37E814B42628796E00B3C75B /* ChannelCell.swift */,
+				37E814B42628796E00B3C75B /* CircularChannelCell.swift */,
 				37DC8109262B1CAF00711CF0 /* CarouselChannelCell.swift */,
 				3778AD0326343F1E008F95AB /* RankingTableViewCell.swift */,
 				37500DFB2637101C00BB4BC5 /* MyPageTableViewCell.swift */,
@@ -223,6 +225,7 @@
 			children = (
 				37FB472D2628456E008781C0 /* Extensions.swift */,
 				3778ACFC2631C358008F95AB /* UILabel+Extensions.swift */,
+				3789E0B52642F43C00894656 /* Device.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -367,6 +370,7 @@
 				37FB473B2628466E008781C0 /* HomeController.swift in Sources */,
 				3747FDD0263E774F00916764 /* Videos.swift in Sources */,
 				3747FDD6263E822100916764 /* Channel.swift in Sources */,
+				3789E0B62642F43C00894656 /* Device.swift in Sources */,
 				3778ACFD2631C358008F95AB /* UILabel+Extensions.swift in Sources */,
 				37DC810D262B2D5500711CF0 /* BannerCell.swift in Sources */,
 				37FB47312628457F008781C0 /* MainTabController.swift in Sources */,
@@ -378,7 +382,7 @@
 				37DC810A262B1CAF00711CF0 /* CarouselChannelCell.swift in Sources */,
 				37FB473E2628467B008781C0 /* RecommendationController.swift in Sources */,
 				37500DFC2637101C00BB4BC5 /* MyPageTableViewCell.swift in Sources */,
-				37E814B52628796E00B3C75B /* ChannelCell.swift in Sources */,
+				37E814B52628796E00B3C75B /* CircularChannelCell.swift in Sources */,
 				3747FDD9263E82A000916764 /* ChannelTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

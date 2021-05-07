@@ -37,9 +37,10 @@ class HomeController: UIViewController {
     private let scrollView = UIScrollView()
     private let contentView = UIView()
 
+
     lazy var bannerCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: view.frame.width , height: 250)
+        layout.itemSize = CGSize(width: view.frame.width , height: 250.adjusted(by: .vertical))
         layout.scrollDirection = .horizontal
         layout.minimumLineSpacing = 0.0
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
@@ -57,10 +58,10 @@ class HomeController: UIViewController {
 
     lazy var carouselCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: view.frame.width - 80, height: 200)
+        layout.itemSize = CGSize(width: view.frame.width - 80.adjusted(by: .horizontal), height: 200.adjusted(by: .vertical))
         layout.scrollDirection = .horizontal
-        layout.minimumLineSpacing = 20
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+        layout.minimumLineSpacing = 20.adjusted(by: .horizontal)
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 20.adjusted(by: .horizontal), bottom: 0, right: 20.adjusted(by: .horizontal))
         let cv = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
         cv.setCollectionViewLayout(layout, animated: true)
         cv.delegate = self
@@ -78,10 +79,10 @@ class HomeController: UIViewController {
         let layout = UICollectionViewFlowLayout()
         let itemsPerRow: CGFloat = 5
         layout.scrollDirection = .horizontal
-        layout.minimumInteritemSpacing = 20
-        layout.minimumLineSpacing = 20
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 5, right: 20)
-        layout.itemSize = CGSize(width: (view.frame.width - 5)/itemsPerRow, height: 100)
+        layout.minimumInteritemSpacing = 20.adjusted(by: .horizontal)
+        layout.minimumLineSpacing = 20.adjusted(by: .horizontal)
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 20.adjusted(by: .horizontal), bottom: 5, right: 20.adjusted(by: .horizontal))
+        layout.itemSize = CGSize(width: (view.frame.width - 5)/itemsPerRow, height: 100.adjusted(by: .vertical))
         return layout
     }()
 
@@ -93,7 +94,7 @@ class HomeController: UIViewController {
         cv.showsHorizontalScrollIndicator = false
         cv.backgroundColor = .white
         cv.isPagingEnabled = true
-        cv.register(ChannelCell.self, forCellWithReuseIdentifier: circularIdentifier)
+        cv.register(CircularChannelCell.self, forCellWithReuseIdentifier: circularIdentifier)
 
         return cv
     }()
@@ -103,14 +104,14 @@ class HomeController: UIViewController {
     private let labelForFirstCollectionView: UILabel = {
         let label = UILabel()
         label.text = "요즘 핫한 채널"
-        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.font = UIFont.boldSystemFont(ofSize: 20.adjusted(by: .horizontal))
         return label
     }()
 
     private let labelForSecondCollectionView: UILabel = {
         let label = UILabel()
         label.text = "00과 비슷한 채널"
-        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.font = UIFont.boldSystemFont(ofSize: 20.adjusted(by: .horizontal))
         return label
     }()
 
@@ -127,6 +128,7 @@ class HomeController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         self.navigationItem.title = "유추"
+        print(UIScreen.main.bounds)
 
     }
 
@@ -204,7 +206,7 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // first collectionview
         if collectionView == self.circularCollectionView {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: circularIdentifier, for: indexPath as IndexPath) as! ChannelCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: circularIdentifier, for: indexPath as IndexPath) as! CircularChannelCell
             return cell
         }
         else if collectionView == self.carouselCollectionView {

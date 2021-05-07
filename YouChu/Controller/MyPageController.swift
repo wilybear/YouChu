@@ -16,7 +16,7 @@ class MyPageController: UIViewController {
     // MARK: - Properties
     private lazy var tableView: UITableView = {
         let tv = UITableView()
-        tv.rowHeight = 54
+        tv.rowHeight = 54.adjusted(by: .vertical)
         tv.delegate = self
         tv.dataSource = self
         tv.alwaysBounceVertical = false
@@ -36,7 +36,7 @@ class MyPageController: UIViewController {
         label.text = "pokari237@gmail.com"
         label.textAlignment = .left
         label.textColor = .darkGray
-        label.font = UIFont.boldSystemFont(ofSize: 16)
+        label.font = UIFont.boldSystemFont(ofSize: 16.adjusted(by: .horizontal))
         return label
     }()
 
@@ -45,7 +45,7 @@ class MyPageController: UIViewController {
         bt.setTitle("로그아웃", for: .normal)
         let color = UIColor.systemRed.withAlphaComponent(0.8)
         bt.setTitleColor(color, for: .normal)
-        bt.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        bt.titleLabel?.font = UIFont.systemFont(ofSize: 14.adjusted(by: .horizontal))
         return bt
     }()
 
@@ -54,9 +54,9 @@ class MyPageController: UIViewController {
         stack.axis = .horizontal
         stack.distribution = .fillProportionally
         stack.alignment = .center
-        stack.spacing = 15
-        stack.setDimensions(height: 60, width: view.frame.width - 60)
-        stack.layoutMargins = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 10)
+        stack.spacing = 15.adjusted(by: .horizontal)
+        stack.setDimensions(height: 60.adjusted(by: .vertical), width: view.frame.width - 60.adjusted(by: .horizontal))
+        stack.layoutMargins = UIEdgeInsets(top: 0, left: 15.adjusted(by: .horizontal), bottom: 0, right: 10.adjusted(by: .horizontal))
         stack.isLayoutMarginsRelativeArrangement = true
         stack.backgroundColor = .white
         stack.clipsToBounds = true
@@ -95,8 +95,8 @@ class MyPageController: UIViewController {
         stack.axis = .horizontal
         stack.distribution = .fillEqually
         stack.alignment = .center
-        stack.spacing = 20
-        stack.setDimensions(height: 75, width: view.frame.width - 60)
+        stack.spacing = 20.adjusted(by: .horizontal)
+        stack.setDimensions(height: 75.adjusted(by: .vertical), width: view.frame.width - 60.adjusted(by: .horizontal))
         preferedLabel.attributedText = attributedStatText(value: 35, label: "선호 채널")
         preferedLabel.setHeight(75)
         dislikedLabel.attributedText = attributedStatText(value: 35, label: "비선호 채널")
@@ -122,7 +122,7 @@ class MyPageController: UIViewController {
         navigationItem.title = "내 정보"
         view.addSubview(accountStack)
 
-        googleLogoView.setDimensions(height: 20, width: 20)
+        googleLogoView.setDimensions(height: 20, width: 20, by: .horizontal)
         accountStack.anchor(top:view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 20, paddingLeft: 30, paddingRight: 30)
 
         view.addSubview(channelStack)
@@ -137,10 +137,10 @@ class MyPageController: UIViewController {
     }
     private func attributedStatText(value: Int, label: String) -> NSAttributedString {
         let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = 10
+        paragraphStyle.lineSpacing = 10.adjusted(by: .vertical)
         paragraphStyle.alignment = .center
-        let attributedText = NSMutableAttributedString(string: "\(value)\n",attributes: [.font:UIFont.boldSystemFont(ofSize: 17)])
-        attributedText.append(NSAttributedString(string: label,attributes: [.font:UIFont.systemFont(ofSize: 17), .foregroundColor: UIColor.lightGray]))
+        let attributedText = NSMutableAttributedString(string: "\(value)\n",attributes: [.font:UIFont.boldSystemFont(ofSize: 17.adjusted(by: .horizontal))])
+        attributedText.append(NSAttributedString(string: label,attributes: [.font:UIFont.systemFont(ofSize: 17.adjusted(by: .horizontal)), .foregroundColor: UIColor.lightGray]))
         attributedText.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, attributedText.length))
         return attributedText
     }

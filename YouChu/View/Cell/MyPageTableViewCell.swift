@@ -12,7 +12,7 @@ class MyPageTableViewCell: UITableViewCell {
     // MARK: - Properties
     private let name: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 17)
+        label.font = UIFont.boldSystemFont(ofSize: 17.adjusted(by: .horizontal))
         return label
     }()
 
@@ -55,7 +55,7 @@ class MyPageTableViewCell: UITableViewCell {
         let versionLabel = UILabel()
         versionLabel.textColor = UIColor.lightGray
         versionLabel.text = "1.0.0"
-        versionLabel.font = UIFont.systemFont(ofSize: 17)
+        versionLabel.font = UIFont.systemFont(ofSize: 17.adjusted(by: .horizontal))
         addSubview(versionLabel)
         versionLabel.anchor(top:topAnchor, bottom: bottomAnchor, right: rightAnchor, paddingRight: 15)
     }
