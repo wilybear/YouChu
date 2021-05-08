@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import GoogleSignIn
 
 class MainTabController: UITabBarController {
 
@@ -15,12 +16,39 @@ class MainTabController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        checkIfuserIsLoggedIn()
         configureViewControllers()
     }
 
     // MARK: - API
+    func checkIfuserIsLoggedIn(){
+        guard let signIn = GIDSignIn.sharedInstance() else { return }
+        if (signIn.hasPreviousSignIn()) {
+          signIn.restorePreviousSignIn()
+          // If you ever changed the client ID you use for Google Sign-in, or
+          // requested a different set of scopes, then also confirm that they
+          // have the values you expect before proceeding.
+          if (signIn.currentUser.authentication.clientID != "235837674630-g4j6mibrsrtiomp5fus179jg796nmt0t.apps.googleusercontent.com"
+              // TODO: Implement hasYourRequiredScopes
+                || !hasRequiredScope(scope:signIn.currentUser.grantedScopes)) {
+            signIn.signOut()
+          }
+        }else{
+            DispatchQueue.main.async {
+                let controller = GoogleLoginViewController()
+                let nav = UINavigationController(rootViewController: controller)
+                nav.modalPresentationStyle = .fullScreen
+                self.present(nav, animated: true, completion: nil)
+            }
+        }
+    }
 
     // MARK: - Helpers
+
+    func hasRequiredScope(scope:[Any]) -> Bool {
+        return scope.contains{ $0 as! String == "https://www.googleapis.com/auth/youtube.readonly"}
+    }
+
 
     func configureViewControllers(){
         view.backgroundColor = .white

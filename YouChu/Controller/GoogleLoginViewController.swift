@@ -12,8 +12,6 @@ class GoogleLoginViewController: UIViewController {
 
     private lazy var googleSignInButton: GIDSignInButton = {
         let gidButton = GIDSignInButton()
-        GIDSignIn.sharedInstance()?.presentingViewController = self
-        GIDSignIn.sharedInstance()?.delegate = self
         gidButton.style = .standard
         return gidButton
     }()
@@ -23,9 +21,13 @@ class GoogleLoginViewController: UIViewController {
         view.backgroundColor = .white
         view.addSubview(googleSignInButton)
         googleSignInButton.center(inView: view)
+
+        GIDSignIn.sharedInstance()?.presentingViewController = self
+        GIDSignIn.sharedInstance()?.delegate = self
+        GIDSignIn.sharedInstance()?.scopes = ["https://www.googleapis.com/auth/youtube.readonly"]
+
+
     }
-
-
 }
 
 extension GoogleLoginViewController: GIDSignInDelegate {
@@ -39,6 +41,13 @@ extension GoogleLoginViewController: GIDSignInDelegate {
                 print("\(error.localizedDescription)")
             }
             return
+        }
+        signIn.currentUser.authentication.getTokensWithHandler { (auth, error) in
+            guard error == nil else { return }
+            let accessToken = auth?.accessToken
+            let refreshToken = auth?.refreshToken
+            print("access: \(accessToken)")
+            print("refresh: \(refreshToken)")
         }
 
         // 사용자 정보 가져오기
@@ -57,6 +66,9 @@ extension GoogleLoginViewController: GIDSignInDelegate {
         } else {
             print("Error : User Data Not Found")
         }
+
+        self.dismiss(animated: true, completion: nil)
+
     }
 
     // 구글 로그인 연동 해제했을때 불러오는 메소드
