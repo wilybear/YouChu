@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import GoogleSignIn
 
 let bannerIdentifier = "banner"
 let circularIdentifier = "circular"
@@ -184,6 +185,16 @@ class HomeController: UIViewController {
 
     }
 
+    func sampleTest(){
+        guard let signIn = GIDSignIn.sharedInstance() else {return}
+        signIn.currentUser.authentication.getTokensWithHandler { (auth, error) in
+            guard error == nil else { return }
+            let accessToken = auth?.accessToken
+            let refreshToken = auth?.refreshToken
+            print("access: \(accessToken)")
+            print("refresh: \(refreshToken)")
+        }
+    }
 
 }
 
@@ -220,6 +231,7 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        sampleTest()
         let controller = ChannelDetailController()
         navigationController?.pushViewController(controller, animated: true)
     }

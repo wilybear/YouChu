@@ -24,15 +24,9 @@ class MainTabController: UITabBarController {
     func checkIfuserIsLoggedIn(){
         guard let signIn = GIDSignIn.sharedInstance() else { return }
         if (signIn.hasPreviousSignIn()) {
-          signIn.restorePreviousSignIn()
-          // If you ever changed the client ID you use for Google Sign-in, or
-          // requested a different set of scopes, then also confirm that they
-          // have the values you expect before proceeding.
-          if (signIn.currentUser.authentication.clientID != "235837674630-g4j6mibrsrtiomp5fus179jg796nmt0t.apps.googleusercontent.com"
-              // TODO: Implement hasYourRequiredScopes
-                || !hasRequiredScope(scope:signIn.currentUser.grantedScopes)) {
-            signIn.signOut()
-          }
+
+            signIn.restorePreviousSignIn()
+
         }else{
             DispatchQueue.main.async {
                 let controller = GoogleLoginViewController()
@@ -44,10 +38,6 @@ class MainTabController: UITabBarController {
     }
 
     // MARK: - Helpers
-
-    func hasRequiredScope(scope:[Any]) -> Bool {
-        return scope.contains{ $0 as! String == "https://www.googleapis.com/auth/youtube.readonly"}
-    }
 
 
     func configureViewControllers(){
