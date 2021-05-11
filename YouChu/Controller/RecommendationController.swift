@@ -15,6 +15,8 @@ class RecommendationController: UIViewController {
     private lazy var channelCardView: ChannelCardView = {
         let view = ChannelCardView()
         view.delegate = self
+        view.isUserInteractionEnabled = true
+        view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handleCardViewPanGesture)))
         return view
     }()
 
@@ -128,10 +130,36 @@ class RecommendationController: UIViewController {
     }
 
     @objc func handleDislikeAction(){
+        lockButton(true)
         _ = self.channelCardView.slideOut(from: .left) { finished in
             self.recommendingChannel = Test.fetchData().randomElement()!
             _ = self.channelCardView.slideIn(from: .top)
             self.lockButton(false)
+        }
+    }
+
+    @objc func handleCardViewPanGesture(gesture: UIPanGestureRecognizer){
+
+        switch gesture.state {
+        case .began:
+            break
+        case .changed:
+            let translatioon = gesture.translation(in: self.view)
+            channelCardView.transform = CGAffineTransform(translationX: translatioon.x, y: 0)
+        case .ended, .cancelled:
+            let translation = gesture.translation(in: view)
+            print(channelCardView.frame)
+            if translation.x > 100.adjusted(by: .horizontal) {
+                handleLikeAction()
+            }else if translation.x < -100.adjusted(by: .horizontal) {
+                handleDislikeAction()
+            }else{
+                UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.7, options: [.curveEaseInOut]) {
+                    self.channelCardView.transform = CGAffineTransform(translationX: 0, y: 0)
+                }
+            }
+        default:
+            break
         }
     }
 }
@@ -145,8 +173,3 @@ extension RecommendationController: ChannelCardViewDelegate {
     }
 }
 
-extension RecommendationController {
-    func fetchData() -> [String]{
-        return ["승우 아빠", "Black Pink - Official channel"]
-    }
-}

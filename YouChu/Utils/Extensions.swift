@@ -192,9 +192,10 @@ extension UIView {
         return self
     }
 
-    func slideOut(from edge: Animation = .none, x: CGFloat = 0, y: CGFloat = 0, duration: TimeInterval = 1, delay: TimeInterval = 0, completion: ((Bool) -> Void)? = nil) -> UIView {
+    func slideOut(from edge: Animation = .none, x: CGFloat = 0, y: CGFloat = 0, duration: TimeInterval = 0.5, delay: TimeInterval = 0, completion: ((Bool) -> Void)? = nil) -> UIView {
 
         let offset = offsetFor(edge: edge)
+        print(offset)
         isHidden = false
         let endtransform = CGAffineTransform(translationX: offset.x + x, y: offset.y + y)
         UIView.animate(withDuration: duration, delay: delay, usingSpringWithDamping: 1, initialSpringVelocity: 2, options: .curveEaseOut, animations: {
@@ -211,15 +212,20 @@ extension UIView {
             case .none:
                 return CGPoint.zero
             case .left:
-                return CGPoint(x: -frame.maxX, y:0)
+                return CGPoint(x: -(frame.width+50.adjusted(by: .horizontal)), y:0)
             case .right:
-                return CGPoint(x: size.width - frame.minX, y:0)
+                return CGPoint(x: (frame.width+50.adjusted(by: .horizontal)), y:0)
             case .top:
                 return CGPoint(x: 0,y: -frame.maxY)
             }
         }
         return .zero
     }
+    var globalPoint :CGPoint? {
+        return self.superview?.convert(self.frame.origin, to: nil)
+    }
+
+
 }
 
 extension CGFloat {

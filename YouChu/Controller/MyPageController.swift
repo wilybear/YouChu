@@ -171,6 +171,7 @@ class MyPageController: UIViewController {
         }
         let composer = MFMailComposeViewController()
         composer.mailComposeDelegate = self
+        //TODO: change email
         composer.setToRecipients(["samerj9712@gmail.com"])
         composer.setSubject("[유추 의견 제출]")
         composer.setMessageBody("", isHTML: false)
