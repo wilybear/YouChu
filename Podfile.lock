@@ -9,6 +9,7 @@ PODS:
   - SDWebImage (5.11.0):
     - SDWebImage/Core (= 5.11.0)
   - SDWebImage/Core (5.11.0)
+  - SwiftRater (1.8.0)
   - TTTAttributedLabel (2.0.0)
 
 DEPENDENCIES:
@@ -18,6 +19,7 @@ DEPENDENCIES:
   - JGProgressHUD
   - Parchment (~> 3.0)
   - SDWebImage
+  - SwiftRater
   - TTTAttributedLabel
 
 SPEC REPOS:
@@ -28,6 +30,7 @@ SPEC REPOS:
     - JGProgressHUD
     - Parchment
     - SDWebImage
+    - SwiftRater
     - TTTAttributedLabel
 
 SPEC CHECKSUMS:
@@ -37,8 +40,9 @@ SPEC CHECKSUMS:
   JGProgressHUD: d83d7a981b85d11205e19ff8ad5bb9c40571c847
   Parchment: 466a1cfb6151780db8acb4bbedc2d9c6bfa1e2ff
   SDWebImage: 7acbb57630ac7db4a495547fb73916ff3e432f6b
+  SwiftRater: 6094fa6e9b3866ff8beca0a871b4b5f9ab896a6d
   TTTAttributedLabel: 8cffe8e127e4e82ff3af1e5386d4cd0ad000b656
 
-PODFILE CHECKSUM: 29abf96e3e45ad0f533c1ed7d6a4fc8db6284c21
+PODFILE CHECKSUM: 7ba8c56378d180737bfcc9ec2a743f24170887f8
 
 COCOAPODS: 1.10.1

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import MessageUI
 
 let mypageCellIdentifier = "mypageCell"
 
@@ -144,6 +145,19 @@ class MyPageController: UIViewController {
         attributedText.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, attributedText.length))
         return attributedText
     }
+    private func openAppStoreReview(){
+        if let appstoreURL = URL(string: "https://apps.apple.com/app/id1558327474") {
+            //TODO: should change app id
+            var components = URLComponents(url: appstoreURL, resolvingAgainstBaseURL: false)
+//            components?.queryItems = [
+//              URLQueryItem(name: "action", value: "write-review")
+//            ]
+//            guard let writeReviewURL = components?.url else {
+//                return
+//            }
+            UIApplication.shared.open(appstoreURL, options: [:], completionHandler: nil)
+        }
+    }
 
     // MARK: - Actions
     @objc func tapFunction(sender:UITapGestureRecognizer) {
@@ -151,6 +165,17 @@ class MyPageController: UIViewController {
         navigationController?.pushViewController(controller, animated: true)
     }
 
+    @objc func showMailComposer() {
+        guard MFMailComposeViewController.canSendMail() else {
+            return
+        }
+        let composer = MFMailComposeViewController()
+        composer.mailComposeDelegate = self
+        composer.setToRecipients(["samerj9712@gmail.com"])
+        composer.setSubject("[유추 의견 제출]")
+        composer.setMessageBody("", isHTML: false)
+        present(composer, animated: true)
+    }
 
 }
 
@@ -170,8 +195,42 @@ extension MyPageController: UITableViewDelegate, UITableViewDataSource {
         if indexPath.row == 0 { cell.addVersionInfo() }
 
         return cell
-
     }
 
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch indexPath.row {
+        case 1:
+            //mail
+            showMailComposer()
+            break;
+        case 2:
+            //review
+            openAppStoreReview()
+            break;
+        default:
+            break;
+        }
+    }
+}
 
+extension MyPageController : MFMailComposeViewControllerDelegate {
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+            if let _ = error {
+                controller.dismiss(animated: true, completion: nil)
+                return
+            }
+            switch result {
+            case .cancelled:
+                break
+            case .failed:
+                break
+            case .saved:
+                break
+            case .sent:
+                let alert = UIAlertController(title: "메일을 보냈습니다.", message: "소중한 의견 감사합니다.", preferredStyle: UIAlertController.Style.alert)
+                present(alert, animated: false, completion: nil)
+                break
+            }
+            controller.dismiss(animated: true, completion: nil)
+        }
 }
