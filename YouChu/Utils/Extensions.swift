@@ -212,9 +212,9 @@ extension UIView {
             case .none:
                 return CGPoint.zero
             case .left:
-                return CGPoint(x: -(frame.width+50.adjusted(by: .horizontal)), y:0)
+                return CGPoint(x: -(frame.width + 50.adjusted(by: .horizontal)), y:0)
             case .right:
-                return CGPoint(x: (frame.width+50.adjusted(by: .horizontal)), y:0)
+                return CGPoint(x: (frame.width + 50.adjusted(by: .horizontal)), y:0)
             case .top:
                 return CGPoint(x: 0,y: -frame.maxY)
             }

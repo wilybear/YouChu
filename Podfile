@@ -16,4 +16,5 @@ target 'YouChu' do
 	pod 'DropDown'
 	pod 'Parchment', '~> 3.0'
 	pod "SwiftRater"
+	pod 'RAMAnimatedTabBarController'
 end
