@@ -10,9 +10,9 @@ import UIKit
 class TagCell: UICollectionViewCell {
 
     // MARK: - Properties
-    var subscriberTag: String? {
+    var keyword: String? {
         didSet{
-            tagLabel.text = subscriberTag
+            tagLabel.text = keyword
         }
     }
 
@@ -40,7 +40,7 @@ class TagCell: UICollectionViewCell {
     // MARK: - Helpers
     private func configureUI(){
         addSubview(tagLabel)
-        tagLabel.text = subscriberTag ?? ""
+        tagLabel.text = keyword ?? ""
         tagLabel.center(inView: contentView)
     }
 }

@@ -45,9 +45,10 @@ class DetailTableViewCell: UITableViewCell {
         }
     }
 
-    var keywordList: [String]? {
+    var keywordList: [Keyword]? {
         didSet{
             configureKeywordView()
+            collectionView.reloadData()
         }
     }
 
@@ -91,7 +92,7 @@ extension DetailTableViewCell : UICollectionViewDelegate, UICollectionViewDataSo
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: tagIdentifier, for: indexPath) as! TagCell
-        cell.subscriberTag = keywordList![indexPath.row]
+        cell.keyword = keywordList![indexPath.row].keyword
         cell.layer.masksToBounds = true
         cell.layer.cornerRadius = 5
         cell.backgroundColor = .systemBlue
@@ -103,7 +104,7 @@ extension DetailTableViewCell : UICollectionViewDelegate, UICollectionViewDataSo
 extension DetailTableViewCell: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         // dataArary is the managing array for your UICollectionView.
-        let item = keywordList![indexPath.row]
+        let item = keywordList![indexPath.row].keyword
         let itemSize = item.size(withAttributes: [
             NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 14.adjusted(by: .horizontal))
         ])

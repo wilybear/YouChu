@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		371DCA69264AC53700B3724C /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 371DCA68264AC53700B3724C /* Service.swift */; };
+		371DCA6B264ECDEA00B3724C /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 371DCA6A264ECDEA00B3724C /* User.swift */; };
+		371DCA6F264F9D6200B3724C /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 371DCA6E264F9D6200B3724C /* Response.swift */; };
+		371DCA71264FD66000B3724C /* Keyword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 371DCA70264FD66000B3724C /* Keyword.swift */; };
 		3747FDCD263E76D900916764 /* VideoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3747FDCC263E76D900916764 /* VideoTableViewCell.swift */; };
 		3747FDD0263E774F00916764 /* Videos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3747FDCF263E774F00916764 /* Videos.swift */; };
 		3747FDD3263E818800916764 /* ChannelListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3747FDD2263E818800916764 /* ChannelListController.swift */; };
@@ -44,6 +48,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		371DCA68264AC53700B3724C /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
+		371DCA6A264ECDEA00B3724C /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		371DCA6E264F9D6200B3724C /* Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
+		371DCA70264FD66000B3724C /* Keyword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keyword.swift; sourceTree = "<group>"; };
 		3747FDCC263E76D900916764 /* VideoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoTableViewCell.swift; sourceTree = "<group>"; };
 		3747FDCF263E774F00916764 /* Videos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Videos.swift; sourceTree = "<group>"; };
 		3747FDD2263E818800916764 /* ChannelListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelListController.swift; sourceTree = "<group>"; };
@@ -153,7 +161,6 @@
 				37FB472C26284523008781C0 /* Utils */,
 				37FB472B26284521008781C0 /* API */,
 				37FB472A2628451D008781C0 /* Controller */,
-				37FB472926284518008781C0 /* ViewModel */,
 				37FB472826284513008781C0 /* View */,
 				37FB4724262844F8008781C0 /* Model */,
 				37FB47082628440A008781C0 /* AppDelegate.swift */,
@@ -172,6 +179,9 @@
 				3778AD1626345CB3008F95AB /* Category.swift */,
 				3747FDCF263E774F00916764 /* Videos.swift */,
 				3747FDD5263E822100916764 /* Channel.swift */,
+				371DCA6A264ECDEA00B3724C /* User.swift */,
+				371DCA6E264F9D6200B3724C /* Response.swift */,
+				371DCA70264FD66000B3724C /* Keyword.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -186,13 +196,6 @@
 				3778AD192635C917008F95AB /* CircularProfileView.swift */,
 			);
 			path = View;
-			sourceTree = "<group>";
-		};
-		37FB472926284518008781C0 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		37FB472A2628451D008781C0 /* Controller */ = {
@@ -213,6 +216,7 @@
 		37FB472B26284521008781C0 /* API */ = {
 			isa = PBXGroup;
 			children = (
+				371DCA68264AC53700B3724C /* Service.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -353,7 +357,9 @@
 				37FB473526284656008781C0 /* MyPageController.swift in Sources */,
 				3747FDCD263E76D900916764 /* VideoTableViewCell.swift in Sources */,
 				37FB47382628465E008781C0 /* RankingController.swift in Sources */,
+				371DCA71264FD66000B3724C /* Keyword.swift in Sources */,
 				375FE46D2639755E00740866 /* VideoViewController.swift in Sources */,
+				371DCA6B264ECDEA00B3724C /* User.swift in Sources */,
 				375FE46A2639754F00740866 /* DetailViewController.swift in Sources */,
 				3778AD1726345CB3008F95AB /* Category.swift in Sources */,
 				3778AD0426343F1E008F95AB /* RankingTableViewCell.swift in Sources */,
@@ -369,10 +375,12 @@
 				3789E0B62642F43C00894656 /* Device.swift in Sources */,
 				3778ACFD2631C358008F95AB /* UILabel+Extensions.swift in Sources */,
 				37DC810D262B2D5500711CF0 /* BannerCell.swift in Sources */,
+				371DCA6F264F9D6200B3724C /* Response.swift in Sources */,
 				37FB47312628457F008781C0 /* MainTabController.swift in Sources */,
 				3747FDD3263E818800916764 /* ChannelListController.swift in Sources */,
 				3778AD0C26345810008F95AB /* RankingHeader.swift in Sources */,
 				37DC8110262B9BAE00711CF0 /* ChannelCardView.swift in Sources */,
+				371DCA69264AC53700B3724C /* Service.swift in Sources */,
 				37FB470B2628440A008781C0 /* SceneDelegate.swift in Sources */,
 				37FB472E2628456E008781C0 /* Extensions.swift in Sources */,
 				37DC810A262B1CAF00711CF0 /* CarouselChannelCell.swift in Sources */,

@@ -12,6 +12,11 @@ class DetailViewController: UITableViewController {
     private static let CellIdentifier = "CellIdentifier"
 
     // MARK: - Properties
+    var channel: Channel? {
+        didSet{
+            configureChannelInfo()
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,22 +35,35 @@ class DetailViewController: UITableViewController {
     ]
 
     // TODO: should be channed to view model
-    private let infoList = [
-        "딩고 뮤직 / dingo music",
-        "2015-02-11",
-        "2930000",
-        "1495",
-        "1054198288",
-        "Pop Music / Music of Asia / Entertaiment / Music",
-        "",
-        "소셜 모바일 세대를 위한 딩고 Dingo의 대표 음악채널 딩고 뮤직(Dingo Music). \n세로 라이브, 이슬 라이브 등 음악 라이브와 댄스, 예능 컨텐츠 등 단독 공개! \n\nCopyright 2015 MakeUs Co.,Ltd. All rights reserved"
-    ]
+    private var infoList:[String?] = []
 
-    private let keywordList = ["MV", "KPOP", "멜론" ,"melon","가수" ,"아이돌", "음악", "music dingo", "딩고" ,"딩고뮤직", "dingomusic"]
+    private var keywordList:[Keyword] = []
 
     // MARK: - LifeCycle
 
     // MARK: - API
+    func configureChannelInfo(){
+        guard let channel = channel else {
+            return
+        }
+        infoList = [
+            channel.title,
+            channel.publishedAt,
+            "\(String(describing: channel.subscriberCount!))",
+            "\(String(describing: channel.videoCount!))",
+            "\(String(describing: channel.viewCount!))",
+            "Pop Music / Music of Asia / Entertaiment / Music",
+            "",
+            channel.description
+        ]
+
+        Service.fetchKeywordList(channelIdx: 1) { results in
+            guard let results = results else { return }
+            self.keywordList = results
+            self.tableView.reloadData()
+        }
+
+    }
 
     // MARK: - Helpers
     private func configureUI(){
@@ -64,7 +82,7 @@ class DetailViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: DetailViewController.CellIdentifier, for: indexPath) as! DetailTableViewCell
         cell.infoType = infoTypeList[indexPath.row]
-        cell.info = infoList[indexPath.row]
+        cell.info = infoList.isEmpty ? "" : infoList[indexPath.row]
         if infoTypeList[indexPath.row] == "키워드" {
             cell.keywordList = keywordList
         }
@@ -72,4 +90,3 @@ class DetailViewController: UITableViewController {
     }
 
 }
-

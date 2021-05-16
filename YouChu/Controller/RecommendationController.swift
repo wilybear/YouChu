@@ -59,7 +59,8 @@ class RecommendationController: UIViewController {
     // MARK: - LifeCycle
 
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        recommendingChannel = Test.fetchData().randomElement()!
+//        recommendingChannel = Test.fetchData().randomElement()!
+        //TODO: fetch random channel
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
 
@@ -123,7 +124,8 @@ class RecommendationController: UIViewController {
     @objc func handleLikeAction(){
         lockButton(true)
         _ = self.channelCardView.slideOut(from: .right) { finished in
-            self.recommendingChannel = Test.fetchData().randomElement()!
+            //TODO: fetch random channel
+//            self.recommendingChannel = Test.fetchData().randomElement()!
             _ = self.channelCardView.slideIn(from: .top)
             self.lockButton(false)
         }
@@ -132,7 +134,8 @@ class RecommendationController: UIViewController {
     @objc func handleDislikeAction(){
         lockButton(true)
         _ = self.channelCardView.slideOut(from: .left) { finished in
-            self.recommendingChannel = Test.fetchData().randomElement()!
+            //TODO: fetch random channel
+//            self.recommendingChannel = Test.fetchData().randomElement()!
             _ = self.channelCardView.slideIn(from: .top)
             self.lockButton(false)
         }
@@ -168,7 +171,7 @@ class RecommendationController: UIViewController {
 
 extension RecommendationController: ChannelCardViewDelegate {
     func handleDetailButton(_ channelCardView: ChannelCardView) {
-        let controller = ChannelDetailController()
+        let controller = ChannelDetailController(channelId: 1)
         navigationController?.pushViewController(controller, animated: true)
     }
 }

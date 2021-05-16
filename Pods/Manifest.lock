@@ -1,5 +1,6 @@
 PODS:
   - ActiveLabel (1.1.0)
+  - Alamofire (5.4.3)
   - ChameleonFramework/Default (2.1.0)
   - ChameleonFramework/Swift (2.1.0):
     - ChameleonFramework/Default
@@ -15,6 +16,7 @@ PODS:
 
 DEPENDENCIES:
   - ActiveLabel
+  - Alamofire
   - ChameleonFramework/Swift
   - DropDown
   - JGProgressHUD
@@ -27,6 +29,7 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - ActiveLabel
+    - Alamofire
     - ChameleonFramework
     - DropDown
     - JGProgressHUD
@@ -38,6 +41,7 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   ActiveLabel: 5e3f4de79a1952d4604b845a0610d4776e4b82b3
+  Alamofire: e447a2774a40c996748296fa2c55112fdbbc42f9
   ChameleonFramework: d21a3cc247abfe5e37609a283a8238b03575cf64
   DropDown: 8a2116376c1981888557f72ec2ffc9a5e0e456ec
   JGProgressHUD: d83d7a981b85d11205e19ff8ad5bb9c40571c847
@@ -47,6 +51,6 @@ SPEC CHECKSUMS:
   SwiftRater: 6094fa6e9b3866ff8beca0a871b4b5f9ab896a6d
   TTTAttributedLabel: 8cffe8e127e4e82ff3af1e5386d4cd0ad000b656
 
-PODFILE CHECKSUM: 095d8d5feb373316533bb27c46a7651a710c1c78
+PODFILE CHECKSUM: a9244a88387e0a1d148e5a520859cdcbd65f1dd4
 
 COCOAPODS: 1.10.1

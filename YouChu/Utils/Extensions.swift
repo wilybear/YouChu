@@ -207,7 +207,7 @@ extension UIView {
     }
 
     private func offsetFor(edge:Animation) -> CGPoint {
-        if let size = self.superview?.frame.size {
+        if (self.superview?.frame.size) != nil {
             switch edge {
             case .none:
                 return CGPoint.zero
@@ -226,6 +226,23 @@ extension UIView {
     }
 
 
+}
+
+extension Int {
+    var roundedWithAbbreviations: String {
+        let number = Double(self)
+        let thousand = number / 1000
+        let million = number / 1000000
+        if million >= 1.0 {
+            return "\(round(million*10)/10)M"
+        }
+        else if thousand >= 1.0 {
+            return "\(round(thousand*10)/10)K"
+        }
+        else {
+            return "\(self)"
+        }
+    }
 }
 
 extension CGFloat {

@@ -107,10 +107,10 @@ class RankingTableViewCell: UITableViewCell {
             return
         }
 
-        thumbnailImageView.image = channel.thumbnail
-        heartImageButton.setImage(channel.isprefered ? UIImage(systemName: "heart") : UIImage(systemName: "heart.fill"), for: .normal)
-        nameLabel.text = channel.channelName
-        subscriberCountLabel.text = "구독자 \(channel.subscriberCount)만명"
+        thumbnailImageView.sd_setImage(with: channel.thumbnailUrl)
+        heartImageButton.setImage(channel.isPreffered ? UIImage(systemName: "heart") : UIImage(systemName: "heart.fill"), for: .normal)
+        nameLabel.text = channel.title
+        subscriberCountLabel.text = "구독자 \(String(describing: channel.subscriberCount))만명"
 
 
     }

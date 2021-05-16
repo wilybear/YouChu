@@ -68,6 +68,10 @@ class CircularProfileView: UIView {
         self.anchor(top:channelImageView.topAnchor, bottom: channelTitle.bottomAnchor)
     }
 
+    func setImage(url: URL?){
+        channelImageView.sd_setImage(with: url)
+    }
+
     // MARK: - Actions
 
 }

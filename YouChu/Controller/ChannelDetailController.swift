@@ -1,11 +1,4 @@
 //
-//  Test2.swift
-//  YouChu
-//
-//  Created by 김현식 on 2021/04/29.
-//
-
-//
 //  ChannelDetailController.swift
 //  YouChu
 //
@@ -17,9 +10,18 @@ import Parchment
 
 let imageSize: CGFloat = 100.adjusted(by: .vertical)
 
+
 class ChannelDetailController: UIViewController{
 
     // MARK: - Properties
+
+    var channel: Channel? {
+        didSet{
+            configureChannelInfo()
+            let detailVC = viewControllers[0] as! DetailViewController
+            detailVC.channel = channel
+        }
+    }
 
     let headerHeight: CGFloat = 310.adjusted(by: .horizontal)
     let bannerImageHeight: CGFloat = 225.adjusted(by: .horizontal)
@@ -54,7 +56,6 @@ class ChannelDetailController: UIViewController{
 
     private lazy var bannerImage: UIImageView = {
         let iv = UIImageView()
-        iv.image =  #imageLiteral(resourceName: "dingo_banner")
         iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
         return iv
@@ -62,14 +63,11 @@ class ChannelDetailController: UIViewController{
 
     private lazy var thumbnailImageView: CircularProfileView = {
         let cpv = CircularProfileView(fontSize: 15.adjusted(by: .horizontal), imageSize: imageSize)
-        cpv.image = #imageLiteral(resourceName: "dingo")
-        cpv.title = "딩고 뮤직 / dingo music"
         return cpv
     }()
 
     private let subscriberCount: UILabel = {
         let label = UILabel()
-        label.text = "구독자 293만명"
         label.textColor = .black
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 14.adjusted(by: .horizontal))
@@ -86,6 +84,17 @@ class ChannelDetailController: UIViewController{
     private lazy var container = UIView()
 
     // MARK: - LifeCycle
+
+    init(channelId: Int) {
+        super.init(nibName: nil, bundle: nil)
+        Service.fetchChannelDetail(channelIdx: channelId) { channel in
+            self.channel = channel
+        }
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -106,6 +115,17 @@ class ChannelDetailController: UIViewController{
     }
 
     // MARK: - API
+
+    func configureChannelInfo(){
+        guard let channel = channel else {
+            return
+        }
+        thumbnailImageView.setImage(url: channel.thumbnailUrl)
+        thumbnailImageView.title = channel.title
+        bannerImage.sd_setImage(with: channel.bannerImageUrl)
+        subscriberCount.text = channel.subscriberCountText
+
+    }
 
     // MARK: - Helpers
 
@@ -241,12 +261,12 @@ extension ChannelDetailController: UITableViewDelegate{
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
 
       //  print(scrollView.contentOffset.y)
-        let changeStartOffset: CGFloat = -100.adjusted(by: .vertical)
+     //   let changeStartOffset: CGFloat = -100.adjusted(by: .vertical)
         let changeSpeed: CGFloat = 50.adjusted(by: .vertical)
         thumbnailImageView.alpha = min(1.0, (bannerHeightConstraint!.constant - minHeight) / changeSpeed)
         //print(bannerHeightConstraint!.constant, headerHeightConstraint!.constant)
         if headerHeightConstraint!.constant == minHeight {
-            self.navigationItem.title = "딩고 뮤직 / dingo music"
+            self.navigationItem.title = channel?.title
         }else{
             self.navigationItem.title = " "
         }

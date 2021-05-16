@@ -10,7 +10,7 @@ import ActiveLabel
 
 let tagIdentifier = "SubscriberTag"
 
-protocol ChannelCardViewDelegate: class {
+protocol ChannelCardViewDelegate: AnyObject {
     func handleDetailButton(_ channelCardView: ChannelCardView)
 }
 
@@ -64,7 +64,7 @@ class ChannelCardView: UIView {
         return label
     }()
 
-    private var sampleTagData:[String] = []
+    private var keywords:[Keyword] = []
 
     private let TagListTitle: UILabel = {
         let label = UILabel()
@@ -173,11 +173,13 @@ class ChannelCardView: UIView {
         guard let channel = channel else {
             return
         }
-        subscriberCount.text = "구독자 \(channel.subscriberCount) 만명"
-        channelProfileView.image = channel.thumbnail
-        channelProfileView.title = channel.channelName
-        instruction.text = channel.instruction
-        sampleTagData = channel.keyword
+        subscriberCount.text = "구독자 \(String(describing: channel.subscriberCount)) 만명"
+        channelProfileView.setImage(url: channel.thumbnailUrl)
+        channelProfileView.title = channel.title
+        instruction.text = channel.description
+        Service.fetchKeywordList(channelIdx: 1, completion: { result in
+            self.keywords = result!
+        })
         TagListCollectionView.reloadData()
     }
 }
@@ -185,12 +187,12 @@ class ChannelCardView: UIView {
 
 extension ChannelCardView : UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return sampleTagData.count
+        return keywords.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: tagIdentifier, for: indexPath) as! TagCell
-        cell.subscriberTag = sampleTagData[indexPath.row]
+        cell.keyword = keywords[indexPath.row].keyword
         cell.layer.masksToBounds = true
         cell.layer.cornerRadius = 5
         cell.backgroundColor = .systemBlue
@@ -203,7 +205,7 @@ extension ChannelCardView : UICollectionViewDelegate, UICollectionViewDataSource
 extension ChannelCardView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         // dataArary is the managing array for your UICollectionView.
-        let item = sampleTagData[indexPath.row]
+        let item = keywords[indexPath.row].keyword
         let itemSize = item.size(withAttributes: [
             NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 14.adjusted(by: .horizontal))
         ])

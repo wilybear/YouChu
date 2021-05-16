@@ -3,6 +3,20 @@
    version = "1.0">
    <ContextStates>
       <ContextState
+         contextName = "closure #1 in MyPageController.fetchUserStats():MyPageController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in static Service.fetchChannelDetail(channelIdx:completion:):Service.swift">
+      </ContextState>
+      <ContextState
+         contextName = "Response.init(from:):Response.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "Channel.data">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "RecommendationController.handleCardViewPanGesture(gesture:):RecommendationController.swift">
          <PersistentStrings>
             <PersistentString

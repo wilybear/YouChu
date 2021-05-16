@@ -7,30 +7,59 @@
 
 import UIKit
 
-struct Channel {
-    let thumbnail: UIImage
-    let channelName: String
-    let subscriberCount: Int
-    var isprefered: Bool
-    let instruction: String
-//    let bannerImage: UIImage
-    let keyword: [String]
-}
+struct Channel: Codable {
 
-class Test {
-    static func fetchData() -> [Channel]{
-        [
-            Channel(thumbnail: #imageLiteral(resourceName: "yebit"), channelName: "Yebit 예빛", subscriberCount: 27, isprefered: true , instruction: "채널 소개가 없습니다", keyword: ["음악","감성 음악","인디","커버송"] ),
-            Channel(thumbnail: #imageLiteral(resourceName: "sougu"), channelName: "승우아빠", subscriberCount: 141, isprefered: true, instruction: """
-눈으로 보기만 할수 있는 채널이 아닌,
-그냥 스쳐 지나가는 어려운 레시피가 아닌,
-누구나 따라할 수 있는 레시피 채널을 만들고 싶어요!
+    let channelId: String?
+    let title: String?
+    let description: String?
+    let publishedAt: String?
+    let thumbnail: String?
+    let viewCount: Int?
+    let subscriberCount: Int?
+    let bannerImage: String?
+    let videoCount: Int?
+    var isPreffered: Bool
 
-*https://www.twitch.tv/swab85
-""", keyword: ["승우아빠", "요리", "국진화", "레시피","철원"]),
-            Channel(thumbnail: #imageLiteral(resourceName: "dingo"), channelName: "딩고 뮤직 / dingo music", subscriberCount: 293, isprefered: true, instruction: "소셜 모바일 세대를 위한 딩고 Dingo의 대표 음악채널 딩고 뮤직(Dingo Music). \n세로 라이브, 이슬 라이브 등 음악 라이브와 댄스, 예능 컨텐츠 등 단독 공개! \n\nCopyright 2015 MakeUs Co.,Ltd. All rights reserved", keyword: ["MV", "KPOP", "멜론" ,"melon","가수" ,"아이돌", "음악", "music dingo", "딩고" ,"딩고뮤직", "dingomusic"]),
-            Channel(thumbnail: #imageLiteral(resourceName: "paka"), channelName: "PAKA", subscriberCount: 28, isprefered: true, instruction: "채널 소개가 없습니다",keyword: ["파카","리그오브레전드"]),
+    var thumbnailUrl: URL? {
+        URL(string: thumbnail!)
+    }
 
-        ]
+    var bannerImageUrl: URL? {
+        URL(string: bannerImage!)
+    }
+
+    var subscriberCountText: String? {
+        guard let subscriberCount = subscriberCount else {
+            return nil
+        }
+        return subscriberCount.roundedWithAbbreviations
+    }
+
+    enum CodingKeys: String, CodingKey {
+        case channelId = "channel_id"
+        case title
+        case description
+        case publishedAt = "publishedAt"
+        case thumbnail
+        case viewCount = "view_count"
+        case subscriberCount = "subscriber_count"
+        case videoCount = "video_count"
+        case bannerImage = "banner_image"
+        case isPreffered = "preffered_flag"
+    }
+
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        channelId = (try? values.decode(String.self, forKey: .channelId)) ?? nil
+        title = (try? values.decode(String.self, forKey: .title)) ?? nil
+        description = (try? values.decode(String.self, forKey: .description)) ?? nil
+        publishedAt = (try? values.decode(String.self, forKey: .publishedAt)) ?? nil
+        thumbnail = (try? values.decode(String.self, forKey: .thumbnail)) ?? nil
+        viewCount = (try? values.decode(Int.self, forKey: .viewCount)) ?? nil
+        subscriberCount = (try? values.decode(Int.self, forKey: .subscriberCount)) ?? nil
+        bannerImage = (try? values.decode(String.self, forKey: .bannerImage)) ?? nil
+        videoCount = (try? values.decode(Int.self, forKey: .videoCount)) ?? nil
+        isPreffered = (try? values.decode(Bool.self, forKey: .isPreffered)) ?? false
+
     }
 }

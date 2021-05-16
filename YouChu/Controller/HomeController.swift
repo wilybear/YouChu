@@ -222,7 +222,7 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let controller = ChannelDetailController()
+        let controller = ChannelDetailController(channelId: 1)
         navigationController?.pushViewController(controller, animated: true)
     }
 

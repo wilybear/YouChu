@@ -8,7 +8,7 @@
 import UIKit
 import DropDown
 
-protocol RankingHeaderDelegate: class{
+protocol RankingHeaderDelegate: AnyObject{
     func sendCategoryIndex()
 }
 

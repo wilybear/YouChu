@@ -35,7 +35,6 @@ class RankingController: UIViewController {
     // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        channels = Test.fetchData()
         configureUI()
 
     }
@@ -80,7 +79,7 @@ extension RankingController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let controller = ChannelDetailController()
+        let controller = ChannelDetailController(channelId: 1)
         navigationController?.pushViewController(controller, animated: true)
     }
 }

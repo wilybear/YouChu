@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 class ChannelTableViewCell: UITableViewCell {
 
@@ -84,10 +85,10 @@ class ChannelTableViewCell: UITableViewCell {
         guard let channel = channel else {
             return
         }
-        thumbnailImageView.image = channel.thumbnail
-        nameLabel.text = channel.channelName
-        subscriberCountLabel.text = "구독자 \(channel.subscriberCount)만명"
-        if channel.isprefered {
+        thumbnailImageView.sd_setImage(with: channel.thumbnailUrl)
+        nameLabel.text = channel.title
+        subscriberCountLabel.text = "구독자 \(String(describing: channel.subscriberCount))만명"
+        if channel.isPreffered {
             heartImageButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
         }
 

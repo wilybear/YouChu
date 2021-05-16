@@ -7,6 +7,7 @@
 
 import UIKit
 import MessageUI
+import Alamofire
 
 let mypageCellIdentifier = "mypageCell"
 
@@ -34,7 +35,6 @@ class MyPageController: UIViewController {
 
     private let gmailAddressLabel: UILabel = {
         let label = UILabel()
-        label.text = "pokari237@gmail.com"
         label.textAlignment = .left
         label.textColor = .darkGray
         label.font = UIFont.boldSystemFont(ofSize: 16.adjusted(by: .horizontal))
@@ -112,7 +112,15 @@ class MyPageController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        fetchUserStats()
         configureUI()
+    }
+
+    // MARK: - API
+    func fetchUserStats(){
+        Service.fetchUserStat(userId: 1) { user in
+            self.gmailAddressLabel.text = user?.email
+        }
     }
 
     // MARK: - Helpers

@@ -17,4 +17,5 @@ target 'YouChu' do
 	pod 'Parchment', '~> 3.0'
 	pod "SwiftRater"
 	pod 'RAMAnimatedTabBarController'
+	pod 'Alamofire'
 end
