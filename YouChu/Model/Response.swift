@@ -8,7 +8,7 @@
 import Foundation
 
 struct Response<T: Codable>: Codable {
-    let status: String?
+    let status: Int?
     let message: String?
     let data: T?
 
@@ -18,7 +18,7 @@ struct Response<T: Codable>: Codable {
 
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        status = (try? values.decode(String.self, forKey: .status)) ?? nil
+        status = (try? values.decode(Int.self, forKey: .status)) ?? nil
         message = (try? values.decode(String.self, forKey: .message)) ?? nil
         data = (try? values.decode(T.self, forKey: .data)) ?? nil
     }

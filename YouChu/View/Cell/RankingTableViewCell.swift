@@ -27,7 +27,6 @@ class RankingTableViewCell: UITableViewCell {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
-        iv.image = #imageLiteral(resourceName: "sougu")
         return iv
     }()
 
@@ -48,15 +47,15 @@ class RankingTableViewCell: UITableViewCell {
 
     private let rankingLabel: UILabel = {
         let label = UILabel()
-        label.text = "1"
         label.textAlignment = .center
         label.font = UIFont.boldSystemFont(ofSize: 28.adjusted(by: .horizontal))
         return label
     }()
 
-    private let heartImageButton: UIButton = {
+    private lazy var heartImageButton: UIButton = {
         let bt = UIButton(type: .system)
         bt.tintColor = .systemRed
+        bt.addTarget(self, action: #selector(preferAction), for: .touchUpInside)
         return bt
     }()
 
@@ -106,15 +105,42 @@ class RankingTableViewCell: UITableViewCell {
         guard let channel = channel else {
             return
         }
-
         thumbnailImageView.sd_setImage(with: channel.thumbnailUrl)
-        heartImageButton.setImage(channel.isPreffered ? UIImage(systemName: "heart") : UIImage(systemName: "heart.fill"), for: .normal)
+        heartImageButton.setImage(channel.isPreffered ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart"), for: .normal)
         nameLabel.text = channel.title
-        subscriberCountLabel.text = "구독자 \(String(describing: channel.subscriberCount))만명"
-
-
+        subscriberCountLabel.text = "구독자 " + channel.subscriberCountText
     }
 
+    // MARK: - Action
+    @objc func preferAction(){
+        guard let channel = channel else { return }
+        guard let user = UserInfo.user else { return }
+        heartImageButton.isUserInteractionEnabled = false
+        if channel.isPreffered {
+            Service.deletePreferredChannel(userId: user.id , channelIdx: channel.channelIdx!) { response in
+                switch response {
+                case .success(_):
+                    self.heartImageButton.setImage(UIImage(systemName: "heart"), for: .normal)
+                    self.channel?.isPreffered = false
+                case .failure(_):
+                    break
+                }
+                self.heartImageButton.isUserInteractionEnabled = true
+            }
+        }else{
+            Service.updatePreferredChannel(userId: user.id , channelIdx: channel.channelIdx!) { response in
+                switch response {
+                case .success(_):
+                    self.heartImageButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+                    self.channel?.isPreffered = true
+                case .failure(_):
+                    break
+                }
+                self.heartImageButton.isUserInteractionEnabled = true
+            }
+        }
+
+    }
 }
 
 

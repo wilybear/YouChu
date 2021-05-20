@@ -11,6 +11,13 @@ class CircularChannelCell: UICollectionViewCell {
 
     // MARK: - Properties
 
+    var channel: Channel? {
+        didSet{
+            channelCell.setImage(url: channel?.thumbnailUrl)
+            channelCell.title = channel?.title
+        }
+    }
+
     private let channelCell: CircularProfileView = {
         let cpv = CircularProfileView(fontSize: 14.adjusted(by: .horizontal), imageSize: 80.adjusted(by: .vertical))
         cpv.image = #imageLiteral(resourceName: "paka")

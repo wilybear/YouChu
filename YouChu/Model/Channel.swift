@@ -9,6 +9,7 @@ import UIKit
 
 struct Channel: Codable {
 
+    let channelIdx: Int?
     let channelId: String?
     let title: String?
     let description: String?
@@ -25,31 +26,36 @@ struct Channel: Codable {
     }
 
     var bannerImageUrl: URL? {
-        URL(string: bannerImage!)
+        URL(string: bannerImage ?? "")
     }
 
-    var subscriberCountText: String? {
+    var subscriberCountText: String {
         guard let subscriberCount = subscriberCount else {
-            return nil
+            return "-"
+        }
+        if subscriberCount == 0 {
+            return "-"
         }
         return subscriberCount.roundedWithAbbreviations
     }
 
     enum CodingKeys: String, CodingKey {
+        case channelIdx = "channel_index"
         case channelId = "channel_id"
         case title
         case description
-        case publishedAt = "publishedAt"
+        case publishedAt = "published_at"
         case thumbnail
         case viewCount = "view_count"
         case subscriberCount = "subscriber_count"
         case videoCount = "video_count"
         case bannerImage = "banner_image"
-        case isPreffered = "preffered_flag"
+        case isPreffered = "isPrefered"
     }
 
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
+        channelIdx = (try? values.decode(Int.self, forKey: .channelIdx)) ?? nil
         channelId = (try? values.decode(String.self, forKey: .channelId)) ?? nil
         title = (try? values.decode(String.self, forKey: .title)) ?? nil
         description = (try? values.decode(String.self, forKey: .description)) ?? nil

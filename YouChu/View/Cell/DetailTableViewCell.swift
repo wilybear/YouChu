@@ -47,10 +47,12 @@ class DetailTableViewCell: UITableViewCell {
 
     var keywordList: [Keyword]? {
         didSet{
-            configureKeywordView()
             collectionView.reloadData()
+            configureKeywordView()
         }
     }
+
+    var keywordHeightContraint: NSLayoutConstraint?
 
     // MARK: - LifeCycle
 
@@ -79,9 +81,17 @@ class DetailTableViewCell: UITableViewCell {
         collectionView.delegate = self
         collectionView.dataSource = self
         addSubview(collectionView)
+        if let contraint = keywordHeightContraint {
+            contraint.isActive = false
+        }
         collectionView.anchor(top:topAnchor, left: infoTypeLabel.rightAnchor, bottom: bottomAnchor, right: rightAnchor ,paddingTop:15, paddingLeft: 10, paddingRight: 20)
-        collectionView.setHeight(CGFloat(30 * (keywordList!.count / 5) + 50) )
-        
+        collectionView.setNeedsLayout()
+        layoutIfNeeded()
+        keywordHeightContraint = collectionView.heightAnchor.constraint(equalToConstant: collectionView.contentSize.height)
+        keywordHeightContraint?.isActive = true
+        collectionView.setNeedsLayout()
+        layoutIfNeeded()
+        contentView.layoutIfNeeded()
     }
 }
 
@@ -95,7 +105,7 @@ extension DetailTableViewCell : UICollectionViewDelegate, UICollectionViewDataSo
         cell.keyword = keywordList![indexPath.row].keyword
         cell.layer.masksToBounds = true
         cell.layer.cornerRadius = 5
-        cell.backgroundColor = .systemBlue
+        cell.backgroundColor = .mainColor_3
         return cell
     }
 

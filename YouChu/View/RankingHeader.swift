@@ -9,14 +9,14 @@ import UIKit
 import DropDown
 
 protocol RankingHeaderDelegate: AnyObject{
-    func sendCategoryIndex()
+    func sendCategoryIndex(topic: Topic)
 }
 
 class RankingHeader: UIView {
 
-    var category: String = "전체" {
+    var category: Topic = .all {
         didSet{
-            categoryBtn.setTitle(category, for: .normal)
+            categoryBtn.setTitle(category.rawValue, for: .normal)
         }
     }
 
@@ -25,14 +25,14 @@ class RankingHeader: UIView {
     // MARK: - Properties
     private let container: UIView = {
         let view = UIView()
-        view.backgroundColor = .systemPink
+        view.backgroundColor = .mainColor_3
         return view
     }()
 
     private lazy var categoryBtn: UIButton = {
         let bt = UIButton(type: .system)
         bt.backgroundColor = .clear
-        bt.setTitle(category, for: .normal)
+        bt.setTitle(Topic.all.rawValue, for: .normal)
         bt.setTitleColor(.white, for: .normal)
         bt.titleLabel?.font = UIFont.boldSystemFont(ofSize: 25.adjusted(by: .horizontal))
         bt.addTarget(self, action: #selector(dropCategoryMenu), for: .touchUpInside)
@@ -49,7 +49,7 @@ class RankingHeader: UIView {
 
     private lazy var categoryMenu: DropDown = {
         let dropDown = DropDown()
-        dropDown.dataSource = Category.allCases.map{$0.rawValue}
+        dropDown.dataSource = Topic.allCases.map{$0.rawValue}
         dropDown.width = 200
         dropDown.height = 300
         dropDown.cornerRadius = 10
@@ -95,12 +95,11 @@ class RankingHeader: UIView {
 
         container.addSubview(categoryMenu)
         categoryMenu.anchorView = categoryBtn
-        let btnSize = category.size(withAttributes: [
+        let btnSize = category.rawValue.size(withAttributes: [
             NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 25.adjusted(by: .horizontal))
         ])
         categoryMenu.selectionAction = { [unowned self] (index: Int, item: String) in
-            category = item
-            delegate?.sendCategoryIndex()
+            delegate?.sendCategoryIndex(topic: Topic.allCases[index])
         }
 
     }

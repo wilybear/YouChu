@@ -103,7 +103,7 @@ class HomeController: UIViewController {
     // TODO: custom view로 만들기
     private let labelForFirstCollectionView: UILabel = {
         let label = UILabel()
-        label.text = "요즘 핫한 채널"
+        label.text = "당신만을 위한 추천 채널"
         label.font = UIFont.boldSystemFont(ofSize: 20.adjusted(by: .horizontal))
         return label
     }()
@@ -115,11 +115,15 @@ class HomeController: UIViewController {
         return label
     }()
 
+    private var recommendedChannels:[Channel] = []
+    private var topicChannels:[Channel] = []
+
 
     // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        fetchRecommendedChannels()
         DispatchQueue.main.async {
             self.timer = Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(self.changeImage), userInfo: nil, repeats: true)
         }
@@ -130,6 +134,45 @@ class HomeController: UIViewController {
         self.navigationItem.title = "유추"
         print(UIScreen.main.bounds)
 
+    }
+
+    // MARK: - API
+    func fetchRecommendedChannels(){
+        guard let user = UserInfo.user else {
+            return
+        }
+        // first recommended list
+        Service.fetchRecommendChannelList(userId: user.id, size: 10, page: 0) { result in
+            switch result{
+            case .success(let data):
+                guard let channels = data.data else {
+                    return
+                }
+                self.recommendedChannels.append(contentsOf: channels)
+                self.circularCollectionView.reloadData()
+            case .failure(_):
+                self.showMessage(withTitle: "Error", message: "Unable to fetch data from server")
+            }
+        }
+    }
+
+    func fetchTopicRelatedChannels(){
+        guard let user = UserInfo.user else {
+            return
+        }
+        // first recommended list
+        Service.fetchRandomTopicChannelList(userId: user.id, size: 10, page: 0) { result in
+            switch result{
+            case .success(let data):
+                guard let channels = data.data else {
+                    return
+                }
+                self.topicChannels.append(contentsOf: channels)
+                self.carouselCollectionView.reloadData()
+            case .failure(_):
+                self.showMessage(withTitle: "Error", message: "Unable to fetch data from server")
+            }
+        }
     }
 
     // MARK: - Actions
@@ -195,9 +238,9 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == self.circularCollectionView {
-            return 10
+            return recommendedChannels.count
         }else if collectionView == self.carouselCollectionView {
-            return 5
+            return topicChannels.count
         }else {
             return bannerImages.count
         }
@@ -207,11 +250,12 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource {
         // first collectionview
         if collectionView == self.circularCollectionView {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: circularIdentifier, for: indexPath as IndexPath) as! CircularChannelCell
+            cell.channel = recommendedChannels[indexPath.row]
             return cell
         }
         else if collectionView == self.carouselCollectionView {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: carouselIdentifier, for: indexPath) as! CarouselChannelCell
-            cell.backgroundColor = UIColor.blue
+            cell.channel = topicChannels[indexPath.row]
             cell.setupShadow()
             return cell
         }else {
@@ -222,8 +266,15 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let controller = ChannelDetailController(channelId: 1)
-        navigationController?.pushViewController(controller, animated: true)
+        if collectionView == self.circularCollectionView {
+            let controller = ChannelDetailController(channelId: recommendedChannels[indexPath.row].channelIdx!)
+            navigationController?.pushViewController(controller, animated: true)
+        }else if collectionView == self.carouselCollectionView {
+            let controller = ChannelDetailController(channelId: topicChannels[indexPath.row].channelIdx!)
+            navigationController?.pushViewController(controller, animated: true)
+        }else{
+
+        }
     }
 
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {

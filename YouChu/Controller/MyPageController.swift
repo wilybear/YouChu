@@ -47,6 +47,7 @@ class MyPageController: UIViewController {
         let color = UIColor.systemRed.withAlphaComponent(0.8)
         bt.setTitleColor(color, for: .normal)
         bt.titleLabel?.font = UIFont.systemFont(ofSize: 14.adjusted(by: .horizontal))
+        bt.titleLabel?.adjustsFontSizeToFitWidth = true
         return bt
     }()
 
@@ -72,7 +73,7 @@ class MyPageController: UIViewController {
         label.clipsToBounds = true
         label.layer.cornerRadius = 10
         label.backgroundColor = .white
-        let tap = UITapGestureRecognizer(target: self, action: #selector(tapFunction))
+        let tap = UITapGestureRecognizer(target: self, action: #selector(preferTapAction))
         label.isUserInteractionEnabled = true
         label.addGestureRecognizer(tap)
         return label
@@ -85,7 +86,7 @@ class MyPageController: UIViewController {
         label.clipsToBounds = true
         label.layer.cornerRadius = 10
         label.backgroundColor = .white
-        let tap = UITapGestureRecognizer(target: self, action: #selector(tapFunction))
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dislikeTapAction))
         label.isUserInteractionEnabled = true
         label.addGestureRecognizer(tap)
         return label
@@ -98,9 +99,7 @@ class MyPageController: UIViewController {
         stack.alignment = .center
         stack.spacing = 20.adjusted(by: .horizontal)
         stack.setDimensions(height: 75.adjusted(by: .vertical), width: view.frame.width - 60.adjusted(by: .horizontal))
-        preferedLabel.attributedText = attributedStatText(value: 35, label: "선호 채널")
         preferedLabel.setHeight(75)
-        dislikedLabel.attributedText = attributedStatText(value: 35, label: "비선호 채널")
         dislikedLabel.setHeight(75)
 
         return stack
@@ -112,14 +111,28 @@ class MyPageController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        fetchUserStats()
         configureUI()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        fetchUserStats()
     }
 
     // MARK: - API
     func fetchUserStats(){
-        Service.fetchUserStat(userId: 1) { user in
-            self.gmailAddressLabel.text = user?.email
+        UserInfo.fetchUser(userId: 16) { response in
+            switch response{
+            case .success(let user):
+                guard let user = user else {
+                    return
+                }
+                self.gmailAddressLabel.text = user.email
+                self.preferedLabel.attributedText = self.attributedStatText(value: user.preferCount, label: "선호 채널")
+                self.dislikedLabel.attributedText = self.attributedStatText(value: user.dislikeCount, label: "비선호 채널")
+            case .failure(_):
+                break
+            }
         }
     }
 
@@ -168,9 +181,13 @@ class MyPageController: UIViewController {
     }
 
     // MARK: - Actions
-    @objc func tapFunction(sender:UITapGestureRecognizer) {
-        let controller = ChannelListController()
-        navigationController?.pushViewController(controller, animated: true)
+    @objc func preferTapAction(sender:UITapGestureRecognizer) {
+        let controller = ChannelListController(title: "선호채널", type: .prefer)
+        self.navigationController?.pushViewController(controller, animated: true)
+    }
+    @objc func dislikeTapAction(sender:UITapGestureRecognizer) {
+        let controller = ChannelListController(title: "비선호채널", type: .dislike)
+        self.navigationController?.pushViewController(controller, animated: true)
     }
 
     @objc func showMailComposer() {

@@ -36,6 +36,15 @@ class RankingController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        Service.fetchRankingChannelList(of: .all, size: 10, page: 0) { result in
+            switch result {
+            case .success(let page):
+                self.channels = page.data ?? []
+                self.tableView.reloadData()
+            case .failure(let err):
+                self.showMessage(withTitle: "Err", message: "Cannot fetch list from server: \(err)")
+            }
+        }
 
     }
 
@@ -49,6 +58,19 @@ class RankingController: UIViewController {
         super.viewWillDisappear(animated)
 
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+
+    // MARK: - API
+    func fetchRankingChannel(with topic:Topic) {
+        Service.fetchRankingChannelList(of: topic, size: 10, page: 0) { result in
+            switch result {
+            case .success(let page):
+                self.channels = page.data ?? []
+                self.tableView.reloadData()
+            case .failure(let err):
+                self.showMessage(withTitle: "Err", message: "Cannot fetch list from server: \(err)")
+            }
+        }
     }
 
     // MARK: - Helpers
@@ -68,18 +90,18 @@ class RankingController: UIViewController {
 
 extension RankingController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return channels.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: rankCellIdentifier, for: indexPath) as! RankingTableViewCell
         cell.rank = indexPath.row + 1
-        cell.channel = channels[idx]
+        cell.channel = channels[indexPath.row]
         return cell
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let controller = ChannelDetailController(channelId: 1)
+        let controller = ChannelDetailController(channelId: channels[indexPath.row].channelIdx!)
         navigationController?.pushViewController(controller, animated: true)
     }
 }
@@ -87,16 +109,8 @@ extension RankingController: UITableViewDataSource, UITableViewDelegate {
 
 // MARK: DumiData
 
-extension RankingController {
-    func fetchData() -> [String]{
-        return ["승우 아빠", "Black Pink - Official channel"]
-    }
-}
-
 extension RankingController: RankingHeaderDelegate {
-    func sendCategoryIndex() {
-        idx += 1
-        tableView.reloadData()
+    func sendCategoryIndex(topic: Topic) {
+        fetchRankingChannel(with: topic)
     }
-
 }

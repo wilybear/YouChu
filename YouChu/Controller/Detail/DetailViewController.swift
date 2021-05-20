@@ -57,7 +57,7 @@ class DetailViewController: UITableViewController {
             channel.description
         ]
 
-        Service.fetchKeywordList(channelIdx: 1) { results in
+        Service.fetchKeywordList(channelIdx: channel.channelIdx!) { results in
             guard let results = results else { return }
             self.keywordList = results
             self.tableView.reloadData()
@@ -68,10 +68,10 @@ class DetailViewController: UITableViewController {
     // MARK: - Helpers
     private func configureUI(){
         tableView.register(DetailTableViewCell.self, forCellReuseIdentifier: DetailViewController.CellIdentifier)
-        tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 30.adjusted(by: .vertical)
         tableView.allowsSelection = false
         tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
+        tableView.rowHeight = UITableView.automaticDimension
         tableView.anchor(paddingTop: 30)
     }
 
@@ -85,8 +85,10 @@ class DetailViewController: UITableViewController {
         cell.info = infoList.isEmpty ? "" : infoList[indexPath.row]
         if infoTypeList[indexPath.row] == "키워드" {
             cell.keywordList = keywordList
+            if keywordList.isEmpty {
+                cell.info = ""
+            }
         }
         return cell
     }
-
 }

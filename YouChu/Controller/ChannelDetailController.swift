@@ -78,8 +78,17 @@ class ChannelDetailController: UIViewController{
         let bt = UIButton(type: .system)
         bt.setImage(UIImage(systemName: "play.rectangle.fill"), for: .normal)
         bt.tintColor = .systemRed
+        bt.addTarget(self, action: #selector(youtubeAction), for: .touchUpInside)
         return bt
     }()
+
+    private lazy var heartImageButton: UIButton = {
+        let bt = UIButton(type: .system)
+        bt.tintColor = .systemRed
+        bt.addTarget(self, action: #selector(preferAction), for: .touchUpInside)
+        return bt
+    }()
+
 
     private lazy var container = UIView()
 
@@ -124,6 +133,7 @@ class ChannelDetailController: UIViewController{
         thumbnailImageView.title = channel.title
         bannerImage.sd_setImage(with: channel.bannerImageUrl)
         subscriberCount.text = channel.subscriberCountText
+        heartImageButton.setImage(channel.isPreffered ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart"), for: .normal)
 
     }
 
@@ -138,8 +148,8 @@ class ChannelDetailController: UIViewController{
         pagingViewController.delegate = self
         viewControllers.first?.tableView.delegate = self
         pagingViewController.indicatorOptions = .visible(height: 3, zIndex: Int.max, spacing: UIEdgeInsets.zero, insets: UIEdgeInsets(top: 0, left: 4, bottom: 0, right: 4 ))
-        pagingViewController.indicatorColor = .systemOrange
-        pagingViewController.selectedTextColor = .systemOrange
+        pagingViewController.indicatorColor = .mainColor_3
+        pagingViewController.selectedTextColor = .mainColor_5
 
         pagingViewController.view.anchor(top: container.bottomAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor)
 
@@ -176,6 +186,10 @@ class ChannelDetailController: UIViewController{
         container.addSubview(youtubeLinkButton)
         youtubeLinkButton.anchor(bottom: container.bottomAnchor, right: container.rightAnchor, paddingBottom: 50, paddingRight: 15)
         youtubeLinkButton.layer.zPosition = -1
+
+        container.addSubview(heartImageButton)
+        heartImageButton.anchor(bottom: container.bottomAnchor, right: youtubeLinkButton.leftAnchor, paddingBottom: 50, paddingRight: 5)
+        heartImageButton.layer.zPosition = -1
     }
 
     // transparent navigation bar
@@ -198,6 +212,50 @@ class ChannelDetailController: UIViewController{
         self.navigationController?.view.backgroundColor = .clear
         self.navigationController?.navigationBar.tintColor = .black
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20.adjusted(by: .horizontal), weight: .semibold)]
+    }
+
+    // MARK: - Actions
+    @objc func youtubeAction() {
+        guard let channel = channel else {
+            return
+        }
+        let appURL = NSURL(string: "youtube://www.youtube.com/channel/" + channel.channelId!)!
+        let webURL = NSURL(string: "https://www.youtube.com/channel/" + channel.channelId!)!
+        let application = UIApplication.shared
+
+        if application.canOpenURL(appURL as URL) {
+            application.open(appURL as URL)
+        } else {
+            application.open(webURL as URL)
+        }
+    }
+
+    @objc func preferAction(){
+        guard let channel = channel else { return }
+        guard let user = UserInfo.user else { return }
+        heartImageButton.isUserInteractionEnabled = false
+        if channel.isPreffered {
+            Service.deletePreferredChannel(userId: user.id , channelIdx: channel.channelIdx!) { response in
+                switch response {
+                case .success(_):
+                    self.heartImageButton.setImage(UIImage(systemName: "heart"), for: .normal)
+                case .failure(_):
+                    break
+                }
+                self.heartImageButton.isUserInteractionEnabled = true
+            }
+        }else{
+            Service.updatePreferredChannel(userId: user.id , channelIdx: channel.channelIdx!) { response in
+                switch response {
+                case .success(_):
+                    self.heartImageButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+                case .failure(_):
+                    break
+                }
+                self.heartImageButton.isUserInteractionEnabled = true
+            }
+        }
+
     }
 
 }
@@ -257,6 +315,14 @@ extension ChannelDetailController: UITableViewDelegate{
 //        let insets = UIEdgeInsets(top: insetTop, left: 0, bottom: 0, right: 0)
 //        scrollView.scrollIndicatorInsets = insets
 //    }
+
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
 

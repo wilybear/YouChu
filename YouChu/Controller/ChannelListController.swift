@@ -12,7 +12,7 @@ class ChannelListController: UIViewController {
     // MARK: - Properties
 
     var channels: [Channel] = []
-
+    var listType: ListType?
 
     private lazy var tableView: UITableView = {
         let tv = UITableView()
@@ -27,16 +27,58 @@ class ChannelListController: UIViewController {
 
     // MARK: - LifeCycle
 
+    init(title: String, channels: [Channel]){
+        self.channels = channels
+        super.init(nibName: nil, bundle: nil)
+        self.title = title
+    }
+
+    init(title: String, type: ListType){
+        self.listType = type
+        super.init(nibName: nil, bundle: nil)
+        self.title = title
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
-
         configureUI()
     }
 
-
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        title = "선호채널"
+        guard let type = listType else {
+            return
+        }
+        guard let user = UserInfo.user else {
+            return
+        }
+        switch type {
+        case .prefer:
+            Service.fetchPreferChannelList(userId: user.id) { response in
+                switch response {
+                case .success(let data):
+                    self.channels = data
+                    self.tableView.reloadData()
+                case .failure(_):
+                    self.dismiss(animated: true, completion: nil)
+                }
+            }
+        case .dislike:
+            Service.fetchDislikeChannelList(userId: user.id) { response in
+                switch response {
+                case .success(let data):
+                    self.channels = data
+                    self.tableView.reloadData()
+                case .failure(_):
+                    self.dismiss(animated: true, completion: nil)
+                }
+            }
+        }
+        
     }
 
     // MARK: - API
@@ -64,17 +106,43 @@ extension ChannelListController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let controller = ChannelDetailController(channelId: 1)
+        let controller = ChannelDetailController(channelId: channels[indexPath.row].channelIdx!)
         navigationController?.pushViewController(controller, animated: true)
     }
 
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            channels.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .fade)
+            switch listType {
+            case .prefer:
+                Service.deletePreferredChannel(userId: UserInfo.user!.id, channelIdx: channels[indexPath.row].channelIdx!) { response in
+                    switch response {
+                    case .success(_):
+                        self.channels.remove(at: indexPath.row)
+                        self.tableView.deleteRows(at: [indexPath], with: .fade)
+                    case .failure(_):
+                        break
+                    }
+                }
+            case .dislike:
+                Service.deleteDislikedChannel(userId: UserInfo.user!.id, channelIdx: channels[indexPath.row].channelIdx!) { response in
+                    switch response {
+                    case .success(_):
+                        self.channels.remove(at: indexPath.row)
+                        self.tableView.deleteRows(at: [indexPath], with: .fade)
+                    case .failure(_):
+                        break
+                    }
+                }
+            case .none:
+                break
+            }
+
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
         }
     }
 }
 
+enum ListType {
+    case prefer, dislike
+}

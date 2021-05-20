@@ -40,6 +40,9 @@ class ChannelCardView: UIView {
 
     private lazy var channelProfileView: CircularProfileView = {
         let cpv = CircularProfileView(fontSize: 17.adjusted(by: .horizontal), imageSize: 85.adjusted(by: .vertical))
+        let tap = UITapGestureRecognizer(target: self, action: #selector(handleDetailButton))
+        cpv.isUserInteractionEnabled = true
+        cpv.addGestureRecognizer(tap)
         return cpv
     }()
 
@@ -173,14 +176,17 @@ class ChannelCardView: UIView {
         guard let channel = channel else {
             return
         }
-        subscriberCount.text = "구독자 \(String(describing: channel.subscriberCount)) 만명"
+        subscriberCount.text = "구독자 " + channel.subscriberCountText
         channelProfileView.setImage(url: channel.thumbnailUrl)
         channelProfileView.title = channel.title
         instruction.text = channel.description
-        Service.fetchKeywordList(channelIdx: 1, completion: { result in
-            self.keywords = result!
+        Service.fetchKeywordList(channelIdx: channel.channelIdx!, completion: { result in
+            guard let keywords = result else {return}
+            self.keywords = keywords
+            self.TagListCollectionView.reloadData()
         })
-        TagListCollectionView.reloadData()
+//        TagListCollectionView.setNeedsLayout()
+//        self.containerView.layoutIfNeeded()
     }
 }
 
@@ -195,7 +201,7 @@ extension ChannelCardView : UICollectionViewDelegate, UICollectionViewDataSource
         cell.keyword = keywords[indexPath.row].keyword
         cell.layer.masksToBounds = true
         cell.layer.cornerRadius = 5
-        cell.backgroundColor = .systemBlue
+        cell.backgroundColor = .mainColor_4
         return cell
     }
 

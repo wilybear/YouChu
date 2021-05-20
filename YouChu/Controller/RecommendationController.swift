@@ -70,27 +70,45 @@ class RecommendationController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        channelCardView.channel = recommendingChannel!
+        fetchRandomChannel(completion: nil)
         configureUI()
+        lockButton(true)
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        lockButton(true)
-        _ = channelCardView.slideIn(from:.top) { _ in
-            self.lockButton(false)
-        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
+        DispatchQueue.main.async {
+            self.lockButton(true)
+            _ = self.channelCardView.slideIn(from:.top) { _ in
+                self.lockButton(false)
+            }
+        }
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+
+    // MARK: - API
+
+    func fetchRandomChannel(completion: ((Channel)->Void)?){
+        guard let user = UserInfo.user else { return }
+        Service.fetchRandomChannel(userId: user.id) { result in
+            switch result{
+            case .success(let channel):
+                self.recommendingChannel = channel
+                completion?(channel)
+            case .failure(let err):
+                self.showMessage(withTitle: "Error", message: "Cannot fetch random channel")
+            }
+        }
     }
 
 
@@ -123,21 +141,42 @@ class RecommendationController: UIViewController {
 
     @objc func handleLikeAction(){
         lockButton(true)
+
+        Service.updatePreferredChannel(userId: UserInfo.user!.id, channelIdx: (recommendingChannel?.channelIdx)!) { result in
+            switch result{
+            case .success(_):
+                break
+            case .failure(_):
+                self.showMessage(withTitle: "Error", message: "failed to update prefer channel")
+            }
+        }
+
         _ = self.channelCardView.slideOut(from: .right) { finished in
             //TODO: fetch random channel
-//            self.recommendingChannel = Test.fetchData().randomElement()!
-            _ = self.channelCardView.slideIn(from: .top)
-            self.lockButton(false)
+            self.fetchRandomChannel { _ in
+                _ = self.channelCardView.slideIn(from: .top)
+                self.lockButton(false)
+            }
         }
     }
 
     @objc func handleDislikeAction(){
         lockButton(true)
+
+        Service.updateDislikedChannel(userId: UserInfo.user!.id, channelIdx: (recommendingChannel?.channelIdx)!) { result in
+            switch result{
+            case .success(_):
+                break
+            case .failure(_):
+                self.showMessage(withTitle: "Error", message: "failed to update dislike channel")
+            }
+        }
+
         _ = self.channelCardView.slideOut(from: .left) { finished in
-            //TODO: fetch random channel
-//            self.recommendingChannel = Test.fetchData().randomElement()!
-            _ = self.channelCardView.slideIn(from: .top)
-            self.lockButton(false)
+            self.fetchRandomChannel { _ in
+                _ = self.channelCardView.slideIn(from: .top)
+                self.lockButton(false)
+            }
         }
     }
 
@@ -171,7 +210,7 @@ class RecommendationController: UIViewController {
 
 extension RecommendationController: ChannelCardViewDelegate {
     func handleDetailButton(_ channelCardView: ChannelCardView) {
-        let controller = ChannelDetailController(channelId: 1)
+        let controller = ChannelDetailController(channelId: (recommendingChannel?.channelIdx)!)
         navigationController?.pushViewController(controller, animated: true)
     }
 }
