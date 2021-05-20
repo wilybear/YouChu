@@ -70,7 +70,7 @@ class ChannelDetailController: UIViewController{
         let label = UILabel()
         label.textColor = .black
         label.textAlignment = .center
-        label.font = .systemFont(ofSize: 14.adjusted(by: .horizontal))
+        label.font = .boldSystemFont(ofSize: 16.adjusted(by: .horizontal))
         return label
     }()
 

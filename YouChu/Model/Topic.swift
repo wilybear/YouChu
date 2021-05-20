@@ -7,6 +7,13 @@
 
 import Foundation
 
+struct TopicData: Codable {
+    let topicName: String
+    enum CodingKeys: String, CodingKey {
+        case topicName = "topic_name"
+    }
+}
+
 enum Topic: String, CaseIterable {
     case all = "전체"
     case videoGame = "비디오 게임 문화"
@@ -70,3 +77,5 @@ enum Topic: String, CaseIterable {
     case tennis = "테니스"
     case reggae = "레게"
 }
+
+

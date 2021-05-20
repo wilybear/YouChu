@@ -12,10 +12,12 @@ let rankCellIdentifier = "rankCell"
 
 class RankingController: UIViewController {
 
-    var count = 1
-    var idx = 1
     var channels:[Channel] = []
+    var currentPage = 0
+    var isLastPage = false
+    var isPaging = false
 
+    var currentTopic: Topic = .all
 
     // MARK: - Properties
     private lazy var tableView: UITableView = {
@@ -36,15 +38,8 @@ class RankingController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        Service.fetchRankingChannelList(of: .all, size: 10, page: 0) { result in
-            switch result {
-            case .success(let page):
-                self.channels = page.data ?? []
-                self.tableView.reloadData()
-            case .failure(let err):
-                self.showMessage(withTitle: "Err", message: "Cannot fetch list from server: \(err)")
-            }
-        }
+        showLoader(true)
+        fetchRankingChannel(with: .all, pageNumber: currentPage)
 
     }
 
@@ -61,14 +56,32 @@ class RankingController: UIViewController {
     }
 
     // MARK: - API
-    func fetchRankingChannel(with topic:Topic) {
-        Service.fetchRankingChannelList(of: topic, size: 10, page: 0) { result in
+    func fetchRankingChannel(with topic:Topic, pageNumber: Int) {
+        showLoader(true)
+        isPaging = true
+        Service.fetchRankingChannelList(of: topic,userId: (UserInfo.user?.id)! ,size: 20, page: pageNumber) { result in
             switch result {
             case .success(let page):
-                self.channels = page.data ?? []
+                if page.last{
+                    self.isLastPage = true
+                    self.isPaging = false
+                    self.showLoader(false)
+                    break
+                }
+                self.channels.append(contentsOf: page.data ?? [])
                 self.tableView.reloadData()
+                self.currentPage += 1
+
+                self.isPaging = false
+
+                //when first intialize, scroll to the top
+                if self.currentPage == 1 {
+                    self.scrollToTop()
+                }
+                self.showLoader(false)
             case .failure(let err):
                 self.showMessage(withTitle: "Err", message: "Cannot fetch list from server: \(err)")
+                self.isPaging = false
             }
         }
     }
@@ -82,7 +95,12 @@ class RankingController: UIViewController {
         header.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor,right: view.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingRight: 10)
         view.addSubview(tableView)
         tableView.anchor(top: header.bottomAnchor, left: view.leftAnchor,bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor)
+    }
 
+    private func scrollToTop() {
+        let topRow = IndexPath(row: 0, section: 0)
+
+        self.tableView.scrollToRow(at: topRow, at: .top, animated: true)
     }
 }
 
@@ -101,6 +119,7 @@ extension RankingController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         let controller = ChannelDetailController(channelId: channels[indexPath.row].channelIdx!)
         navigationController?.pushViewController(controller, animated: true)
     }
@@ -111,6 +130,25 @@ extension RankingController: UITableViewDataSource, UITableViewDelegate {
 
 extension RankingController: RankingHeaderDelegate {
     func sendCategoryIndex(topic: Topic) {
-        fetchRankingChannel(with: topic)
+        channels = []
+        currentPage = 0
+        isLastPage = false
+        currentTopic = topic
+        fetchRankingChannel(with: topic, pageNumber: currentPage)
+
+    }
+}
+
+extension RankingController {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        let height = scrollView.frame.height
+        print("\(offsetY) and \(contentHeight - height) ")
+        if offsetY > (contentHeight - height) {
+            if isPaging == false && !isLastPage {
+                fetchRankingChannel(with: currentTopic, pageNumber: currentPage)
+            }
+        }
     }
 }

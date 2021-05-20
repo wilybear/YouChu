@@ -49,13 +49,20 @@ class DetailViewController: UITableViewController {
         infoList = [
             channel.title,
             channel.publishedAt,
-            "\(String(describing: channel.subscriberCount!))",
-            "\(String(describing: channel.videoCount!))",
-            "\(String(describing: channel.viewCount!))",
-            "Pop Music / Music of Asia / Entertaiment / Music",
+            channel.subscriberCount?.addComma(),
+            channel.videoCount?.addComma(),
+            channel.viewCount?.addComma(),
+            "",
             "",
             channel.description
         ]
+
+        Service.fetchTopics(of: channel.channelIdx!) { topics in
+            guard let topics = topics else { return }
+            let topicNames = topics.map{$0.topicName}
+            self.infoList[5] = topicNames.joined(separator: "/")
+            self.tableView.reloadData()
+        }
 
         Service.fetchKeywordList(channelIdx: channel.channelIdx!) { results in
             guard let results = results else { return }
@@ -83,10 +90,13 @@ class DetailViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: DetailViewController.CellIdentifier, for: indexPath) as! DetailTableViewCell
         cell.infoType = infoTypeList[indexPath.row]
         cell.info = infoList.isEmpty ? "" : infoList[indexPath.row]
+        if cell.info == nil {
+            cell.infoType = ""
+        }
         if infoTypeList[indexPath.row] == "키워드" {
             cell.keywordList = keywordList
             if keywordList.isEmpty {
-                cell.info = ""
+                cell.infoType = ""
             }
         }
         return cell

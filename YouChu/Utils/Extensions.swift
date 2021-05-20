@@ -267,6 +267,12 @@ extension Int {
             return CGFloat(self) * Device.heightRatio
         }
     }
+    func addComma() -> String{
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        let result = numberFormatter.string(from: NSNumber(value: self)) ?? "-"
+        return result
+    }
 }
 
 

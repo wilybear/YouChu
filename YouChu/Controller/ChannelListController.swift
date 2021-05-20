@@ -50,6 +50,20 @@ class ChannelListController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        fetchUsersChannel()
+        navigationController?.navigationBar.backgroundColor = .white
+        navigationController?.navigationBar.prefersLargeTitles = true
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        navigationController?.navigationBar.backgroundColor = .clear
+        navigationController?.navigationBar.prefersLargeTitles = false
+        super.viewWillDisappear(animated)
+    }
+
+    // MARK: - API
+
+    func fetchUsersChannel(){
         guard let type = listType else {
             return
         }
@@ -78,10 +92,7 @@ class ChannelListController: UIViewController {
                 }
             }
         }
-        
     }
-
-    // MARK: - API
 
     // MARK: - Helpers
 
@@ -106,6 +117,7 @@ extension ChannelListController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         let controller = ChannelDetailController(channelId: channels[indexPath.row].channelIdx!)
         navigationController?.pushViewController(controller, animated: true)
     }

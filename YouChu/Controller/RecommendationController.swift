@@ -32,7 +32,7 @@ class RecommendationController: UIViewController {
         let button = CircularShadowButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "like").withTintColor(.white), for: .normal)
         button.tintColor = .white
-        button.layerBackgroundColor = .systemPink
+        button.layerBackgroundColor = .mainColor_5
         button.addTarget(self, action: #selector(handleLikeAction), for: .touchUpInside)
         return button
     }()
@@ -41,7 +41,7 @@ class RecommendationController: UIViewController {
         let button = CircularShadowButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "ic_close").withTintColor(.white), for: .normal)
         button.tintColor = .white
-        button.layerBackgroundColor = .systemGray
+        button.layerBackgroundColor = .mainColor_1
         button.addTarget(self, action: #selector(handleDislikeAction), for: .touchUpInside)
         return button
     }()

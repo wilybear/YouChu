@@ -38,6 +38,19 @@ struct Service{
             }
     }
 
+    static func fetchTopics(of channelIdx: Int, completion:@escaping([TopicData]?)->Void) {
+        AF.request(baseUrl + "getTopic", method: .get, parameters: ["channel_index": channelIdx])
+            .validate(statusCode: 200..<300)
+            .responseDecodable(of: Response<[TopicData]>.self) { response in
+                switch response.result {
+                case .success(_):
+                    completion(response.value?.data)
+                case .failure(let err):
+                    print(err)
+                }
+            }
+    }
+
     static func fetchRandomChannel(userId:Int, completion:@escaping(Result<Channel,Error>)->Void) {
         AF.request(baseUrl + "random", method: .get, parameters: ["user_id": userId])
             .validate(statusCode: 200..<300)
@@ -86,8 +99,8 @@ struct Service{
             }
     }
 
-    static func fetchRankingChannelList(of topic:Topic ,size:Int, page:Int, completion:@escaping(Result<Page<[Channel]>,Error>)->Void){
-        AF.request(baseUrl + "rank", method: .get, parameters: ["topic_name": topic.rawValue, "size": size, "page": page])
+    static func fetchRankingChannelList(of topic:Topic, userId: Int ,size:Int, page:Int, completion:@escaping(Result<Page<[Channel]>,Error>)->Void){
+        AF.request(baseUrl + "rank", method: .get, parameters: ["topic_name": topic.rawValue, "size": size, "page": page, "user_id": userId])
             .validate(statusCode: 200..<300)
             .responseDecodable(of: Response<Page<[Channel]>>.self) { response in
                 switch response.result {
@@ -200,4 +213,5 @@ struct Service{
                 }
             }
     }
+
 }

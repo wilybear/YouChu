@@ -23,6 +23,7 @@ class CircularProfileView: UIView {
     private let channelTitle: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
+        label.numberOfLines = 0
         return label
     }()
 

@@ -25,7 +25,7 @@ class RankingHeader: UIView {
     // MARK: - Properties
     private let container: UIView = {
         let view = UIView()
-        view.backgroundColor = .mainColor_3
+        view.backgroundColor = .mainColor_5
         return view
     }()
 
@@ -99,6 +99,7 @@ class RankingHeader: UIView {
             NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 25.adjusted(by: .horizontal))
         ])
         categoryMenu.selectionAction = { [unowned self] (index: Int, item: String) in
+            category = Topic.allCases[index]
             delegate?.sendCategoryIndex(topic: Topic.allCases[index])
         }
 
