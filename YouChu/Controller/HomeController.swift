@@ -40,7 +40,7 @@ class HomeController: UIViewController {
 
     lazy var bannerCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: view.frame.width , height: 250.adjusted(by: .vertical))
+        layout.itemSize = CGSize(width: view.frame.width , height: 244.adjusted(by: .vertical))
         layout.scrollDirection = .horizontal
         layout.minimumLineSpacing = 0.0
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
@@ -131,11 +131,13 @@ class HomeController: UIViewController {
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        self.navigationItem.title = "유추"
-        print(UIScreen.main.bounds)
-
+        super.viewWillAppear(animated)
+        self.navigationItem.titleView = UIImageView(image: #imageLiteral(resourceName: "titleLogo"))
     }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+    }
     // MARK: - API
     func fetchRecommendedChannels(){
         guard let user = UserInfo.user else {
@@ -210,22 +212,22 @@ class HomeController: UIViewController {
         bannerCollectionView.anchor(top:contentView.safeAreaLayoutGuide.topAnchor, left: contentView.leftAnchor, right: contentView.rightAnchor)
 
         contentView.addSubview(pageControl)
-        pageControl.anchor(left: contentView.leftAnchor, bottom: bannerCollectionView.bottomAnchor, right: contentView.rightAnchor, paddingBottom: 10)
+        pageControl.anchor( bottom: bannerCollectionView.bottomAnchor, right: contentView.rightAnchor, paddingBottom: 16, paddingRight: 55 )
 
         contentView.addSubview(labelForFirstCollectionView)
 
-        labelForFirstCollectionView.anchor(top:bannerCollectionView.bottomAnchor, left: contentView.leftAnchor, paddingTop: 30, paddingLeft: 15)
+        labelForFirstCollectionView.anchor(top:bannerCollectionView.bottomAnchor, left: contentView.leftAnchor, paddingTop: 48, paddingLeft: 17)
 
         contentView.addSubview(circularCollectionView)
-        circularCollectionView.setHeight(115)
-        circularCollectionView.anchor(top: labelForFirstCollectionView.bottomAnchor, left: contentView.leftAnchor, right: contentView.rightAnchor, paddingTop: 10)
+        circularCollectionView.setHeight(100)
+        circularCollectionView.anchor(top: labelForFirstCollectionView.bottomAnchor, left: contentView.leftAnchor, right: contentView.rightAnchor, paddingTop: 20)
 
         contentView.addSubview(labelForSecondCollectionView)
-        labelForSecondCollectionView.anchor(top:circularCollectionView.bottomAnchor, left: contentView.leftAnchor, paddingTop: 15 ,paddingLeft: 15)
+        labelForSecondCollectionView.anchor(top:circularCollectionView.bottomAnchor, left: contentView.leftAnchor, paddingTop: 48 ,paddingLeft: 17)
 
         contentView.addSubview(carouselCollectionView)
-        carouselCollectionView.setHeight(200)
-        carouselCollectionView.anchor(top: labelForSecondCollectionView.bottomAnchor, left: contentView.leftAnchor, bottom: contentView.safeAreaLayoutGuide.bottomAnchor, right: contentView.rightAnchor ,paddingTop: 10)
+        carouselCollectionView.setHeight(165)
+        carouselCollectionView.anchor(top: labelForSecondCollectionView.bottomAnchor, left: contentView.leftAnchor, bottom: contentView.safeAreaLayoutGuide.bottomAnchor, right: contentView.rightAnchor)
 
     }
 

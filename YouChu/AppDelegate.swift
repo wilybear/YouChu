@@ -22,6 +22,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //TODO: Set debug mode false when lauching app
         SwiftRater.debugMode = true
         SwiftRater.appLaunched()
+        UINavigationBar.appearance().shadowImage = UIImage()
+        UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
+        UINavigationBar.appearance().tintColor = .mainColor_5
         return true
     }
 

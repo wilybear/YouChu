@@ -117,11 +117,24 @@ class MyPageController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         fetchUserStats()
+        self.navigationController?.navigationBar.setBackgroundImage(nil, for:.default)
+        self.navigationController?.navigationBar.shadowImage = nil
+        self.navigationController?.navigationBar.layoutIfNeeded()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+//        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for:.default)
+//        self.navigationController?.navigationBar.shadowImage = UIImage()
+//        self.navigationController?.navigationBar.layoutIfNeeded()
     }
 
     // MARK: - API
     func fetchUserStats(){
-        UserInfo.fetchUser(userId: 16) { response in
+        guard let user = UserInfo.user else {
+            return
+        }
+        UserInfo.fetchUser(userId: user.id) { response in
             switch response{
             case .success(let user):
                 guard let user = user else {
