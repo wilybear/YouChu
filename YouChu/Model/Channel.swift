@@ -50,7 +50,7 @@ struct Channel: Codable {
         case subscriberCount = "subscriber_count"
         case videoCount = "video_count"
         case bannerImage = "banner_image"
-        case isPreffered = "isPrefered"
+        case isPreffered = "isPreferred"
     }
 
     init(from decoder: Decoder) throws {
