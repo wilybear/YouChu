@@ -82,6 +82,7 @@ class RankingController: UIViewController {
             case .failure(let err):
                 self.showMessage(withTitle: "Err", message: "Cannot fetch list from server: \(err)")
                 self.isPaging = false
+                self.showLoader(false)
             }
         }
     }
@@ -144,7 +145,6 @@ extension RankingController {
         let offsetY = scrollView.contentOffset.y
         let contentHeight = scrollView.contentSize.height
         let height = scrollView.frame.height
-        print("\(offsetY) and \(contentHeight - height) ")
         if offsetY > (contentHeight - height) {
             if isPaging == false && !isLastPage {
                 fetchRankingChannel(with: currentTopic, pageNumber: currentPage)

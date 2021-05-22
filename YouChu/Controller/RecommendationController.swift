@@ -22,7 +22,7 @@ class RecommendationController: UIViewController {
 
     private let helpLabel: UILabel = {
         let label = UILabel()
-        label.text = "이런 채널은 어떠세요?"
+        label.attributedText = "이런 채널은 어떠세요?".coloredAttributedColor(stringToColor: "채널", color: .complementaryColor)
         label.font = UIFont.boldSystemFont(ofSize: 22.adjusted(by: .horizontal))
         label.textAlignment = .center
         return label
@@ -32,7 +32,7 @@ class RecommendationController: UIViewController {
         let button = CircularShadowButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "like").withTintColor(.white), for: .normal)
         button.tintColor = .white
-        button.layerBackgroundColor = .mainColor_5
+        button.layerBackgroundColor = .mainColor_4
         button.addTarget(self, action: #selector(handleLikeAction), for: .touchUpInside)
         return button
     }()
@@ -41,7 +41,7 @@ class RecommendationController: UIViewController {
         let button = CircularShadowButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "ic_close").withTintColor(.white), for: .normal)
         button.tintColor = .white
-        button.layerBackgroundColor = .mainColor_1
+        button.layerBackgroundColor = .complementaryColor2
         button.addTarget(self, action: #selector(handleDislikeAction), for: .touchUpInside)
         return button
     }()

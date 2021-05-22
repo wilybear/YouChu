@@ -124,9 +124,6 @@ class MyPageController: UIViewController {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-//        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for:.default)
-//        self.navigationController?.navigationBar.shadowImage = UIImage()
-//        self.navigationController?.navigationBar.layoutIfNeeded()
     }
 
     // MARK: - API
@@ -153,7 +150,6 @@ class MyPageController: UIViewController {
     private func configureUI(){
         let bgColor = UIColor.systemGray6.withAlphaComponent(0.6)
         view.backgroundColor = bgColor
-
         navigationItem.title = "내 정보"
         view.addSubview(accountStack)
 

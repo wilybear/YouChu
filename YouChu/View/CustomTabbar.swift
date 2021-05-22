@@ -14,7 +14,14 @@ class CustomTabbar: UITabBar {
     private var newBounds: CGRect {
         bounds.inset(by: UIEdgeInsets(top: 0, left: inset, bottom: 0, right: inset))
     }
-
+    var hasBottomSafeAreaInsets: Bool {
+        if #available(iOS 11.0, tvOS 11.0, *) {
+            // with home indicator: 34.0 on iPhone X, XS, XS Max, XR.
+            // with home indicator: 20.0 on iPad Pro 12.9" 3rd generation.
+            return UIApplication.shared.delegate?.window??.safeAreaInsets.bottom ?? 0 > 0
+        }
+        return false
+    }
     private var shapeLayer: CALayer?
 
     override func draw(_ rect: CGRect) {
@@ -56,12 +63,13 @@ class CustomTabbar: UITabBar {
         super.layoutSubviews()
         self.isTranslucent = true
         var tabFrame = self.frame
-        tabFrame.size.height = 75 + (UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.safeAreaInsets.bottom ?? CGFloat.zero)
-        tabFrame.origin.y = self.frame.origin.y +   ( self.frame.height - 65 - (UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.safeAreaInsets.bottom ?? CGFloat.zero))
+        let additionalInset: CGFloat = UIDevice.current.hasNotch ? 0 : 10
+        tabFrame.size.height = 75.adjusted(by: .vertical) + (UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.safeAreaInsets.bottom ?? CGFloat.zero)
+        tabFrame.origin.y = self.frame.origin.y +   ( self.frame.height - (65+additionalInset).adjusted(by: .vertical) - (UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.safeAreaInsets.bottom ?? CGFloat.zero))
         self.layer.cornerRadius = 20
         self.frame = tabFrame
-        self.items?.forEach({$0.imageInsets = UIEdgeInsets(top: -15, left: 0, bottom: 0, right: 0)})
-        self.items?.forEach({ $0.titlePositionAdjustment = UIOffset(horizontal: 0.0, vertical: -20.0) })
+        self.items?.forEach({$0.imageInsets = UIEdgeInsets(top: -15.adjusted(by: .vertical), left: 0, bottom: 0, right: 0)})
+        self.items?.forEach({ $0.titlePositionAdjustment = UIOffset(horizontal: 0.0, vertical: -18.adjusted(by: .vertical)) })
         self.itemWidth = UIScreen.main.bounds.width / 8
     }
 

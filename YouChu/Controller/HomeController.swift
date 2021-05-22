@@ -14,11 +14,9 @@ let carouselIdentifier = "carousel"
 class HomeController: UIViewController {
 
     // MARK: - Properties
-
-    var currentIdx: CGFloat = 0.0
-
     var timer = Timer()
     var counter = 0
+    var previousIndex = 0
 
     private lazy var pageControl: UIPageControl = {
         let pc = UIPageControl()
@@ -28,10 +26,10 @@ class HomeController: UIViewController {
     }()
 
     private var bannerImages = [
-        UIImage(named: "banner"),
-        UIImage(named: "iu"),
-        UIImage(named: "banner"),
-        UIImage(named: "banner")
+        UIImage(named: "banner1"),
+        UIImage(named: "banner1"),
+        UIImage(named: "banner1"),
+        UIImage(named: "banner1")
     ]
 
     private let scrollView = UIScrollView()
@@ -58,10 +56,12 @@ class HomeController: UIViewController {
 
     lazy var carouselCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: view.frame.width - 80.adjusted(by: .horizontal), height: 200.adjusted(by: .vertical))
+        let cellWidth = 285.adjusted(by: .horizontal)
+        let insetX = (view.bounds.width - cellWidth) / 2.0
+        layout.itemSize = CGSize(width: cellWidth, height: 165.adjusted(by: .vertical))
         layout.scrollDirection = .horizontal
         layout.minimumLineSpacing = 20.adjusted(by: .horizontal)
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 20.adjusted(by: .horizontal), bottom: 0, right: 20.adjusted(by: .horizontal))
+        layout.sectionInset = UIEdgeInsets(top: 0, left: insetX, bottom: 0, right: insetX)
         let cv = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
         cv.setCollectionViewLayout(layout, animated: true)
         cv.delegate = self
@@ -99,35 +99,50 @@ class HomeController: UIViewController {
         return cv
     }()
 
-
-    // TODO: custom view로 만들기
     private let labelForFirstCollectionView: UILabel = {
         let label = UILabel()
-        label.text = "당신만을 위한 추천 채널"
-        label.font = UIFont.boldSystemFont(ofSize: 20.adjusted(by: .horizontal))
+        label.attributedText = "당신만을 위한 맞춤 채널".coloredAttributedColor( stringToColor: "맞춤", color: .complementaryColor2)
+        label.font = UIFont.boldSystemFont(ofSize: 18.adjusted(by: .horizontal))
         return label
+    }()
+
+    private lazy var moreButtonForFirst: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("더 보기", for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 13)
+        button.setTitleColor(.lightGray, for: .normal)
+        button.addTarget(self, action: #selector(handleMore), for: .touchUpInside)
+        return button
     }()
 
     private let labelForSecondCollectionView: UILabel = {
         let label = UILabel()
-        label.text = "00과 비슷한 채널"
-        label.font = UIFont.boldSystemFont(ofSize: 20.adjusted(by: .horizontal))
+        label.font = UIFont.boldSystemFont(ofSize: 18.adjusted(by: .horizontal))
         return label
     }()
 
-    private var recommendedChannels:[Channel] = []
-    private var topicChannels:[Channel] = []
+    private lazy var moreButtonForSecond: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("더 보기", for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 13)
+        button.setTitleColor(.lightGray, for: .normal)
+        button.addTarget(self, action: #selector(handleMore), for: .touchUpInside)
+        return button
+    }()
 
+    private var recommendedChannels:[Channel] = []
+    private var relatedChannel:[Channel] = []
 
     // MARK: - LifeCycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
         fetchRecommendedChannels()
+        fetchRelatedChannels()
         DispatchQueue.main.async {
             self.timer = Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(self.changeImage), userInfo: nil, repeats: true)
         }
-
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -138,6 +153,7 @@ class HomeController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
     }
+
     // MARK: - API
     func fetchRecommendedChannels(){
         guard let user = UserInfo.user else {
@@ -158,18 +174,24 @@ class HomeController: UIViewController {
         }
     }
 
-    func fetchTopicRelatedChannels(){
+    func fetchRelatedChannels(){
         guard let user = UserInfo.user else {
             return
         }
         // first recommended list
-        Service.fetchRandomTopicChannelList(userId: user.id, size: 10, page: 0) { result in
+        Service.fetchRelatedChannels(userId: user.id, size: 10, page: 0) { result, standardValue in
             switch result{
             case .success(let data):
                 guard let channels = data.data else {
                     return
                 }
-                self.topicChannels.append(contentsOf: channels)
+                var channelName = standardValue
+                if channelName.count > 19 {
+                    let endIdx = channelName.index(channelName.startIndex, offsetBy: 17)
+                    channelName = channelName[channelName.startIndex..<endIdx] + "..."
+                }
+                self.labelForSecondCollectionView.attributedText = (channelName + "와 연관된 채널").coloredAttributedColor(stringToColor: "연관된", color: .complementaryColor)
+                self.relatedChannel.append(contentsOf: channels)
                 self.carouselCollectionView.reloadData()
             case .failure(_):
                 self.showMessage(withTitle: "Error", message: "Unable to fetch data from server")
@@ -178,7 +200,6 @@ class HomeController: UIViewController {
     }
 
     // MARK: - Actions
-
     @objc func changeImage(){
         if counter < bannerImages.count {
             let index = IndexPath.init(item: counter, section: 0)
@@ -191,6 +212,18 @@ class HomeController: UIViewController {
             self.bannerCollectionView.scrollToItem(at: index, at: .centeredVertically, animated: false)
             pageControl.currentPage = counter
             counter = 1
+        }
+    }
+
+    @objc func handleMore(_ sender: UIButton){
+        if sender == moreButtonForFirst {
+            let title = "맞춤 채널".coloredAttributedColor(stringToColor: "맞춤", color: .complementaryColor2)
+            let controller = ChannelListNEViewController(title: title, channels: recommendedChannels, type: .recommended)
+            self.navigationController?.pushViewController(controller, animated: true)
+        }else if sender == moreButtonForSecond {
+            let title = "연관 채널".coloredAttributedColor(stringToColor: "연관", color: .complementaryColor)
+            let controller = ChannelListNEViewController(title: title, channels: relatedChannel, type: .related)
+            self.navigationController?.pushViewController(controller, animated: true)
         }
     }
 
@@ -215,22 +248,36 @@ class HomeController: UIViewController {
         pageControl.anchor( bottom: bannerCollectionView.bottomAnchor, right: contentView.rightAnchor, paddingBottom: 16, paddingRight: 55 )
 
         contentView.addSubview(labelForFirstCollectionView)
+        labelForFirstCollectionView.anchor(top:bannerCollectionView.bottomAnchor, left: contentView.leftAnchor, paddingTop: 38, paddingLeft: 17)
 
-        labelForFirstCollectionView.anchor(top:bannerCollectionView.bottomAnchor, left: contentView.leftAnchor, paddingTop: 48, paddingLeft: 17)
+        contentView.addSubview(moreButtonForFirst)
+        moreButtonForFirst.centerY(inView: labelForFirstCollectionView)
+        moreButtonForFirst.anchor(right: contentView.rightAnchor, paddingRight: 17)
 
         contentView.addSubview(circularCollectionView)
-        circularCollectionView.setHeight(100)
+        circularCollectionView.setHeight(110)
         circularCollectionView.anchor(top: labelForFirstCollectionView.bottomAnchor, left: contentView.leftAnchor, right: contentView.rightAnchor, paddingTop: 20)
 
         contentView.addSubview(labelForSecondCollectionView)
-        labelForSecondCollectionView.anchor(top:circularCollectionView.bottomAnchor, left: contentView.leftAnchor, paddingTop: 48 ,paddingLeft: 17)
+        labelForSecondCollectionView.anchor(top:circularCollectionView.bottomAnchor, left: contentView.leftAnchor, paddingTop: 38 ,paddingLeft: 17,paddingBottom: 18)
+
+        contentView.addSubview(moreButtonForSecond)
+        moreButtonForSecond.centerY(inView: labelForSecondCollectionView)
+        moreButtonForSecond.anchor(right: contentView.rightAnchor, paddingRight: 17)
+
 
         contentView.addSubview(carouselCollectionView)
         carouselCollectionView.setHeight(165)
-        carouselCollectionView.anchor(top: labelForSecondCollectionView.bottomAnchor, left: contentView.leftAnchor, bottom: contentView.safeAreaLayoutGuide.bottomAnchor, right: contentView.rightAnchor)
+        carouselCollectionView.anchor(top: labelForSecondCollectionView.bottomAnchor, left: contentView.leftAnchor, bottom: contentView.safeAreaLayoutGuide.bottomAnchor, right: contentView.rightAnchor, paddingTop: 20)
 
     }
 
+    func animateClearCell(_ cell: UICollectionViewCell) {
+        UIView.animate( withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: { cell.alpha = 1.0 }, completion: nil)
+    }
+    func animateDimCell(_ cell: UICollectionViewCell) {
+        UIView.animate( withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: { cell.alpha = 0.5 }, completion: nil)
+    }
 
 }
 
@@ -242,7 +289,7 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource {
         if collectionView == self.circularCollectionView {
             return recommendedChannels.count
         }else if collectionView == self.carouselCollectionView {
-            return topicChannels.count
+            return relatedChannel.count
         }else {
             return bannerImages.count
         }
@@ -257,8 +304,10 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource {
         }
         else if collectionView == self.carouselCollectionView {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: carouselIdentifier, for: indexPath) as! CarouselChannelCell
-            cell.channel = topicChannels[indexPath.row]
-            cell.setupShadow()
+            cell.channel = relatedChannel[indexPath.row]
+            cell.layer.cornerRadius = 10
+            cell.layer.masksToBounds = true
+            cell.alpha = 0.5
             return cell
         }else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: bannerIdentifier, for: indexPath) as! BannerCell
@@ -272,7 +321,7 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource {
             let controller = ChannelDetailController(channelId: recommendedChannels[indexPath.row].channelIdx!)
             navigationController?.pushViewController(controller, animated: true)
         }else if collectionView == self.carouselCollectionView {
-            let controller = ChannelDetailController(channelId: topicChannels[indexPath.row].channelIdx!)
+            let controller = ChannelDetailController(channelId: relatedChannel[indexPath.row].channelIdx!)
             navigationController?.pushViewController(controller, animated: true)
         }else{
 
@@ -282,25 +331,34 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource {
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
 
         if scrollView == carouselCollectionView{
-            guard let layout = self.carouselCollectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
-
-            let cellWidthIncludingSpacing = layout.itemSize.width + layout.minimumLineSpacing
-
-            let estimatedIndex = scrollView.contentOffset.x / cellWidthIncludingSpacing
-            let index: Int
-            if velocity.x > 0 {
-                index = Int(ceil(estimatedIndex))
-            } else if velocity.x < 0 {
-                index = Int(floor(estimatedIndex))
-            } else {
-                index = Int(round(estimatedIndex))
-            }
-
-            targetContentOffset.pointee = CGPoint(x: CGFloat(index) * cellWidthIncludingSpacing, y: 0)
+            let cellWidthIncludeSpacing = 285.adjusted(by: .horizontal) + 20
+            var offset = targetContentOffset.pointee
+            let index = (offset.x + scrollView.contentInset.left) / cellWidthIncludeSpacing
+            let roundedIndex: CGFloat = round(index)
+            offset = CGPoint(x: roundedIndex * cellWidthIncludeSpacing - scrollView.contentInset.left, y: scrollView.contentInset.top)
+            targetContentOffset.pointee = offset
         }else if scrollView == bannerCollectionView {
             let page = Int(targetContentOffset.pointee.x / view.frame.width)
             self.pageControl.currentPage = page
             counter = page
+        }
+    }
+
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if scrollView == carouselCollectionView {
+            let cellWidthIncludeSpacing = 285.adjusted(by: .horizontal) + 20
+            let offsetX = carouselCollectionView.contentOffset.x
+            let index = (offsetX + carouselCollectionView.contentInset.left) / cellWidthIncludeSpacing
+            let roundedIndex = round(index)
+            let indexPath = IndexPath(item: Int(roundedIndex), section: 0)
+            if let cell = carouselCollectionView.cellForItem(at: indexPath) { animateClearCell(cell)
+            }
+            if Int(roundedIndex) != previousIndex {
+                let preIndexPath = IndexPath(item: previousIndex, section: 0)
+                if let preCell = carouselCollectionView.cellForItem(at: preIndexPath){ animateDimCell(preCell)
+                }
+                previousIndex = indexPath.item
+            }
         }
     }
 }

@@ -83,8 +83,8 @@ struct Service{
             }
     }
 
-    static func fetchRandomTopicChannelList(userId:Int,size:Int, page:Int, completion:@escaping(Result<Page<[Channel]>,Error>)->Void){
-        AF.request(baseUrl + "similar/topic", method: .get, parameters: ["user_id": userId, "size": size, "page": page])
+    static func fetchRelatedChannels(userId:Int,size:Int, page:Int, completion:@escaping(Result<Page<[Channel]>,Error>, String)->Void){
+        AF.request(baseUrl + "relate", method: .get, parameters: ["user_id": userId, "size": size, "page": page])
             .validate(statusCode: 200..<300)
             .responseDecodable(of: Response<Page<[Channel]>>.self) { response in
                 switch response.result {
@@ -92,9 +92,9 @@ struct Service{
                     guard let data = response.value?.data else {
                         return
                     }
-                    completion(.success(data))
+                    completion(.success(data),response.value?.standardValue ?? "")
                 case .failure(let err):
-                    completion(.failure(err))
+                    completion(.failure(err), "")
                 }
             }
     }

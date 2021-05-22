@@ -40,7 +40,7 @@ class ChannelDetailController: UIViewController{
 
     private let titles = [
         "상세정보",
-        "인기영상"
+        "최신영상"
     ]
 
     var headerHeightConstraint: NSLayoutConstraint?

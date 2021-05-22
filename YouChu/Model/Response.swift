@@ -11,9 +11,10 @@ struct Response<T: Codable>: Codable {
     let status: Int?
     let message: String?
     let data: T?
+    let standardValue: String?
 
     enum CodingKeys: CodingKey {
-        case status,message, data
+        case status,message, data, standardValue
     }
 
     init(from decoder: Decoder) throws {
@@ -21,5 +22,6 @@ struct Response<T: Codable>: Codable {
         status = (try? values.decode(Int.self, forKey: .status)) ?? nil
         message = (try? values.decode(String.self, forKey: .message)) ?? nil
         data = (try? values.decode(T.self, forKey: .data)) ?? nil
+        standardValue = (try? values.decode(String.self, forKey: .standardValue)) ?? nil
     }
 }

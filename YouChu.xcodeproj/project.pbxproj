@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3706444026593EC000FB95C1 /* ChannelListNEViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3706443F26593EC000FB95C1 /* ChannelListNEViewController.swift */; };
 		371DCA69264AC53700B3724C /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 371DCA68264AC53700B3724C /* Service.swift */; };
 		371DCA6B264ECDEA00B3724C /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 371DCA6A264ECDEA00B3724C /* User.swift */; };
 		371DCA6F264F9D6200B3724C /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 371DCA6E264F9D6200B3724C /* Response.swift */; };
@@ -53,6 +54,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3706443F26593EC000FB95C1 /* ChannelListNEViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelListNEViewController.swift; sourceTree = "<group>"; };
 		371DCA68264AC53700B3724C /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		371DCA6A264ECDEA00B3724C /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		371DCA6E264F9D6200B3724C /* Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
@@ -221,6 +223,7 @@
 				37FB473426284656008781C0 /* MyPageController.swift */,
 				37A918AE263AF886006C96F7 /* ChannelDetailController.swift */,
 				3747FDD2263E818800916764 /* ChannelListController.swift */,
+				3706443F26593EC000FB95C1 /* ChannelListNEViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -370,6 +373,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				37FB473526284656008781C0 /* MyPageController.swift in Sources */,
+				3706444026593EC000FB95C1 /* ChannelListNEViewController.swift in Sources */,
 				3747FDCD263E76D900916764 /* VideoTableViewCell.swift in Sources */,
 				37FB47382628465E008781C0 /* RankingController.swift in Sources */,
 				371DCA71264FD66000B3724C /* Keyword.swift in Sources */,

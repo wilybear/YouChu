@@ -23,7 +23,6 @@ class CarouselChannelCell: UICollectionViewCell {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
-        iv.image = #imageLiteral(resourceName: "iu")
         let blurEffect = UIBlurEffect(style: .dark)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         blurEffectView.alpha = 0.7
@@ -65,9 +64,7 @@ class CarouselChannelCell: UICollectionViewCell {
         middleStack.distribution = .fill
         middleStack.spacing = 5.adjusted(by: .horizontal)
         middleStack.alignment = .leading
-
-
-
+        
         backgroundColor = .white
         addSubview(bannerImageView)
         bannerImageView.fillSuperview()
@@ -94,6 +91,6 @@ class CarouselChannelCell: UICollectionViewCell {
         thumbnailImageView.sd_setImage(with: channel.thumbnailUrl)
         nameLabel.text = channel.title
         subscriberCountLabel.text = "구독자 " + channel.subscriberCountText
-        bannerImageView.sd_setImage(with: channel.thumbnailUrl)
+        bannerImageView.sd_setImage(with: channel.bannerImageUrl)
     }
 }

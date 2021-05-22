@@ -291,3 +291,19 @@ extension RAMAnimatedTabBarItem {
         self.iconColor = unselectedColor
     }
 }
+
+extension UIDevice {
+    var hasNotch: Bool {
+        let bottom = UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.safeAreaInsets.bottom ?? CGFloat.zero
+        return bottom > 0
+    }
+}
+
+extension String {
+    func coloredAttributedColor(stringToColor: String, color: UIColor) -> NSMutableAttributedString {
+        let range = ((self) as NSString).range(of: stringToColor)
+        let mutableAttributedString = NSMutableAttributedString.init(string: self)
+        mutableAttributedString.addAttribute(NSAttributedString.Key.foregroundColor, value: color, range: range)
+        return mutableAttributedString
+    }
+}

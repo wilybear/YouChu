@@ -25,7 +25,7 @@ class RankingHeader: UIView {
     // MARK: - Properties
     private let container: UIView = {
         let view = UIView()
-        view.backgroundColor = .mainColor_5
+        view.backgroundColor = .mainColor_2
         return view
     }()
 
