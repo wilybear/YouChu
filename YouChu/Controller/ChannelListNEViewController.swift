@@ -16,13 +16,13 @@ class ChannelListNEViewController: UIViewController {
     var currentPage = 1
     var isLastPage = false
     var isPaging = false
+    var keyword: String?
 
     private lazy var tableView: UITableView = {
         let tv = UITableView()
         tv.rowHeight = 100.adjusted(by: .vertical)
         tv.delegate = self
         tv.dataSource = self
-        tv.separatorStyle = .none
         tv.register(ChannelTableViewCell.self, forCellReuseIdentifier: ChannelListNEViewController.CellIdentifier)
         return tv
     }()
@@ -51,10 +51,17 @@ class ChannelListNEViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.backgroundColor = .white
+        navigationController?.navigationBar.setBackgroundImage(nil, for:.default)
+        navigationController?.navigationBar.shadowImage = nil
+        navigationController?.navigationBar.isTranslucent = true
+        navigationController?.navigationBar.layoutIfNeeded()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         navigationController?.navigationBar.backgroundColor = .clear
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.isTranslucent = false
         super.viewWillDisappear(animated)
     }
 
@@ -71,15 +78,14 @@ class ChannelListNEViewController: UIViewController {
             Service.fetchRecommendChannelList(userId: user.id, size: 10, page: page) { result in
                 switch result {
                 case .success(let page):
+                    self.channels.append(contentsOf: page.data ?? [])
+                    self.tableView.reloadData()
                     if page.last{
                         self.isLastPage = true
                         self.isPaging = false
                         self.showLoader(false)
                     }
-                    self.channels.append(contentsOf: page.data ?? [])
-                    self.tableView.reloadData()
                     self.currentPage += 1
-
                     self.isPaging = false
                     self.showLoader(false)
                 case .failure(let err):
@@ -92,15 +98,14 @@ class ChannelListNEViewController: UIViewController {
             Service.fetchRelatedChannels(userId: user.id, size: 10, page: page) { result, standvalue  in
                 switch result {
                 case .success(let page):
+                    self.channels.append(contentsOf: page.data ?? [])
+                    self.tableView.reloadData()
                     if page.last{
                         self.isLastPage = true
                         self.isPaging = false
                         self.showLoader(false)
                     }
-                    self.channels.append(contentsOf: page.data ?? [])
-                    self.tableView.reloadData()
                     self.currentPage += 1
-
                     self.isPaging = false
                     self.showLoader(false)
                 case .failure(let err):
@@ -119,6 +124,25 @@ class ChannelListNEViewController: UIViewController {
         tableView.anchor(top:view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor)
     }
 
+    func numberOfSections(in tableView: UITableView) -> Int {
+        var numOfSections: Int = 0
+        if !channels.isEmpty
+        {
+            tableView.separatorStyle = .singleLine
+            numOfSections = 1
+            tableView.backgroundView = nil
+        }
+        else
+        {
+            let noDataLabel: UILabel  = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height))
+            noDataLabel.text = "채널이 존재하지 않습니다."
+            noDataLabel.textColor = UIColor.black
+            noDataLabel.textAlignment = .center
+            tableView.backgroundView = noDataLabel
+            tableView.separatorStyle = .none
+        }
+        return numOfSections
+    }
     // MARK: - Actions
 
 }

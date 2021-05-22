@@ -12,17 +12,34 @@ class VideoViewController: UITableViewController {
 
     // MARK: - Properties
 
+    var channel: Channel? {
+        didSet{
+            fetchVideos()
+        }
+    }
     var videos: [Video] = []
 
+    // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        videos = fetchData()
         configureUI()
     }
 
-    // MARK: - LifeCycle
-
     // MARK: - API
+    func fetchVideos(){
+        guard let channel = channel else {
+            return
+        }
+        Service.fetchLatestVideos(of: channel.channelId!) { result in
+            switch result{
+            case .success(let videos):
+                self.videos = videos
+                self.tableView.reloadData()
+            case .failure(let err):
+                self.showMessage(withTitle: "Err", message: "\(err)")
+            }
+        }
+    }
 
     // MARK: - Helpers
     private func configureUI(){
@@ -40,12 +57,21 @@ class VideoViewController: UITableViewController {
         cell.video = videos[indexPath.row]
         return cell
     }
+}
 
-    private func fetchData() -> [Video]{
-        let video1 = Video(thumbnail: #imageLiteral(resourceName: "thumbnail1"), title: "[4K][Special]선우정아(SWJA)의 킬링보이스를 라이브로!ㅣ도망가자, 남, 구애, 뒹굴뒹굴, 고양이, 봄처녀, 쌤쌤, 동거, 백년해로, 그러려니ㅣ딩고뮤직", viewCount: 72039, publishedAt: "2021. 4. 30.")
-        let video2 = Video(thumbnail: #imageLiteral(resourceName: "thumbnail2"), title: "[4K] 휘인 (Whee In) - water color | Performance video | CHOREOGRAPHY | MOVE REC. 무브렉ㅣ딩고뮤직ㅣDingo Music", viewCount: 446122, publishedAt: "2021. 4. 14.")
-        let video3 = Video(thumbnail: #imageLiteral(resourceName: "thumbnail3"), title: "[4K]❤️비주얼+퍼포먼스+보컬 모두 갓벽하다는❤️STAYC(스테이씨)-ASAPㅣ세로라이브ㅣSERO LIVEㅣ딩고뮤직ㅣDingo Music", viewCount: 542049, publishedAt: "2021. 4. 13.")
-        return [video1,video2,video3]
+extension VideoViewController: VideoDelegate {
+    func openYoutubeVideo(index: Int) {
+        guard let videoId = videos[index].videoId else {
+            return
+        }
+        let appURL = NSURL(string: "youtube://www.youtube.com/watch?v=" + videoId)!
+        let webURL = NSURL(string: "https://www.youtube.com/watch?v=" + videoId)!
+        let application = UIApplication.shared
+
+        if application.canOpenURL(appURL as URL) {
+            application.open(appURL as URL)
+        } else {
+            application.open(webURL as URL)
+        }
     }
-
 }

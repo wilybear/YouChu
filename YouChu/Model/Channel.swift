@@ -22,7 +22,7 @@ struct Channel: Codable {
     var isPreffered: Bool
 
     var thumbnailUrl: URL? {
-        URL(string: thumbnail!)
+        URL(string: thumbnail ?? "")
     }
 
     var bannerImageUrl: URL? {

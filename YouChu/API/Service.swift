@@ -214,4 +214,35 @@ struct Service{
             }
     }
 
+    static func fetchLatestVideos(of channelId: String, completion:@escaping(Result<[Video],Error>)->Void) {
+        AF.request(baseUrl + "latest", method: .get, parameters: ["channel_id": channelId])
+            .validate(statusCode: 200..<300)
+            .responseDecodable(of: Response<[Video]>.self) { response in
+                switch response.result {
+                case .success(_):
+                    guard let videos = response.value?.data else {
+                        return
+                    }
+                    completion(.success(videos))
+                case .failure(let err):
+                    completion(.failure(err))
+                }
+            }
+    }
+
+    static func fetchChannelListByKeyword(of keyword:String, userId: Int ,size:Int, page:Int, completion:@escaping(Result<Page<[Channel]>,Error>)->Void){
+        AF.request(baseUrl + "channelByKeyword", method: .get, parameters: ["keyword_name": keyword, "size": size, "page": page, "user_id": userId])
+            .validate(statusCode: 200..<300)
+            .responseDecodable(of: Response<Page<[Channel]>>.self) { response in
+                switch response.result {
+                case .success(_):
+                    guard let data = response.value?.data else {
+                        return
+                    }
+                    completion(.success(data))
+                case .failure(let err):
+                    completion(.failure(err))
+                }
+            }
+    }
 }

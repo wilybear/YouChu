@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol TagCellDelegate: AnyObject {
+    func didSelect(keyword: String)
+}
+
 class DetailTableViewCell: UITableViewCell {
 
     // MARK: - Properties
@@ -77,7 +81,6 @@ class DetailTableViewCell: UITableViewCell {
 
     private func configureKeywordView(){
         infoLabel.removeFromSuperview()
-
         collectionView.delegate = self
         collectionView.dataSource = self
         addSubview(collectionView)

@@ -40,7 +40,7 @@ class CarouselChannelCell: UICollectionViewCell {
     private let nameLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.font = UIFont.boldSystemFont(ofSize: 17.adjusted(by: .horizontal))
+        label.font = UIFont.boldSystemFont(ofSize: 15.adjusted(by: .horizontal))
         label.adjustsFontSizeToFitWidth = true
         label.minimumScaleFactor = 0.8
         label.textColor = .white
@@ -50,7 +50,7 @@ class CarouselChannelCell: UICollectionViewCell {
     private let subscriberCountLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
-        label.font = UIFont.boldSystemFont(ofSize: 15.adjusted(by: .horizontal))
+        label.font = UIFont.boldSystemFont(ofSize: 13.adjusted(by: .horizontal))
         return label
     }()
 

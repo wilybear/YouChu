@@ -33,7 +33,7 @@ class RankingTableViewCell: UITableViewCell {
     private let nameLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.font = UIFont.boldSystemFont(ofSize: 17.adjusted(by: .horizontal))
+        label.font = UIFont.boldSystemFont(ofSize: 15.adjusted(by: .horizontal))
         label.adjustsFontSizeToFitWidth = true
         label.minimumScaleFactor = 0.8
         return label
@@ -41,14 +41,14 @@ class RankingTableViewCell: UITableViewCell {
 
     private var subscriberCountLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 15.adjusted(by: .horizontal))
+        label.font = UIFont.systemFont(ofSize: 13.adjusted(by: .horizontal))
         return label
     }()
 
     private let rankingLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.font = UIFont.boldSystemFont(ofSize: 28.adjusted(by: .horizontal))
+        label.font = UIFont.boldSystemFont(ofSize: 24.adjusted(by: .horizontal))
         return label
     }()
 

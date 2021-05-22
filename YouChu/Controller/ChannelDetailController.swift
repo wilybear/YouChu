@@ -10,16 +10,23 @@ import Parchment
 
 let imageSize: CGFloat = 100.adjusted(by: .vertical)
 
+protocol VideoDelegate: AnyObject {
+    func openYoutubeVideo(index: Int)
+}
 
 class ChannelDetailController: UIViewController{
 
     // MARK: - Properties
+
+    weak var delegate: VideoDelegate?
 
     var channel: Channel? {
         didSet{
             configureChannelInfo()
             let detailVC = viewControllers[0] as! DetailViewController
             detailVC.channel = channel
+            let videoVC = viewControllers[1] as! VideoViewController
+            videoVC.channel = channel
         }
     }
 
@@ -112,6 +119,7 @@ class ChannelDetailController: UIViewController{
         configureUI()
         configurePaging()
         configureNavBar()
+        delegate = viewControllers[1] as! VideoViewController
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -210,8 +218,7 @@ class ChannelDetailController: UIViewController{
         self.navigationController?.navigationBar.shadowImage = nil
         self.navigationController?.navigationBar.isTranslucent = false
         self.navigationController?.view.backgroundColor = .clear
-        self.navigationController?.navigationBar.tintColor = .black
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20.adjusted(by: .horizontal), weight: .semibold)]
+        self.navigationController?.navigationBar.tintColor = .mainColor_5
     }
 
     // MARK: - Actions
@@ -316,16 +323,12 @@ extension ChannelDetailController: UITableViewDelegate{
 //        scrollView.scrollIndicatorInsets = insets
 //    }
 
-    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
-    }
-
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        delegate?.openYoutubeVideo(index: indexPath.row)
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-
       //  print(scrollView.contentOffset.y)
      //   let changeStartOffset: CGFloat = -100.adjusted(by: .vertical)
         let changeSpeed: CGFloat = 50.adjusted(by: .vertical)
@@ -359,21 +362,9 @@ extension ChannelDetailController: UITableViewDelegate{
             bannerHeightConstraint!.constant = max(bannerHeightConstraint!.constant - scrollView.contentOffset.y, minHeight )
             scrollView.contentOffset.y = 0
         }
-
-
-
-//        let percentage = (offset-100)/50
-//        container.alpha = percentage
-
-        // Update the scroll indicator insets so they move alongside the
-        // header view when scrolling.
-//        updateScrollIndicatorInsets(in: scrollView)
-
-        // Update the height of the header view based on the content
-        // offset of the currently selected view controller.
-//        let height = max(0, abs(scrollView.contentOffset.y) - pagingViewController.options.menuHeight)
-//        headerConstraint.constant = height
     }
+
+
 }
 
 

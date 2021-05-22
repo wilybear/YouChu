@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 class VideoTableViewCell: UITableViewCell {
 
@@ -19,7 +20,7 @@ class VideoTableViewCell: UITableViewCell {
 
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 15.adjusted(by: .horizontal))
+        label.font = UIFont.boldSystemFont(ofSize: 14.adjusted(by: .horizontal))
         label.textAlignment = .left
         label.numberOfLines = 2
         return label
@@ -27,7 +28,7 @@ class VideoTableViewCell: UITableViewCell {
 
     private let viewCountLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14.adjusted(by: .horizontal))
+        label.font = UIFont.systemFont(ofSize: 12.adjusted(by: .horizontal))
         label.textColor = .darkGray
         label.textAlignment = .left
         return label
@@ -41,7 +42,7 @@ class VideoTableViewCell: UITableViewCell {
 
     private let publishedAtLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14.adjusted(by: .horizontal))
+        label.font = UIFont.systemFont(ofSize: 12.adjusted(by: .horizontal))
         label.textColor = .darkGray
         label.textAlignment = .left
         return label
@@ -61,23 +62,23 @@ class VideoTableViewCell: UITableViewCell {
 
         addSubview(thumbnailImageView)
         thumbnailImageView.centerY(inView: contentView)
-        thumbnailImageView.setWidth(200.adjusted(by: .horizontal))
-        thumbnailImageView.anchor(top:topAnchor, left: leftAnchor, bottom: bottomAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 10)
+        thumbnailImageView.setWidth(186.adjusted(by: .vertical))
+        thumbnailImageView.anchor(top:topAnchor, left: leftAnchor, bottom: bottomAnchor, paddingTop: 10, paddingLeft: 15 ,paddingBottom: 10)
 
         addSubview(titleLabel)
-        titleLabel.anchor(top:topAnchor, left: thumbnailImageView.rightAnchor, right: rightAnchor, paddingTop: 20, paddingLeft: 10,paddingRight: 20)
+        titleLabel.anchor(top:topAnchor, left: thumbnailImageView.rightAnchor, right: rightAnchor, paddingTop: 15, paddingLeft: 10,paddingRight: 15)
         addSubview(publishedAtLabel)
-        publishedAtLabel.anchor(top:titleLabel.bottomAnchor, left: thumbnailImageView.rightAnchor, right: rightAnchor, paddingTop: 10, paddingLeft: 10, paddingRight: 20)
+        publishedAtLabel.anchor(left: thumbnailImageView.rightAnchor,right: rightAnchor, paddingLeft: 10, paddingRight: 15)
         addSubview(viewCountLabel)
-        viewCountLabel.anchor(top: publishedAtLabel.bottomAnchor, left: thumbnailImageView.rightAnchor, right: rightAnchor, paddingTop: 10, paddingLeft: 10, paddingRight: 20)
+        viewCountLabel.anchor(top: publishedAtLabel.bottomAnchor, left: thumbnailImageView.rightAnchor, bottom: bottomAnchor,right: rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 15, paddingRight: 15)
 
     }
 
     private func setVideosInfos(){
         guard let video = video else { return }
         titleLabel.text = video.title
-        thumbnailImageView.image = video.thumbnail
+        thumbnailImageView.sd_setImage(with: video.thumbnailUrl)
         publishedAtLabel.text = video.publishedAt
-        viewCountLabel.text = "조회수 \(video.viewCount)회"
+        viewCountLabel.text = "조회수 "+video.viewCountText+"회"
     }
 }
