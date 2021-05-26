@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import GoogleSignIn
 
 class MainTabController: UITabBarController {
 
@@ -21,6 +22,8 @@ class MainTabController: UITabBarController {
     // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        checkIfuserIsLoggedIn()
+        configureViewControllers()
         view.backgroundColor = .white
         setValue(CustomTabbar(frame: tabBar.frame), forKey: "tabBar")
         UserInfo.fetchUser(userId: 16) { result in
@@ -42,11 +45,28 @@ class MainTabController: UITabBarController {
     override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
         guard let idx = tabBar.items?.firstIndex(of: item), tabBar.subviews.count > idx, let imageView = tabBar.subviews[idx].subviews.compactMap({$0 as? UIImageView}).first else { return }
         imageView.layer.add(bounceAnimaton, forKey: nil)
+
     }
 
     // MARK: - API
+    func checkIfuserIsLoggedIn(){
+        guard let signIn = GIDSignIn.sharedInstance() else { return }
+        if (signIn.hasPreviousSignIn()) {
+
+            signIn.restorePreviousSignIn()
+
+        }else{
+            DispatchQueue.main.async {
+                let controller = GoogleLoginViewController()
+                let nav = UINavigationController(rootViewController: controller)
+                nav.modalPresentationStyle = .fullScreen
+                self.present(nav, animated: true, completion: nil)
+            }
+        }
+    }
 
     // MARK: - Helpers
+
     func configureViewControllers(){
         view.backgroundColor = .white
         let myPage = templateNavigationController(title:"내 정보" ,unselectedImage: #imageLiteral(resourceName: "profile"), selectedImage: #imageLiteral(resourceName: "profile"), rootViewController:  MyPageController())

@@ -18,4 +18,5 @@ target 'YouChu' do
 	pod "SwiftRater"
 	pod 'RAMAnimatedTabBarController'
 	pod 'Alamofire'
+	pod 'GoogleSignIn'
 end

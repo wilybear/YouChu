@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import GoogleSignIn
 
 let bannerIdentifier = "banner"
 let circularIdentifier = "circular"
@@ -278,8 +279,18 @@ class HomeController: UIViewController {
     func animateDimCell(_ cell: UICollectionViewCell) {
         UIView.animate( withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: { cell.alpha = 0.5 }, completion: nil)
     }
+    func sampleTest(){
+        guard let signIn = GIDSignIn.sharedInstance() else {return}
+        signIn.currentUser.authentication.getTokensWithHandler { (auth, error) in
+            guard error == nil else { return }
+            let accessToken = auth?.accessToken
+            let refreshToken = auth?.refreshToken
+            print("access: \(accessToken)")
+            print("refresh: \(refreshToken)")
+        }
+    }
 
-}
+
 
 // MARK: - CollectionView Extensions
 
