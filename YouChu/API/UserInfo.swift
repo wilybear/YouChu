@@ -5,13 +5,14 @@
 //  Created by 김현식 on 2021/05/19.
 //
 
-import Foundation
+import UIKit
 //import GoogleSignIN
 import Alamofire
 
 class UserInfo{
 
     static var user: User?
+    static var topController: UINavigationController?
 
     static func fetchUser(userId: Int, completion: @escaping(Result<User?, Error>) -> Void){
         AF.request(baseUrl + "user", method: .get, parameters: ["user_id": userId])
