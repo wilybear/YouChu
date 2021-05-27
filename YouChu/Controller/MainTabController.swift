@@ -24,6 +24,7 @@ class MainTabController: UITabBarController {
         view.backgroundColor = .white
         setValue(CustomTabbar(frame: tabBar.frame), forKey: "tabBar")
         configureViewControllers()
+        tabBarConfigure()
 //        UserInfo.fetchUser(userId: 16) { result in
 //            switch result {
 //            case .success(_):
@@ -66,6 +67,16 @@ class MainTabController: UITabBarController {
         nav.tabBarItem.selectedImage = selectedImage
         nav.tabBarItem.title = title
         return nav
+    }
+
+    func tabBarConfigure() {
+        if UIDevice.current.hasNotch {
+        tabBar.items?.forEach({
+            $0.titlePositionAdjustment = UIOffset(horizontal: 0.0, vertical: 5.adjusted(by: .vertical))
+            $0.imageInsets = UIEdgeInsets(top: 5.adjusted(by: .vertical), left: 0, bottom: -5.adjusted(by: .vertical), right: 0)
+        })
+        }
+        tabBar.itemWidth = UIScreen.main.bounds.width / 8
     }
 }
 
