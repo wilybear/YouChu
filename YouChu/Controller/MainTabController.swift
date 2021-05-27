@@ -26,8 +26,8 @@ class MainTabController: UITabBarController {
         view.backgroundColor = .white
         setValue(CustomTabbar(frame: tabBar.frame), forKey: "tabBar")
         configureViewControllers()
-        tabBar.items?.forEach({$0.imageInsets = UIEdgeInsets(top: -15, left: 0, bottom: 0, right: 0)})
-        
+        tabBarConfigure()
+
     }
 
     override func viewDidLayoutSubviews() {
@@ -78,6 +78,11 @@ class MainTabController: UITabBarController {
         nav.tabBarItem.selectedImage = selectedImage
         nav.tabBarItem.title = title
         return nav
+    }
+
+    func tabBarConfigure() {
+        tabBar.items?.forEach({$0.imageInsets = UIEdgeInsets(top: -15, left: 0, bottom: 0, right: 0)})
+        tabBar.itemWidth = UIScreen.main.bounds.width / 8
     }
 }
 

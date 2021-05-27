@@ -66,12 +66,13 @@ class CustomTabbar: UITabBar {
         var tabFrame = self.frame
      //   let additionalInset: CGFloat = UIDevice.current.hasNotch ? 0 : 10
         tabFrame.size.height = 75 + (UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.safeAreaInsets.bottom ?? CGFloat.zero)
+        print(UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.safeAreaInsets.bottom)
         tabFrame.origin.y = self.frame.origin.y +   ( self.frame.height - 65 - (UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.safeAreaInsets.bottom ?? CGFloat.zero))
         self.layer.cornerRadius = 20
         self.frame = tabFrame
     //    self.items?.forEach({$0.imageInsets = UIEdgeInsets(top: -15, left: 0, bottom: 0, right: 0)})
         self.items?.forEach({ $0.titlePositionAdjustment = UIOffset(horizontal: 0.0, vertical: -18) })
-        self.itemWidth = UIScreen.main.bounds.width / 8
+
         print(tabFrame)
 
     }

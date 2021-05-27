@@ -173,7 +173,7 @@ class HomeController: UIViewController {
                     self.fetchRecommendedChannels()
                     self.fetchRelatedChannels()
                 case .failure(let err):
-                    self.showMessage(withTitle: "Errr", message: "\(err)")
+                    self.showMessage(withTitle: "Error", message: "Unable to fetch user \(err)")
                 }
             }
         }
