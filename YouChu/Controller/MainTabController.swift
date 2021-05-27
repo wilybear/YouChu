@@ -23,17 +23,11 @@ class MainTabController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         checkIfuserIsLoggedIn()
-        configureViewControllers()
         view.backgroundColor = .white
         setValue(CustomTabbar(frame: tabBar.frame), forKey: "tabBar")
-        UserInfo.fetchUser(userId: 16) { result in
-            switch result {
-            case .success(_):
-                self.configureViewControllers()
-            case .failure(_):
-                self.showMessage(withTitle: "에러", message: "올바르지 않은 접근입니다.")
-            }
-        }
+        configureViewControllers()
+        tabBar.items?.forEach({$0.imageInsets = UIEdgeInsets(top: -15, left: 0, bottom: 0, right: 0)})
+        
     }
 
     override func viewDidLayoutSubviews() {
@@ -52,7 +46,6 @@ class MainTabController: UITabBarController {
     func checkIfuserIsLoggedIn(){
         guard let signIn = GIDSignIn.sharedInstance() else { return }
         if (signIn.hasPreviousSignIn()) {
-
             signIn.restorePreviousSignIn()
 
         }else{
@@ -70,9 +63,9 @@ class MainTabController: UITabBarController {
     func configureViewControllers(){
         view.backgroundColor = .white
         let myPage = templateNavigationController(title:"내 정보" ,unselectedImage: #imageLiteral(resourceName: "profile"), selectedImage: #imageLiteral(resourceName: "profile"), rootViewController:  MyPageController())
-              let ranking =  templateNavigationController(title:"랭킹", unselectedImage: #imageLiteral(resourceName: "trophy"), selectedImage: #imageLiteral(resourceName: "trophy"), rootViewController:  RankingController())
-              let home = templateNavigationController(title:"홈",unselectedImage: #imageLiteral(resourceName: "home"), selectedImage: #imageLiteral(resourceName: "home"), rootViewController:  HomeController())
-              let recommendation =  templateNavigationController(title:"추천",unselectedImage: #imageLiteral(resourceName: "discover"), selectedImage: #imageLiteral(resourceName: "discover"), rootViewController:  RecommendationController())
+        let ranking =  templateNavigationController(title:"랭킹", unselectedImage: #imageLiteral(resourceName: "trophy"), selectedImage: #imageLiteral(resourceName: "trophy"), rootViewController:  RankingController())
+        let home = templateNavigationController(title:"홈",unselectedImage: #imageLiteral(resourceName: "home"), selectedImage: #imageLiteral(resourceName: "home"), rootViewController:  HomeController())
+        let recommendation =  templateNavigationController(title:"추천",unselectedImage: #imageLiteral(resourceName: "discover"), selectedImage: #imageLiteral(resourceName: "discover"), rootViewController:  RecommendationController())
         viewControllers = [home, recommendation, ranking, myPage]
         tabBar.isTranslucent = false
         tabBar.tintColor = .mainColor_5
@@ -87,6 +80,12 @@ class MainTabController: UITabBarController {
         return nav
     }
 }
+
+//extension MainTabController: SendUserDelegate {
+//    func sendUser(user: User) {
+//        self.user = user
+//    }
+//}
 
 
 

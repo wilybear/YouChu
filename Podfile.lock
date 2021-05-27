@@ -6,9 +6,6 @@ PODS:
     - AppAuth/ExternalUserAgent (= 1.4.0)
   - AppAuth/Core (1.4.0)
   - AppAuth/ExternalUserAgent (1.4.0)
-  - ChameleonFramework/Default (2.1.0)
-  - ChameleonFramework/Swift (2.1.0):
-    - ChameleonFramework/Default
   - DropDown (2.3.13)
   - GoogleSignIn (5.0.2):
     - AppAuth (~> 1.2)
@@ -30,7 +27,6 @@ PODS:
 DEPENDENCIES:
   - ActiveLabel
   - Alamofire
-  - ChameleonFramework/Swift
   - DropDown
   - GoogleSignIn
   - JGProgressHUD
@@ -45,7 +41,6 @@ SPEC REPOS:
     - ActiveLabel
     - Alamofire
     - AppAuth
-    - ChameleonFramework
     - DropDown
     - GoogleSignIn
     - GTMAppAuth
@@ -61,7 +56,6 @@ SPEC CHECKSUMS:
   ActiveLabel: 5e3f4de79a1952d4604b845a0610d4776e4b82b3
   Alamofire: e447a2774a40c996748296fa2c55112fdbbc42f9
   AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
-  ChameleonFramework: d21a3cc247abfe5e37609a283a8238b03575cf64
   DropDown: 8a2116376c1981888557f72ec2ffc9a5e0e456ec
   GoogleSignIn: 7137d297ddc022a7e0aa4619c86d72c909fa7213
   GTMAppAuth: 5b53231ef6920f149ab84b2969cb0ab572da3077
@@ -73,6 +67,6 @@ SPEC CHECKSUMS:
   SwiftRater: 6094fa6e9b3866ff8beca0a871b4b5f9ab896a6d
   TTTAttributedLabel: 8cffe8e127e4e82ff3af1e5386d4cd0ad000b656
 
-PODFILE CHECKSUM: a9244a88387e0a1d148e5a520859cdcbd65f1dd4
+PODFILE CHECKSUM: 1dd4a9d1eb5f7a793aa79338c6410e1e84c6e722
 
 COCOAPODS: 1.10.1

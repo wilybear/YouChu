@@ -1,8 +1,10 @@
 ${PODS_ROOT}/Target Support Files/Pods-YouChu/Pods-YouChu-frameworks.sh
 ${BUILT_PRODUCTS_DIR}/ActiveLabel/ActiveLabel.framework
 ${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework
-${BUILT_PRODUCTS_DIR}/ChameleonFramework/ChameleonFramework.framework
+${BUILT_PRODUCTS_DIR}/AppAuth/AppAuth.framework
 ${BUILT_PRODUCTS_DIR}/DropDown/DropDown.framework
+${BUILT_PRODUCTS_DIR}/GTMAppAuth/GTMAppAuth.framework
+${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework
 ${BUILT_PRODUCTS_DIR}/JGProgressHUD/JGProgressHUD.framework
 ${BUILT_PRODUCTS_DIR}/Parchment/Parchment.framework
 ${BUILT_PRODUCTS_DIR}/RAMAnimatedTabBarController/RAMAnimatedTabBarController.framework

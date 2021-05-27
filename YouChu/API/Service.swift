@@ -10,8 +10,6 @@ import Alamofire
 
 struct Service{
 
-  
-    // TODO: should change channerlIndex to channelId
     static func fetchChannelDetail(channelIdx: Int, completion:@escaping(Channel?)->Void){
         AF.request(baseUrl + "channel", method: .get, parameters: ["channel_index": channelIdx])
             .validate(statusCode: 200..<300)
@@ -39,6 +37,7 @@ struct Service{
     }
 
     static func fetchTopics(of channelIdx: Int, completion:@escaping([TopicData]?)->Void) {
+        print(channelIdx)
         AF.request(baseUrl + "getTopic", method: .get, parameters: ["channel_index": channelIdx])
             .validate(statusCode: 200..<300)
             .responseDecodable(of: Response<[TopicData]>.self) { response in
@@ -150,7 +149,11 @@ struct Service{
     }
 
     static func deletePreferredChannel(userId:Int, channelIdx:Int, completion:@escaping(Result<Int,Error>)->Void) {
-        AF.request(baseUrl + "deletePreffered", method: .delete, parameters: ["user_id": userId, "channel_index": channelIdx])
+        let tk = TokenUtils()
+        guard let header = tk.getAuthorizationHeader(serviceID: TokenUtils.service) else{
+            return
+        }
+        AF.request(baseUrl + "deletePreffered", method: .delete, parameters: ["user_id": userId, "channel_index": channelIdx], headers: header)
             .validate(statusCode: 200..<300)
             .responseDecodable(of: Response<Int>.self) { response in
                 switch response.result {
@@ -165,8 +168,13 @@ struct Service{
             }
     }
 
+   
     static func updatePreferredChannel(userId:Int, channelIdx:Int, completion:@escaping(Result<Int,Error>)->Void) {
-        AF.request(baseUrl + "prefer", method: .post, parameters: ["user_id": userId, "channel_index": channelIdx], encoding: JSONEncoding.default)
+        let tk = TokenUtils()
+        guard let header = tk.getAuthorizationHeader(serviceID: TokenUtils.service) else{
+            return
+        }
+        AF.request(baseUrl + "prefer", method: .post, parameters: ["user_id": userId, "channel_index": channelIdx], encoding: JSONEncoding.default, headers: header)
             .validate(statusCode: 200..<300)
             .responseDecodable(of: Response<Int>.self) { response in
                 switch response.result {
@@ -183,7 +191,11 @@ struct Service{
     }
 
     static func deleteDislikedChannel(userId:Int, channelIdx:Int, completion:@escaping(Result<Int,Error>)->Void) {
-        AF.request(baseUrl + "deleteDislike", method: .delete, parameters: ["user_id": userId, "channel_index": channelIdx])
+        let tk = TokenUtils()
+        guard let header = tk.getAuthorizationHeader(serviceID: TokenUtils.service) else{
+            return
+        }
+        AF.request(baseUrl + "deleteDislike", method: .delete, parameters: ["user_id": userId, "channel_index": channelIdx], headers: header)
             .validate(statusCode: 200..<300)
             .responseDecodable(of: Response<Int>.self) { response in
                 switch response.result {
@@ -199,7 +211,11 @@ struct Service{
     }
 
     static func updateDislikedChannel(userId:Int, channelIdx:Int, completion:@escaping(Result<Int,Error>)->Void) {
-        AF.request(baseUrl + "dislike", method: .post, parameters: ["user_id": userId, "channel_index": channelIdx],encoding: JSONEncoding.default)
+        let tk = TokenUtils()
+        guard let header = tk.getAuthorizationHeader(serviceID: TokenUtils.service) else{
+            return
+        }
+        AF.request(baseUrl + "dislike", method: .post, parameters: ["user_id": userId, "channel_index": channelIdx],encoding: JSONEncoding.default, headers: header)
             .validate(statusCode: 200..<300)
             .responseDecodable(of: Response<Int>.self) { response in
                 switch response.result {

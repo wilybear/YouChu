@@ -95,7 +95,7 @@ class RankingHeader: UIView {
 
         container.addSubview(categoryMenu)
         categoryMenu.anchorView = categoryBtn
-        let btnSize = category.rawValue.size(withAttributes: [
+        let _ = category.rawValue.size(withAttributes: [
             NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 25.adjusted(by: .horizontal))
         ])
         categoryMenu.selectionAction = { [unowned self] (index: Int, item: String) in

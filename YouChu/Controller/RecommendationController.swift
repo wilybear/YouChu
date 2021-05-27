@@ -106,7 +106,7 @@ class RecommendationController: UIViewController {
                 self.recommendingChannel = channel
                 completion?(channel)
             case .failure(let err):
-                self.showMessage(withTitle: "Error", message: "Cannot fetch random channel")
+                self.showMessage(withTitle: "Error", message: "Cannot fetch random channel \(err)")
             }
         }
     }

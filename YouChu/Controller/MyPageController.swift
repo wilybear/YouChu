@@ -8,6 +8,7 @@
 import UIKit
 import MessageUI
 import Alamofire
+import GoogleSignIn
 
 let mypageCellIdentifier = "mypageCell"
 
@@ -48,6 +49,7 @@ class MyPageController: UIViewController {
         bt.setTitleColor(color, for: .normal)
         bt.titleLabel?.font = UIFont.systemFont(ofSize: 14.adjusted(by: .horizontal))
         bt.titleLabel?.adjustsFontSizeToFitWidth = true
+        bt.addTarget(self, action: #selector(logout), for: .touchUpInside)
         return bt
     }()
 
@@ -199,6 +201,18 @@ class MyPageController: UIViewController {
         self.navigationController?.pushViewController(controller, animated: true)
     }
 
+    @objc func logout(){
+        guard let signIn = GIDSignIn.sharedInstance() else { return }
+        let tk = TokenUtils()
+        tk.delete(TokenUtils.service, account: TokenUtils.account)
+        signIn.signOut()
+        UIControl().sendAction(#selector(URLSessionTask.suspend), to: UIApplication.shared, for: nil)
+            //Comment if you want to minimise app
+            Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false) { (timer) in
+                exit(0)
+        }
+    }
+
     @objc func showMailComposer() {
         guard MFMailComposeViewController.canSendMail() else {
             return
@@ -210,6 +224,56 @@ class MyPageController: UIViewController {
         composer.setSubject("[유추 의견 제출]")
         composer.setMessageBody("", isHTML: false)
         present(composer, animated: true)
+    }
+
+    func deleteUser(){
+        guard let user = UserInfo.user else {
+            return
+        }
+        showLoader(true)
+        UserInfo.deleteUserData(userId: user.id) { result in
+            switch result {
+            case .success(_):
+                let alert = UIAlertController(title: "회원 탈퇴", message: "성공적으로 회원탈퇴가 이루어졌습니다. 감사합니다.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "네", style: .default, handler: { action in
+                    exit(0)
+                }))
+                let tk = TokenUtils()
+                tk.delete(TokenUtils.service, account: TokenUtils.account)
+                GIDSignIn.sharedInstance()?.signOut()
+                self.showLoader(false)
+                self.present(alert, animated: true)
+            case .failure(let err):
+                self.showLoader(false)
+                self.showMessage(withTitle: "회원탈퇴", message: "회원탈퇴에 실패하였습니다. 지속적으로 문제 발생시 메일로 연락주세요. \(err)")
+
+            }
+        }
+    }
+
+    func syncYTSubscribtionList(){
+        guard let signIn = GIDSignIn.sharedInstance() else {return}
+        signIn.currentUser.authentication.getTokensWithHandler { (auth, error) in
+            if error != nil {
+                self.showMessage(withTitle: "Error", message: "\(String(describing: error))")
+            }
+            if let accessToken = auth?.accessToken, let userId = signIn.currentUser.userID {
+                self.showLoader(true)
+                UserInfo.registerUser(userToken: accessToken, googleId: userId) { result in
+                    self.showLoader(false)
+                    switch result {
+                    case .success(_):
+                        self.fetchUserStats()
+                        self.showMessage(withTitle: "동기화 성공", message: "성공적으로 유튜브 구독 목록을 불러왔습니다.")
+                    case .failure(_):
+                        self.showMessage(withTitle: "동기화 실패", message: "유튜브 구독 목록을 불러오는데 실패했습니다.")
+                    }
+                }
+            } else{
+                self.showMessage(withTitle: "Error", message: "access Token을 가져오는데 실패했습니다.")
+            }
+
+        }
     }
 
 }
@@ -238,11 +302,21 @@ extension MyPageController: UITableViewDelegate, UITableViewDataSource {
         case 1:
             //mail
             showMailComposer()
-            break;
         case 2:
             //review
             openAppStoreReview()
-            break;
+        case 3:
+            //동기화
+            syncYTSubscribtionList()
+        case 4: // 회원탈퇴
+            let alert = UIAlertController(title: "회원 탈퇴", message: "정말로 탈퇴하시겠습니까? 탈퇴 시 모든 데이터가 서버에서 삭제됩니다.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "네", style: .default, handler: { action in
+                self.deleteUser()
+            }))
+            alert.addAction(UIAlertAction(title: "아니오", style: .cancel, handler: nil))
+
+            self.present(alert, animated: true)
+
         default:
             break;
         }
@@ -265,6 +339,8 @@ extension MyPageController : MFMailComposeViewControllerDelegate {
             case .sent:
                 let alert = UIAlertController(title: "메일을 보냈습니다.", message: "소중한 의견 감사합니다.", preferredStyle: UIAlertController.Style.alert)
                 present(alert, animated: false, completion: nil)
+                break
+            @unknown default:
                 break
             }
             controller.dismiss(animated: true, completion: nil)

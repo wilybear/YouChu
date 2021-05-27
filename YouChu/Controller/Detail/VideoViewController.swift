@@ -30,6 +30,7 @@ class VideoViewController: UITableViewController {
         guard let channel = channel else {
             return
         }
+
         Service.fetchLatestVideos(of: channel.channelId!) { result in
             switch result{
             case .success(let videos):

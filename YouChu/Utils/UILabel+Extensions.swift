@@ -9,20 +9,6 @@ import UIKit
 
 extension UILabel {
 
-        func addTrailing(with trailingText: String, moreText: String, moreTextFont: UIFont, moreTextColor: UIColor) {
-            let readMoreText: String = trailingText + moreText
-
-            let lengthForVisibleString: Int = self.vissibleTextLength
-            let mutableString: String = self.text!
-            let trimmedString: String? = (mutableString as NSString).replacingCharacters(in: NSRange(location: lengthForVisibleString, length: ((self.text?.count)! - lengthForVisibleString)), with: "")
-            let readMoreLength: Int = (readMoreText.count)
-            let trimmedForReadMore: String = (trimmedString! as NSString).replacingCharacters(in: NSRange(location: ((trimmedString?.count ?? 0) - readMoreLength), length: readMoreLength), with: "") + trailingText
-            let answerAttributed = NSMutableAttributedString(string: trimmedForReadMore, attributes: [NSAttributedString.Key.font: self.font])
-            let readMoreAttributed = NSMutableAttributedString(string: moreText, attributes: [NSAttributedString.Key.font: moreTextFont, NSAttributedString.Key.foregroundColor: moreTextColor])
-            answerAttributed.append(readMoreAttributed)
-            self.attributedText = answerAttributed
-        }
-
         var vissibleTextLength: Int {
             let font: UIFont = self.font
             let mode: NSLineBreakMode = self.lineBreakMode

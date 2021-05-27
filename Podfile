@@ -11,7 +11,6 @@ target 'YouChu' do
 	pod 'ActiveLabel'
 	pod 'SDWebImage'
 	pod 'JGProgressHUD'
-	pod 'ChameleonFramework/Swift'
 	pod 'TTTAttributedLabel'
 	pod 'DropDown'
 	pod 'Parchment', '~> 3.0'

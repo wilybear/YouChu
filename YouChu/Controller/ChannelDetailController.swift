@@ -38,9 +38,6 @@ class ChannelDetailController: UIViewController{
         if #available(iOS 13.0, *) {
             let window = UIApplication.shared.windows[0]
             height = window.safeAreaInsets.top
-        }else if #available(iOS 11.0, *) {
-            let window = UIApplication.shared.keyWindow
-            height = (window?.safeAreaInsets.top)!
         }
         return (self.navigationController?.navigationBar.frame.height ?? 0) + height
     }
