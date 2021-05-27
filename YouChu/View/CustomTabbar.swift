@@ -60,22 +60,22 @@ class CustomTabbar: UITabBar {
 
         return path.cgPath
     }
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        self.isTranslucent = true
-        var tabFrame = self.frame
-     //   let additionalInset: CGFloat = UIDevice.current.hasNotch ? 0 : 10
-        tabFrame.size.height = 75 + (UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.safeAreaInsets.bottom ?? CGFloat.zero)
-        print(UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.safeAreaInsets.bottom)
-        tabFrame.origin.y = self.frame.origin.y +   ( self.frame.height - 65 - (UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.safeAreaInsets.bottom ?? CGFloat.zero))
-        self.layer.cornerRadius = 20
-        self.frame = tabFrame
-    //    self.items?.forEach({$0.imageInsets = UIEdgeInsets(top: -15, left: 0, bottom: 0, right: 0)})
-        self.items?.forEach({ $0.titlePositionAdjustment = UIOffset(horizontal: 0.0, vertical: -18) })
-
-        print(tabFrame)
-
-    }
+//    override func layoutSubviews() {
+//        super.layoutSubviews()
+//      //  if cnt < 5 {
+//            self.isTranslucent = true
+//            var tabFrame = self.frame
+//         //   let additionalInset: CGFloat = UIDevice.current.hasNotch ? 0 : 10
+//            tabFrame.size.height = 75.adjusted(by: .vertical) + (UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.safeAreaInsets.bottom ?? CGFloat.zero)
+//            tabFrame.origin.y = self.frame.origin.y +   ( self.frame.height - 65.adjusted(by: .vertical) - (UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.safeAreaInsets.bottom ?? CGFloat.zero))
+//            self.layer.cornerRadius = 20
+//            self.frame = tabFrame
+//            self.items?.forEach({ $0.titlePositionAdjustment = UIOffset(horizontal: 0.0, vertical: -18) })
+//    //        cnt += 1
+//        print(self.frame)
+//    //    }
+//
+//    }
 
 
 }

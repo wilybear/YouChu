@@ -9,8 +9,9 @@ import UIKit
 import GoogleSignIn
 
 
-class GoogleLoginViewController: UIViewController {
 
+class GoogleLoginViewController: UIViewController {
+    
     private lazy var googleSignInButton: GIDSignInButton = {
         let gidButton = GIDSignInButton()
         gidButton.style = .standard
@@ -111,7 +112,7 @@ extension GoogleLoginViewController: GIDSignInDelegate {
                             print("token으로 유저 정보 가져옴")
                             let data: [String:User] = ["user": user!]
                             NotificationCenter.default.post(name: Notification.Name(rawValue: "User"), object: nil, userInfo: data)
-                            self.dismiss(animated: true, completion: nil)
+                            self.dismiss(animated: false, completion: nil)
                         case .failure(let err):
                             self.showMessage(withTitle: "에러", message: "올바르지 않은 접근입니다. \(err)")
                             signIn.signOut()

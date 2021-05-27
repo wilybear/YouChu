@@ -81,16 +81,14 @@ class MainTabController: UITabBarController {
     }
 
     func tabBarConfigure() {
-        tabBar.items?.forEach({$0.imageInsets = UIEdgeInsets(top: -15, left: 0, bottom: 0, right: 0)})
+        tabBar.items?.forEach({
+            $0.titlePositionAdjustment = UIOffset(horizontal: 0.0, vertical: 5.adjusted(by: .vertical))
+            $0.imageInsets = UIEdgeInsets(top: 5.adjusted(by: .vertical), left: 0, bottom: -5.adjusted(by: .vertical), right: 0)
+        })
         tabBar.itemWidth = UIScreen.main.bounds.width / 8
     }
 }
 
-//extension MainTabController: SendUserDelegate {
-//    func sendUser(user: User) {
-//        self.user = user
-//    }
-//}
 
 
 
