@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import GoogleSignIn
 
 let bannerIdentifier = "banner"
 let circularIdentifier = "circular"
@@ -138,16 +139,17 @@ class HomeController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        fetchRecommendedChannels()
-        fetchRelatedChannels()
         DispatchQueue.main.async {
             self.timer = Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(self.changeImage), userInfo: nil, repeats: true)
         }
+
+//        NotificationCenter.default.addObserver(self, selector: #selector(<#T##@objc method#>), name: <#T##NSNotification.Name?#>, object: <#T##Any?#>)
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationItem.titleView = UIImageView(image: #imageLiteral(resourceName: "titleLogo"))
+        fetchUser()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -155,6 +157,28 @@ class HomeController: UIViewController {
     }
 
     // MARK: - API
+
+    func fetchUser(){
+        if let _ = UserInfo.user {
+            self.fetchRelatedChannels()
+            self.fetchRecommendedChannels()
+        }else{
+            guard let signIn = GIDSignIn.sharedInstance() else { return }
+            guard let currentUser = signIn.currentUser else {
+                return
+            }
+            UserInfo.fetchUser(googleId: currentUser.userID) { result in
+                switch result{
+                case .success(_):
+                    self.fetchRecommendedChannels()
+                    self.fetchRelatedChannels()
+                case .failure(let err):
+                    self.showMessage(withTitle: "Error", message: "Unable to fetch user \(err)")
+                }
+            }
+        }
+    }
+
     func fetchRecommendedChannels(){
         guard let user = UserInfo.user else {
             return
@@ -278,8 +302,20 @@ class HomeController: UIViewController {
     func animateDimCell(_ cell: UICollectionViewCell) {
         UIView.animate( withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: { cell.alpha = 0.5 }, completion: nil)
     }
+//    func sampleTest(){
+//        guard let signIn = GIDSignIn.sharedInstance() else {return}
+//        signIn.currentUser.authentication.getTokensWithHandler { (auth, error) in
+//            guard error == nil else { return }
+//            let accessToken = auth?.accessToken
+//            let refreshToken = auth?.refreshToken
+//            print("access: \(accessToken)")
+//            print("refresh: \(refreshToken)")
+//        }
+//    }
 
 }
+
+
 
 // MARK: - CollectionView Extensions
 
@@ -362,3 +398,5 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource {
         }
     }
 }
+
+

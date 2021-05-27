@@ -17,20 +17,20 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="youchu_icon" translatesAutoresizingMaskIntoConstraints="NO" id="ak9-RJ-nib">
-                                <rect key="frame" x="50" y="224" width="314" height="300"/>
+                                <rect key="frame" x="50" y="224" width="314" height="287"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="300" id="t7L-br-sYh"/>
+                                    <constraint firstAttribute="width" secondItem="ak9-RJ-nib" secondAttribute="height" multiplier="314:287" id="Nu3-nZ-rnv"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="유추 " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Yy-4p-HI6">
-                                <rect key="frame" x="50" y="532" width="314" height="40"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="유추 " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Yy-4p-HI6">
+                                <rect key="frame" x="50" y="526" width="314" height="40"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" name="AppleSDGothicNeo-Bold" family="Apple SD Gothic Neo" pointSize="33"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="highlightedColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="유튜브 채널 추천" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VwC-92-cY0">
-                                <rect key="frame" x="50" y="589" width="314" height="28"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="유튜브를 200% 즐기는 방법" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VwC-92-cY0">
+                                <rect key="frame" x="50" y="576" width="314" height="28"/>
                                 <fontDescription key="fontDescription" name="AppleSDGothicNeo-Medium" family="Apple SD Gothic Neo" pointSize="23"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -48,6 +48,7 @@
                             <constraint firstItem="ak9-RJ-nib" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="50" id="d4V-Z0-g8Q"/>
                             <constraint firstItem="ak9-RJ-nib" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="180" id="dUM-A2-MhB"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="VwC-92-cY0" secondAttribute="trailing" constant="50" id="n7D-XS-spp"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="ak9-RJ-nib" secondAttribute="bottom" constant="351" id="swI-Zm-QXh"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -59,7 +60,7 @@
     <resources>
         <image name="youchu_icon" width="1024" height="1024"/>
         <namedColor name="MainColor">
-            <color red="0.94099998474121094" green="0.57300001382827759" blue="0.63499999046325684" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.93725490196078431" green="0.5725490196078431" blue="0.63137254901960782" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

@@ -10,6 +10,7 @@ class CustomTabbar: UITabBar {
     var color: UIColor? = .white
     var radii: CGFloat = 20.0
     var inset: CGFloat = 30
+    var cnt = 0
 
     private var newBounds: CGRect {
         bounds.inset(by: UIEdgeInsets(top: 0, left: inset, bottom: 0, right: inset))
@@ -63,14 +64,17 @@ class CustomTabbar: UITabBar {
         super.layoutSubviews()
         self.isTranslucent = true
         var tabFrame = self.frame
-        let additionalInset: CGFloat = UIDevice.current.hasNotch ? 0 : 10
-        tabFrame.size.height = 75.adjusted(by: .vertical) + (UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.safeAreaInsets.bottom ?? CGFloat.zero)
-        tabFrame.origin.y = self.frame.origin.y +   ( self.frame.height - (65+additionalInset).adjusted(by: .vertical) - (UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.safeAreaInsets.bottom ?? CGFloat.zero))
+     //   let additionalInset: CGFloat = UIDevice.current.hasNotch ? 0 : 10
+        tabFrame.size.height = 75 + (UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.safeAreaInsets.bottom ?? CGFloat.zero)
+        print(UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.safeAreaInsets.bottom)
+        tabFrame.origin.y = self.frame.origin.y +   ( self.frame.height - 65 - (UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.safeAreaInsets.bottom ?? CGFloat.zero))
         self.layer.cornerRadius = 20
         self.frame = tabFrame
-        self.items?.forEach({$0.imageInsets = UIEdgeInsets(top: -15.adjusted(by: .vertical), left: 0, bottom: 0, right: 0)})
-        self.items?.forEach({ $0.titlePositionAdjustment = UIOffset(horizontal: 0.0, vertical: -18.adjusted(by: .vertical)) })
-        self.itemWidth = UIScreen.main.bounds.width / 8
+    //    self.items?.forEach({$0.imageInsets = UIEdgeInsets(top: -15, left: 0, bottom: 0, right: 0)})
+        self.items?.forEach({ $0.titlePositionAdjustment = UIOffset(horizontal: 0.0, vertical: -18) })
+
+        print(tabFrame)
+
     }
 
 

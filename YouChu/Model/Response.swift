@@ -25,3 +25,14 @@ struct Response<T: Codable>: Codable {
         standardValue = (try? values.decode(String.self, forKey: .standardValue)) ?? nil
     }
 }
+
+struct ResonseForResgister: Codable {
+    let status: Int
+    let message: String
+    let exist: Bool
+    let token: String
+    let data: Int
+    enum Codingkeys: CodingKey {
+        case status, message, exist, token, data
+    }
+}

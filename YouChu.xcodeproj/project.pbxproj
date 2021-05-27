@@ -25,7 +25,6 @@
 		376CD139265530DC00A09764 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 376CD138265530DC00A09764 /* Color.swift */; };
 		376CD13B26555A4900A09764 /* ResponseWithPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 376CD13A26555A4900A09764 /* ResponseWithPage.swift */; };
 		3778ACE7262CAE22008F95AB /* CircularImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3778ACE6262CAE22008F95AB /* CircularImageButton.swift */; };
-		3778ACFD2631C358008F95AB /* UILabel+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3778ACFC2631C358008F95AB /* UILabel+Extensions.swift */; };
 		3778AD002632A2DF008F95AB /* TagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3778ACFF2632A2DF008F95AB /* TagCell.swift */; };
 		3778AD0426343F1E008F95AB /* RankingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3778AD0326343F1E008F95AB /* RankingTableViewCell.swift */; };
 		3778AD0C26345810008F95AB /* RankingHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3778AD0B26345810008F95AB /* RankingHeader.swift */; };
@@ -36,6 +35,7 @@
 		37A918AF263AF886006C96F7 /* ChannelDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A918AE263AF886006C96F7 /* ChannelDetailController.swift */; };
 		37A918B6263BF552006C96F7 /* DetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A918B5263BF552006C96F7 /* DetailTableViewCell.swift */; };
 		37DC1464265E664700F7B7A0 /* TokenUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DC1463265E664700F7B7A0 /* TokenUtils.swift */; };
+		37DC1466265E9CBA00F7B7A0 /* GoogleLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DC1465265E9CBA00F7B7A0 /* GoogleLoginViewController.swift */; };
 		37DC810A262B1CAF00711CF0 /* CarouselChannelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DC8109262B1CAF00711CF0 /* CarouselChannelCell.swift */; };
 		37DC810D262B2D5500711CF0 /* BannerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DC810C262B2D5500711CF0 /* BannerCell.swift */; };
 		37DC8110262B9BAE00711CF0 /* ChannelCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DC810F262B9BAE00711CF0 /* ChannelCardView.swift */; };
@@ -51,10 +51,12 @@
 		37FB47382628465E008781C0 /* RankingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37FB47372628465E008781C0 /* RankingController.swift */; };
 		37FB473B2628466E008781C0 /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37FB473A2628466E008781C0 /* HomeController.swift */; };
 		37FB473E2628467B008781C0 /* RecommendationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37FB473D2628467B008781C0 /* RecommendationController.swift */; };
-		83DF2C8B6784CE1C998BDBE7 /* Pods_YouChu.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3F54FF01DC93416F453EF9B /* Pods_YouChu.framework */; };
+		B81E6BB3CDDAB05C3F799FDC /* Pods_YouChu.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30C97A25CD3E7C9F535A7B40 /* Pods_YouChu.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		287B54ABD93A3AC5A460283E /* Pods-YouChu.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YouChu.debug.xcconfig"; path = "Target Support Files/Pods-YouChu/Pods-YouChu.debug.xcconfig"; sourceTree = "<group>"; };
+		30C97A25CD3E7C9F535A7B40 /* Pods_YouChu.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YouChu.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3706443F26593EC000FB95C1 /* ChannelListNEViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelListNEViewController.swift; sourceTree = "<group>"; };
 		371DCA68264AC53700B3724C /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		371DCA6A264ECDEA00B3724C /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -73,7 +75,6 @@
 		376CD138265530DC00A09764 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		376CD13A26555A4900A09764 /* ResponseWithPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseWithPage.swift; sourceTree = "<group>"; };
 		3778ACE6262CAE22008F95AB /* CircularImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularImageButton.swift; sourceTree = "<group>"; };
-		3778ACFC2631C358008F95AB /* UILabel+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extensions.swift"; sourceTree = "<group>"; };
 		3778ACFF2632A2DF008F95AB /* TagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCell.swift; sourceTree = "<group>"; };
 		3778AD0326343F1E008F95AB /* RankingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingTableViewCell.swift; sourceTree = "<group>"; };
 		3778AD0B26345810008F95AB /* RankingHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingHeader.swift; sourceTree = "<group>"; };
@@ -84,6 +85,7 @@
 		37A918AE263AF886006C96F7 /* ChannelDetailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelDetailController.swift; sourceTree = "<group>"; };
 		37A918B5263BF552006C96F7 /* DetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTableViewCell.swift; sourceTree = "<group>"; };
 		37DC1463265E664700F7B7A0 /* TokenUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenUtils.swift; sourceTree = "<group>"; };
+		37DC1465265E9CBA00F7B7A0 /* GoogleLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GoogleLoginViewController.swift; path = YouChu/Controller/GoogleLoginViewController.swift; sourceTree = SOURCE_ROOT; };
 		37DC8109262B1CAF00711CF0 /* CarouselChannelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselChannelCell.swift; sourceTree = "<group>"; };
 		37DC810C262B2D5500711CF0 /* BannerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerCell.swift; sourceTree = "<group>"; };
 		37DC810F262B9BAE00711CF0 /* ChannelCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelCardView.swift; sourceTree = "<group>"; };
@@ -101,9 +103,7 @@
 		37FB47372628465E008781C0 /* RankingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingController.swift; sourceTree = "<group>"; };
 		37FB473A2628466E008781C0 /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
 		37FB473D2628467B008781C0 /* RecommendationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationController.swift; sourceTree = "<group>"; };
-		479F5165FC4EEE14753742AA /* Pods-YouChu.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YouChu.release.xcconfig"; path = "Target Support Files/Pods-YouChu/Pods-YouChu.release.xcconfig"; sourceTree = "<group>"; };
-		7812F723EE8AD105FEA94D88 /* Pods-YouChu.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YouChu.debug.xcconfig"; path = "Target Support Files/Pods-YouChu/Pods-YouChu.debug.xcconfig"; sourceTree = "<group>"; };
-		B3F54FF01DC93416F453EF9B /* Pods_YouChu.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YouChu.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7D6452F4D3C0940265003EAC /* Pods-YouChu.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YouChu.release.xcconfig"; path = "Target Support Files/Pods-YouChu/Pods-YouChu.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,21 +111,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				83DF2C8B6784CE1C998BDBE7 /* Pods_YouChu.framework in Frameworks */,
+				B81E6BB3CDDAB05C3F799FDC /* Pods_YouChu.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0F2043ABB84692F03DAF934F /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				B3F54FF01DC93416F453EF9B /* Pods_YouChu.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		37500DFE263716A000BB4BC5 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
@@ -157,7 +149,7 @@
 				37FB47072628440A008781C0 /* YouChu */,
 				37FB47062628440A008781C0 /* Products */,
 				9F793563A2DFBC8DD6B7AD6A /* Pods */,
-				0F2043ABB84692F03DAF934F /* Frameworks */,
+				B020EA213722F5C216D8A1C5 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -219,6 +211,7 @@
 			children = (
 				375FE4682639753400740866 /* Detail */,
 				37FB47302628457F008781C0 /* MainTabController.swift */,
+				37DC1465265E9CBA00F7B7A0 /* GoogleLoginViewController.swift */,
 				37FB473A2628466E008781C0 /* HomeController.swift */,
 				37FB473D2628467B008781C0 /* RecommendationController.swift */,
 				37FB47372628465E008781C0 /* RankingController.swift */,
@@ -244,7 +237,6 @@
 			isa = PBXGroup;
 			children = (
 				37FB472D2628456E008781C0 /* Extensions.swift */,
-				3778ACFC2631C358008F95AB /* UILabel+Extensions.swift */,
 				3789E0B52642F43C00894656 /* Device.swift */,
 				37534FCF2654F6C5003A5C42 /* Statics.swift */,
 				376CD138265530DC00A09764 /* Color.swift */,
@@ -255,10 +247,18 @@
 		9F793563A2DFBC8DD6B7AD6A /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				7812F723EE8AD105FEA94D88 /* Pods-YouChu.debug.xcconfig */,
-				479F5165FC4EEE14753742AA /* Pods-YouChu.release.xcconfig */,
+				287B54ABD93A3AC5A460283E /* Pods-YouChu.debug.xcconfig */,
+				7D6452F4D3C0940265003EAC /* Pods-YouChu.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		B020EA213722F5C216D8A1C5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				30C97A25CD3E7C9F535A7B40 /* Pods_YouChu.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -268,11 +268,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 37FB47192628440C008781C0 /* Build configuration list for PBXNativeTarget "YouChu" */;
 			buildPhases = (
-				2DE5A47EC73F18BE4E1B0A96 /* [CP] Check Pods Manifest.lock */,
+				D5C3771605C3D3F75BF2E907 /* [CP] Check Pods Manifest.lock */,
 				37FB47012628440A008781C0 /* Sources */,
 				37FB47022628440A008781C0 /* Frameworks */,
 				37FB47032628440A008781C0 /* Resources */,
-				F1C20F482ACAAB7991C982A6 /* [CP] Embed Pods Frameworks */,
+				B05FCCCEE248A67C29D57E82 /* [CP] Embed Pods Frameworks */,
+				81718F93CFC0D5121A51CE72 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -329,7 +330,41 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		2DE5A47EC73F18BE4E1B0A96 /* [CP] Check Pods Manifest.lock */ = {
+		81718F93CFC0D5121A51CE72 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-YouChu/Pods-YouChu-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-YouChu/Pods-YouChu-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-YouChu/Pods-YouChu-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B05FCCCEE248A67C29D57E82 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-YouChu/Pods-YouChu-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-YouChu/Pods-YouChu-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-YouChu/Pods-YouChu-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D5C3771605C3D3F75BF2E907 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -351,23 +386,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		F1C20F482ACAAB7991C982A6 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-YouChu/Pods-YouChu-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-YouChu/Pods-YouChu-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-YouChu/Pods-YouChu-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -386,6 +404,7 @@
 				37534FD02654F6C5003A5C42 /* Statics.swift in Sources */,
 				3778AD1726345CB3008F95AB /* Topic.swift in Sources */,
 				3778AD0426343F1E008F95AB /* RankingTableViewCell.swift in Sources */,
+				37DC1466265E9CBA00F7B7A0 /* GoogleLoginViewController.swift in Sources */,
 				3778AD1A2635C917008F95AB /* CircularProfileView.swift in Sources */,
 				37A918AF263AF886006C96F7 /* ChannelDetailController.swift in Sources */,
 				37FB47092628440A008781C0 /* AppDelegate.swift in Sources */,
@@ -398,7 +417,6 @@
 				376CD13B26555A4900A09764 /* ResponseWithPage.swift in Sources */,
 				3747FDD6263E822100916764 /* Channel.swift in Sources */,
 				3789E0B62642F43C00894656 /* Device.swift in Sources */,
-				3778ACFD2631C358008F95AB /* UILabel+Extensions.swift in Sources */,
 				37534FCE2654F497003A5C42 /* UserInfo.swift in Sources */,
 				37DC810D262B2D5500711CF0 /* BannerCell.swift in Sources */,
 				371DCA6F264F9D6200B3724C /* Response.swift in Sources */,
@@ -559,7 +577,7 @@
 		};
 		37FB471A2628440C008781C0 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7812F723EE8AD105FEA94D88 /* Pods-YouChu.debug.xcconfig */;
+			baseConfigurationReference = 287B54ABD93A3AC5A460283E /* Pods-YouChu.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -579,7 +597,7 @@
 		};
 		37FB471B2628440C008781C0 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 479F5165FC4EEE14753742AA /* Pods-YouChu.release.xcconfig */;
+			baseConfigurationReference = 7D6452F4D3C0940265003EAC /* Pods-YouChu.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

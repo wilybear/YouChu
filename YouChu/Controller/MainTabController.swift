@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import GoogleSignIn
 
 class MainTabController: UITabBarController {
 
@@ -21,17 +22,12 @@ class MainTabController: UITabBarController {
     // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        checkIfuserIsLoggedIn()
         view.backgroundColor = .white
         setValue(CustomTabbar(frame: tabBar.frame), forKey: "tabBar")
         configureViewControllers()
-//        UserInfo.fetchUser(userId: 16) { result in
-//            switch result {
-//            case .success(_):
-//                self.configureViewControllers()
-//            case .failure(_):
-//                self.showMessage(withTitle: "에러", message: "올바르지 않은 접근입니다.")
-//            }
-//        }
+        tabBarConfigure()
+
     }
 
     override func viewDidLayoutSubviews() {
@@ -43,17 +39,33 @@ class MainTabController: UITabBarController {
     override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
         guard let idx = tabBar.items?.firstIndex(of: item), tabBar.subviews.count > idx, let imageView = tabBar.subviews[idx].subviews.compactMap({$0 as? UIImageView}).first else { return }
         imageView.layer.add(bounceAnimaton, forKey: nil)
+
     }
 
     // MARK: - API
+    func checkIfuserIsLoggedIn(){
+        guard let signIn = GIDSignIn.sharedInstance() else { return }
+        if (signIn.hasPreviousSignIn()) {
+            signIn.restorePreviousSignIn()
+
+        }else{
+            DispatchQueue.main.async {
+                let controller = GoogleLoginViewController()
+                let nav = UINavigationController(rootViewController: controller)
+                nav.modalPresentationStyle = .fullScreen
+                self.present(nav, animated: true, completion: nil)
+            }
+        }
+    }
 
     // MARK: - Helpers
+
     func configureViewControllers(){
         view.backgroundColor = .white
         let myPage = templateNavigationController(title:"내 정보" ,unselectedImage: #imageLiteral(resourceName: "profile"), selectedImage: #imageLiteral(resourceName: "profile"), rootViewController:  MyPageController())
-              let ranking =  templateNavigationController(title:"랭킹", unselectedImage: #imageLiteral(resourceName: "trophy"), selectedImage: #imageLiteral(resourceName: "trophy"), rootViewController:  RankingController())
-              let home = templateNavigationController(title:"홈",unselectedImage: #imageLiteral(resourceName: "home"), selectedImage: #imageLiteral(resourceName: "home"), rootViewController:  HomeController())
-              let recommendation =  templateNavigationController(title:"추천",unselectedImage: #imageLiteral(resourceName: "discover"), selectedImage: #imageLiteral(resourceName: "discover"), rootViewController:  RecommendationController())
+        let ranking =  templateNavigationController(title:"랭킹", unselectedImage: #imageLiteral(resourceName: "trophy"), selectedImage: #imageLiteral(resourceName: "trophy"), rootViewController:  RankingController())
+        let home = templateNavigationController(title:"홈",unselectedImage: #imageLiteral(resourceName: "home"), selectedImage: #imageLiteral(resourceName: "home"), rootViewController:  HomeController())
+        let recommendation =  templateNavigationController(title:"추천",unselectedImage: #imageLiteral(resourceName: "discover"), selectedImage: #imageLiteral(resourceName: "discover"), rootViewController:  RecommendationController())
         viewControllers = [home, recommendation, ranking, myPage]
         tabBar.isTranslucent = false
         tabBar.tintColor = .mainColor_5
@@ -67,7 +79,18 @@ class MainTabController: UITabBarController {
         nav.tabBarItem.title = title
         return nav
     }
+
+    func tabBarConfigure() {
+        tabBar.items?.forEach({$0.imageInsets = UIEdgeInsets(top: -15, left: 0, bottom: 0, right: 0)})
+        tabBar.itemWidth = UIScreen.main.bounds.width / 8
+    }
 }
+
+//extension MainTabController: SendUserDelegate {
+//    func sendUser(user: User) {
+//        self.user = user
+//    }
+//}
 
 
 
