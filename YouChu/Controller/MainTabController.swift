@@ -23,14 +23,15 @@ class MainTabController: UITabBarController {
         super.viewDidLoad()
         view.backgroundColor = .white
         setValue(CustomTabbar(frame: tabBar.frame), forKey: "tabBar")
-        UserInfo.fetchUser(userId: 16) { result in
-            switch result {
-            case .success(_):
-                self.configureViewControllers()
-            case .failure(_):
-                self.showMessage(withTitle: "에러", message: "올바르지 않은 접근입니다.")
-            }
-        }
+        configureViewControllers()
+//        UserInfo.fetchUser(userId: 16) { result in
+//            switch result {
+//            case .success(_):
+//                self.configureViewControllers()
+//            case .failure(_):
+//                self.showMessage(withTitle: "에러", message: "올바르지 않은 접근입니다.")
+//            }
+//        }
     }
 
     override func viewDidLayoutSubviews() {
