@@ -133,6 +133,8 @@ class HomeController: UIViewController {
 
     private var recommendedChannels:[Channel] = []
     private var relatedChannel:[Channel] = []
+    private var recommendedChannelsMax:[Channel] = []
+    private var relatedChannelMax:[Channel] = []
 
     // MARK: - LifeCycle
 
@@ -187,10 +189,8 @@ class HomeController: UIViewController {
         Service.fetchRecommendChannelList(userId: user.id, size: 10, page: 0) { result in
             switch result{
             case .success(let data):
-                guard let channels = data.data else {
-                    return
-                }
-                self.recommendedChannels.append(contentsOf: channels)
+                self.recommendedChannels = Array(data.prefix(upTo: 12))
+                self.recommendedChannelsMax = data
                 self.circularCollectionView.reloadData()
             case .failure(_):
                 self.showMessage(withTitle: "Error", message: "Unable to fetch data from server")
@@ -206,16 +206,14 @@ class HomeController: UIViewController {
         Service.fetchRelatedChannels(userId: user.id, size: 10, page: 0) { result, standardValue in
             switch result{
             case .success(let data):
-                guard let channels = data.data else {
-                    return
-                }
                 var channelName = standardValue
                 if channelName.count > 19 {
                     let endIdx = channelName.index(channelName.startIndex, offsetBy: 17)
                     channelName = channelName[channelName.startIndex..<endIdx] + "..."
                 }
                 self.labelForSecondCollectionView.attributedText = (channelName + "와 연관된 채널").coloredAttributedColor(stringToColor: "연관된", color: .complementaryColor)
-                self.relatedChannel.append(contentsOf: channels)
+                self.relatedChannel = Array(data.prefix(upTo: 12))
+                self.relatedChannelMax = data
                 self.carouselCollectionView.reloadData()
             case .failure(_):
                 self.showMessage(withTitle: "Error", message: "Unable to fetch data from server")
@@ -242,11 +240,11 @@ class HomeController: UIViewController {
     @objc func handleMore(_ sender: UIButton){
         if sender == moreButtonForFirst {
             let title = "맞춤 채널".coloredAttributedColor(stringToColor: "맞춤", color: .complementaryColor2)
-            let controller = ChannelListNEViewController(title: title, channels: recommendedChannels, type: .recommended)
+            let controller = ChannelListNEViewController(title: title, channels: recommendedChannelsMax, type: .recommended)
             self.navigationController?.pushViewController(controller, animated: true)
         }else if sender == moreButtonForSecond {
             let title = "연관 채널".coloredAttributedColor(stringToColor: "연관", color: .complementaryColor)
-            let controller = ChannelListNEViewController(title: title, channels: relatedChannel, type: .related)
+            let controller = ChannelListNEViewController(title: title, channels: relatedChannelMax, type: .related)
             self.navigationController?.pushViewController(controller, animated: true)
         }
     }

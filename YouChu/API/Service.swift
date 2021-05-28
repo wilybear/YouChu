@@ -66,10 +66,10 @@ struct Service{
             }
     }
 
-    static func fetchRecommendChannelList(userId:Int,size:Int, page:Int, completion:@escaping(Result<Page<[Channel]>,Error>)->Void){
+    static func fetchRecommendChannelList(userId:Int,size:Int, page:Int, completion:@escaping( Result<[Channel],Error>)->Void){
         AF.request(baseUrl + "recommend", method: .get, parameters: ["user_id": userId, "size": size, "page": page])
             .validate(statusCode: 200..<300)
-            .responseDecodable(of: Response<Page<[Channel]>>.self) { response in
+            .responseDecodable(of: Response<[Channel]>.self) { response in
                 switch response.result {
                 case .success(_):
                     guard let data = response.value?.data else {
@@ -77,15 +77,16 @@ struct Service{
                     }
                     completion(.success(data))
                 case .failure(let err):
+                    print(err)
                     completion(.failure(err))
                 }
             }
     }
 
-    static func fetchRelatedChannels(userId:Int,size:Int, page:Int, completion:@escaping(Result<Page<[Channel]>,Error>, String)->Void){
+    static func fetchRelatedChannels(userId:Int,size:Int, page:Int, completion:@escaping(Result<[Channel],Error>, String)->Void){
         AF.request(baseUrl + "relate", method: .get, parameters: ["user_id": userId, "size": size, "page": page])
             .validate(statusCode: 200..<300)
-            .responseDecodable(of: Response<Page<[Channel]>>.self) { response in
+            .responseDecodable(of: Response<[Channel]>.self) { response in
                 switch response.result {
                 case .success(_):
                     guard let data = response.value?.data else {

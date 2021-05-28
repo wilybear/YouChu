@@ -67,55 +67,55 @@ class ChannelListNEViewController: UIViewController {
 
     // MARK: - API
 
-    func fetchChannels(page: Int){
-        guard let user = UserInfo.user else {
-            return
-        }
-        showLoader(true)
-        isPaging = true
-        switch listType {
-        case .recommended:
-            Service.fetchRecommendChannelList(userId: user.id, size: 10, page: page) { result in
-                switch result {
-                case .success(let page):
-                    self.channels.append(contentsOf: page.data ?? [])
-                    self.tableView.reloadData()
-                    if page.last{
-                        self.isLastPage = true
-                        self.isPaging = false
-                        self.showLoader(false)
-                    }
-                    self.currentPage += 1
-                    self.isPaging = false
-                    self.showLoader(false)
-                case .failure(let err):
-                    self.showMessage(withTitle: "Err", message: "\(err)")
-                    self.isPaging = false
-                    self.showLoader(false)
-                }
-            }
-        case .related:
-            Service.fetchRelatedChannels(userId: user.id, size: 10, page: page) { result, standvalue  in
-                switch result {
-                case .success(let page):
-                    self.channels.append(contentsOf: page.data ?? [])
-                    self.tableView.reloadData()
-                    if page.last{
-                        self.isLastPage = true
-                        self.isPaging = false
-                        self.showLoader(false)
-                    }
-                    self.currentPage += 1
-                    self.isPaging = false
-                    self.showLoader(false)
-                case .failure(let err):
-                    self.showMessage(withTitle: "Err", message: "\(err)")
-                    self.isPaging = false
-                    self.showLoader(false)
-                }
-            }
-        }
-    }
+//    func fetchChannels(page: Int){
+//        guard let user = UserInfo.user else {
+//            return
+//        }
+//        showLoader(true)
+//        isPaging = true
+//        switch listType {
+//        case .recommended:
+//            Service.fetchRecommendChannelList(userId: user.id, size: 10, page: page) { result in
+//                switch result {
+//                case .success(let page):
+//                    self.channels.append(contentsOf: page.data ?? [])
+//                    self.tableView.reloadData()
+//                    if page.last{
+//                        self.isLastPage = true
+//                        self.isPaging = false
+//                        self.showLoader(false)
+//                    }
+//                    self.currentPage += 1
+//                    self.isPaging = false
+//                    self.showLoader(false)
+//                case .failure(let err):
+//                    self.showMessage(withTitle: "Err", message: "\(err)")
+//                    self.isPaging = false
+//                    self.showLoader(false)
+//                }
+//            }
+//        case .related:
+//            Service.fetchRelatedChannels(userId: user.id, size: 10, page: page) { result, standvalue  in
+//                switch result {
+//                case .success(let page):
+//                    self.channels.append(contentsOf: page.data ?? [])
+//                    self.tableView.reloadData()
+//                    if page.last{
+//                        self.isLastPage = true
+//                        self.isPaging = false
+//                        self.showLoader(false)
+//                    }
+//                    self.currentPage += 1
+//                    self.isPaging = false
+//                    self.showLoader(false)
+//                case .failure(let err):
+//                    self.showMessage(withTitle: "Err", message: "\(err)")
+//                    self.isPaging = false
+//                    self.showLoader(false)
+//                }
+//            }
+//        }
+//    }
 
     // MARK: - Helpers
 
@@ -172,7 +172,7 @@ extension ChannelListNEViewController {
         let height = scrollView.frame.height
         if offsetY > (contentHeight - height) {
             if isPaging == false && !isLastPage {
-               fetchChannels(page: currentPage)
+            //   fetchChannels(page: currentPage)
             }
         }
     }

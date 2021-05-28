@@ -147,7 +147,6 @@ public final class DropDown: UIView {
 
     /**
      The height of the drop down.
-
      Defaults to `tableHeight - offscreenHeight`.
      */
     public var height: CGFloat? {
@@ -326,7 +325,6 @@ public final class DropDown: UIView {
 
     /**
      The color of the text for selected cells of the drop down.
-
      Changing the text color automatically reloads the drop down.
      */
     @objc public dynamic var selectedTextColor = DPDConstant.UI.SelectedTextColor {
@@ -343,7 +341,6 @@ public final class DropDown: UIView {
 
     /**
      The NIB to use for DropDownCells
-
      Changing the cell nib automatically reloads the drop down.
      */
     public var cellNib = UINib(nibName: "DropDownCell", bundle: Bundle(for: DropDownCell.self)) {
@@ -391,7 +388,6 @@ public final class DropDown: UIView {
 
     /**
      A advanced formatter for the cells. Allows customization when custom cells are used
-
      Changing `customCellConfiguration` automatically reloads the drop down.
      */
     public var customCellConfiguration: CellConfigurationClosure? {
@@ -403,7 +399,6 @@ public final class DropDown: UIView {
 
     /**
     The action to execute when the user selects multiple cells.
-
     Providing an action will turn on multiselection mode.
     The single selection action will still be called if provided.
     */
@@ -792,7 +787,6 @@ extension DropDown {
 
     /**
      An Objective-C alias for the show() method which converts the returned tuple into an NSDictionary.
-
      - returns: An NSDictionary with a value for the "canBeDisplayed" Bool, and possibly for the "offScreenHeight" Optional(CGFloat).
      */
     @objc(show)

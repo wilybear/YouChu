@@ -297,28 +297,9 @@ extension ChannelDetailController: PagingViewControllerDelegate {
             destinationViewController.tableView.delegate = self
         }
     }
-
-//    func pagingViewController(_: PagingViewController, willScrollToItem _: PagingItem, startingViewController _: UIViewController, destinationViewController: UIViewController) {
-//        guard let destinationViewController = destinationViewController as? UITableViewController else { return }
-//
-//        // Update the content offset based on the height of the header
-//        // view. This ensures that the content offset is correct if you
-//        // swipe to a new page while the header view is hidden.
-//        if let scrollView = destinationViewController.tableView {
-//            let offset = headerConstraint.constant + pagingViewController.options.menuHeight
-//            scrollView.contentOffset = CGPoint(x: 0, y: -offset + 10)
-//            updateScrollIndicatorInsets(in: scrollView)
-//        }
-//    }
 }
 
 extension ChannelDetailController: UITableViewDelegate{
-//    func updateScrollIndicatorInsets(in scrollView: UIScrollView) {
-//        let offset = min(0, scrollView.contentOffset.y) * -1
-//        let insetTop = max(pagingViewController.options.menuHeight, offset)
-//        let insets = UIEdgeInsets(top: insetTop, left: 0, bottom: 0, right: 0)
-//        scrollView.scrollIndicatorInsets = insets
-//    }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)

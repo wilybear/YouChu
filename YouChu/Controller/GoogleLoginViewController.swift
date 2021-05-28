@@ -104,9 +104,15 @@ extension GoogleLoginViewController: GIDSignInDelegate {
                 case .success(let response):
                     print("register 성공")
                     let tk = TokenUtils()
-                    tk.create("https://www.youchu.link", account: "accessToken", value: response.token)
+                    guard let token = response.token else {
+                        return
+                    }
+                    tk.create("https://www.youchu.link", account: "accessToken", value: token)
                     print("token 발급")
-                    UserInfo.fetchUser(userId: response.data) { result in
+                    guard let user = response.data else {
+                        return
+                    }
+                    UserInfo.fetchUser(userId: user) { result in
                         switch result {
                         case .success(let user):
                             print("token으로 유저 정보 가져옴")

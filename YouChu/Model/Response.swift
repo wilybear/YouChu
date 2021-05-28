@@ -27,12 +27,21 @@ struct Response<T: Codable>: Codable {
 }
 
 struct ResonseForResgister: Codable {
-    let status: Int
-    let message: String
-    let exist: Bool
-    let token: String
-    let data: Int
+    let status: Int?
+    let message: String?
+    let exist: Bool?
+    let token: String?
+    let data: Int?
     enum Codingkeys: CodingKey {
         case status, message, exist, token, data
+    }
+
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        status = (try? values.decode(Int.self, forKey: .status)) ?? nil
+        message = (try? values.decode(String.self, forKey: .message)) ?? nil
+        exist = (try? values.decode(Bool.self, forKey: .exist)) ?? nil
+        token = (try? values.decode(String.self, forKey: .token)) ?? nil
+        data = (try? values.decode(Int.self, forKey: .data)) ?? nil
     }
 }

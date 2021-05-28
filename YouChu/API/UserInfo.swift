@@ -38,7 +38,7 @@ class UserInfo{
         guard let header = tk.getAuthorizationHeader(serviceID: TokenUtils.service) else{
             return
         }
-        AF.request(baseUrl + "user", method: .get,parameters: ["google_user_id": googleId], headers: header)
+        AF.request(baseUrl + "user", method: .get,parameters: ["google_user_id": googleId], headers: header, interceptor: TokenRequestInterceptor())
             .validate(statusCode: 200..<300)
             .responseDecodable(of: Response<User>.self) { response in
             switch response.result {
