@@ -11,7 +11,7 @@ class TagCell: UICollectionViewCell {
 
     // MARK: - Properties
     var keyword: String? {
-        didSet{
+        didSet {
             tagLabel.text = keyword
         }
     }
@@ -20,12 +20,11 @@ class TagCell: UICollectionViewCell {
         let label = UILabel()
         label.textAlignment = .center
         label.font = UIFont.boldSystemFont(ofSize: 14.adjusted(by: .horizontal))
-    
+
         label.textColor = .white
 
         return label
     }()
-
 
     // MARK: - LifeCycle
     override init(frame: CGRect) {
@@ -38,7 +37,7 @@ class TagCell: UICollectionViewCell {
     }
 
     // MARK: - Helpers
-    private func configureUI(){
+    private func configureUI() {
         addSubview(tagLabel)
         tagLabel.text = keyword ?? ""
         tagLabel.center(inView: contentView)

@@ -12,6 +12,7 @@ let tagIdentifier = "SubscriberTag"
 
 protocol ChannelCardViewDelegate: AnyObject {
     func handleDetailButton(_ channelCardView: ChannelCardView)
+    func slideInAfterLoading()
 }
 
 class ChannelCardView: UIView {
@@ -26,7 +27,7 @@ class ChannelCardView: UIView {
     weak var delegate: ChannelCardViewDelegate?
 
     var channel: Channel? {
-        didSet{
+        didSet {
             setChannelInfo()
         }
     }
@@ -67,7 +68,7 @@ class ChannelCardView: UIView {
         return label
     }()
 
-    private var keywords:[Keyword] = []
+    private var keywords: [Keyword] = []
 
     private let TagListTitle: UILabel = {
         let label = UILabel()
@@ -132,15 +133,15 @@ class ChannelCardView: UIView {
         instruction.numberOfLines = instruction.numberOfLines == 3 ? 5 : 3
     }
 
-    @objc func handleDetailButton(){
+    @objc func handleDetailButton() {
         delegate?.handleDetailButton(self)
     }
 
     // MARK: - Helpers
 
-    private func configureUI(){
+    private func configureUI() {
         addSubview(containerView)
-        containerView.anchor(top:topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor)
+        containerView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor)
         containerView.layer.cornerRadius = cornerRadius
         containerView.clipsToBounds = true
         containerView.backgroundColor = .white
@@ -152,13 +153,11 @@ class ChannelCardView: UIView {
         channelProfileView.centerX(inView: containerView)
         channelProfileView.anchor(top: containerView.safeAreaLayoutGuide.topAnchor, paddingTop: 10)
 
-
         containerView.addSubview(subscriberCount)
         subscriberCount.anchor(top: channelProfileView.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 3)
 
-
         containerView.addSubview(instructionTitle)
-        instructionTitle.anchor(top: subscriberCount.bottomAnchor, left: leftAnchor,right: rightAnchor, paddingTop: 20, paddingLeft: 20, paddingRight: 20)
+        instructionTitle.anchor(top: subscriberCount.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 20, paddingLeft: 20, paddingRight: 20)
 
         containerView.addSubview(instruction)
         instruction.anchor(top: instructionTitle.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 5, paddingLeft: 20, paddingRight: 20)
@@ -167,17 +166,16 @@ class ChannelCardView: UIView {
         TagListTitle.anchor(top: instruction.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 20, paddingLeft: 20, paddingRight: 20)
         containerView.addSubview(TagListCollectionView)
         TagListCollectionView.centerX(inView: containerView)
-        TagListCollectionView.anchor(top: TagListTitle.bottomAnchor, left: leftAnchor, bottom: containerView.safeAreaLayoutGuide.bottomAnchor, right: rightAnchor ,paddingTop: 5, paddingLeft: 20, paddingBottom: 20, paddingRight: 20)
-        //TagListCollectionView.setHeight(CGFloat(30 * (sampleTagData.count / 5) + 50) )
+        TagListCollectionView.anchor(top: TagListTitle.bottomAnchor, left: leftAnchor, bottom: containerView.safeAreaLayoutGuide.bottomAnchor, right: rightAnchor, paddingTop: 5, paddingLeft: 20, paddingBottom: 20, paddingRight: 20)
+        // TagListCollectionView.setHeight(CGFloat(30 * (sampleTagData.count / 5) + 50) )
 
     }
 
-    func setChannelInfo(){
+    func setChannelInfo() {
         guard let channel = channel else {
             return
         }
         subscriberCount.text = "구독자 " + channel.subscriberCountText
-        channelProfileView.setImage(url: channel.thumbnailUrl)
         channelProfileView.title = channel.title
         instruction.text = channel.description
         Service.fetchKeywordList(channelIdx: channel.channelIdx!, completion: { result in
@@ -185,13 +183,15 @@ class ChannelCardView: UIView {
             self.keywords = keywords
             self.TagListCollectionView.reloadData()
         })
+        channelProfileView.setImage(url: channel.thumbnailUrl) { _ in
+            self.delegate?.slideInAfterLoading()
+        }
 //        TagListCollectionView.setNeedsLayout()
 //        self.containerView.layoutIfNeeded()
     }
 }
 
-
-extension ChannelCardView : UICollectionViewDelegate, UICollectionViewDataSource {
+extension ChannelCardView: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return keywords.count
     }
@@ -205,7 +205,6 @@ extension ChannelCardView : UICollectionViewDelegate, UICollectionViewDataSource
         return cell
     }
 
-
 }
 
 extension ChannelCardView: UICollectionViewDelegateFlowLayout {
@@ -213,7 +212,7 @@ extension ChannelCardView: UICollectionViewDelegateFlowLayout {
         // dataArary is the managing array for your UICollectionView.
         let item = keywords[indexPath.row].keyword
         let itemSize = item.size(withAttributes: [
-            NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 14.adjusted(by: .horizontal))
+            NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14.adjusted(by: .horizontal))
         ])
         return CGSize(width: itemSize.width + 10.adjusted(by: .horizontal), height: itemSize.height + 7.adjusted(by: .vertical))
     }

@@ -36,10 +36,9 @@ class HomeController: UIViewController {
     private let scrollView = UIScrollView()
     private let contentView = UIView()
 
-
     lazy var bannerCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: view.frame.width , height: 244.adjusted(by: .vertical))
+        layout.itemSize = CGSize(width: view.frame.width, height: 244.adjusted(by: .vertical))
         layout.scrollDirection = .horizontal
         layout.minimumLineSpacing = 0.0
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
@@ -131,10 +130,10 @@ class HomeController: UIViewController {
         return button
     }()
 
-    private var recommendedChannels:[Channel] = []
-    private var relatedChannel:[Channel] = []
-    private var recommendedChannelsMax:[Channel] = []
-    private var relatedChannelMax:[Channel] = []
+    private var recommendedChannels: [Channel] = []
+    private var relatedChannel: [Channel] = []
+    private var recommendedChannelsMax: [Channel] = []
+    private var relatedChannelMax: [Channel] = []
 
     // MARK: - LifeCycle
 
@@ -144,8 +143,6 @@ class HomeController: UIViewController {
         DispatchQueue.main.async {
             self.timer = Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(self.changeImage), userInfo: nil, repeats: true)
         }
-
-//        NotificationCenter.default.addObserver(self, selector: #selector(<#T##@objc method#>), name: <#T##NSNotification.Name?#>, object: <#T##Any?#>)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -160,20 +157,22 @@ class HomeController: UIViewController {
 
     // MARK: - API
 
-    func fetchUser(){
-        if let _ = UserInfo.user {
+    func fetchUser() {
+        if UserInfo.user != nil {
             self.fetchRelatedChannels()
             self.fetchRecommendedChannels()
-        }else{
+        } else {
             guard let signIn = GIDSignIn.sharedInstance() else { return }
             guard let currentUser = signIn.currentUser else {
                 return
             }
+            showLoader(true)
             UserInfo.fetchUser(googleId: currentUser.userID) { result in
-                switch result{
+                switch result {
                 case .success(_):
                     self.fetchRecommendedChannels()
                     self.fetchRelatedChannels()
+                    self.showLoader(false)
                 case .failure(let err):
                     self.showMessage(withTitle: "Error", message: "Unable to fetch user \(err)")
                 }
@@ -181,13 +180,13 @@ class HomeController: UIViewController {
         }
     }
 
-    func fetchRecommendedChannels(){
+    func fetchRecommendedChannels() {
         guard let user = UserInfo.user else {
             return
         }
         // first recommended list
         Service.fetchRecommendChannelList(userId: user.id, size: 10, page: 0) { result in
-            switch result{
+            switch result {
             case .success(let data):
                 self.recommendedChannels = Array(data.prefix(upTo: 12))
                 self.recommendedChannelsMax = data
@@ -198,13 +197,13 @@ class HomeController: UIViewController {
         }
     }
 
-    func fetchRelatedChannels(){
+    func fetchRelatedChannels() {
         guard let user = UserInfo.user else {
             return
         }
         // first recommended list
         Service.fetchRelatedChannels(userId: user.id, size: 10, page: 0) { result, standardValue in
-            switch result{
+            switch result {
             case .success(let data):
                 var channelName = standardValue
                 if channelName.count > 19 {
@@ -222,7 +221,7 @@ class HomeController: UIViewController {
     }
 
     // MARK: - Actions
-    @objc func changeImage(){
+    @objc func changeImage() {
         if counter < bannerImages.count {
             let index = IndexPath.init(item: counter, section: 0)
             self.bannerCollectionView.scrollToItem(at: index, at: .centeredVertically, animated: true)
@@ -237,12 +236,12 @@ class HomeController: UIViewController {
         }
     }
 
-    @objc func handleMore(_ sender: UIButton){
+    @objc func handleMore(_ sender: UIButton) {
         if sender == moreButtonForFirst {
             let title = "맞춤 채널".coloredAttributedColor(stringToColor: "맞춤", color: .complementaryColor2)
             let controller = ChannelListNEViewController(title: title, channels: recommendedChannelsMax, type: .recommended)
             self.navigationController?.pushViewController(controller, animated: true)
-        }else if sender == moreButtonForSecond {
+        } else if sender == moreButtonForSecond {
             let title = "연관 채널".coloredAttributedColor(stringToColor: "연관", color: .complementaryColor)
             let controller = ChannelListNEViewController(title: title, channels: relatedChannelMax, type: .related)
             self.navigationController?.pushViewController(controller, animated: true)
@@ -251,26 +250,26 @@ class HomeController: UIViewController {
 
     // MARK: - Helpers
 
-    func configureUI(){
+    func configureUI() {
 
         scrollView.showsVerticalScrollIndicator = false
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
-        scrollView.anchor(top:view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor)
+        scrollView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor)
         scrollView.centerX(inView: view)
 
-        contentView.anchor(top:scrollView.topAnchor, left: scrollView.leftAnchor, bottom: scrollView.bottomAnchor, right: scrollView.rightAnchor)
+        contentView.anchor(top: scrollView.topAnchor, left: scrollView.leftAnchor, bottom: scrollView.bottomAnchor, right: scrollView.rightAnchor)
         contentView.centerX(inView: scrollView)
 
         contentView.addSubview(bannerCollectionView)
         bannerCollectionView.setHeight(250)
-        bannerCollectionView.anchor(top:contentView.safeAreaLayoutGuide.topAnchor, left: contentView.leftAnchor, right: contentView.rightAnchor)
+        bannerCollectionView.anchor(top: contentView.safeAreaLayoutGuide.topAnchor, left: contentView.leftAnchor, right: contentView.rightAnchor)
 
         contentView.addSubview(pageControl)
         pageControl.anchor( bottom: bannerCollectionView.bottomAnchor, right: contentView.rightAnchor, paddingBottom: 16, paddingRight: 55 )
 
         contentView.addSubview(labelForFirstCollectionView)
-        labelForFirstCollectionView.anchor(top:bannerCollectionView.bottomAnchor, left: contentView.leftAnchor, paddingTop: 38, paddingLeft: 17)
+        labelForFirstCollectionView.anchor(top: bannerCollectionView.bottomAnchor, left: contentView.leftAnchor, paddingTop: 38, paddingLeft: 17)
 
         contentView.addSubview(moreButtonForFirst)
         moreButtonForFirst.centerY(inView: labelForFirstCollectionView)
@@ -281,16 +280,16 @@ class HomeController: UIViewController {
         circularCollectionView.anchor(top: labelForFirstCollectionView.bottomAnchor, left: contentView.leftAnchor, right: contentView.rightAnchor, paddingTop: 20)
 
         contentView.addSubview(labelForSecondCollectionView)
-        labelForSecondCollectionView.anchor(top:circularCollectionView.bottomAnchor, left: contentView.leftAnchor, paddingTop: 38 ,paddingLeft: 17,paddingBottom: 18)
+        labelForSecondCollectionView.anchor(top: circularCollectionView.bottomAnchor, left: contentView.leftAnchor, paddingTop: 38, paddingLeft: 17, paddingBottom: 18)
 
         contentView.addSubview(moreButtonForSecond)
         moreButtonForSecond.centerY(inView: labelForSecondCollectionView)
         moreButtonForSecond.anchor(right: contentView.rightAnchor, paddingRight: 17)
 
-
         contentView.addSubview(carouselCollectionView)
         carouselCollectionView.setHeight(165)
-        carouselCollectionView.anchor(top: labelForSecondCollectionView.bottomAnchor, left: contentView.leftAnchor, bottom: contentView.safeAreaLayoutGuide.bottomAnchor, right: contentView.rightAnchor, paddingTop: 20)
+        carouselCollectionView.anchor(top: labelForSecondCollectionView.bottomAnchor, left: contentView.leftAnchor,
+                                      bottom: contentView.safeAreaLayoutGuide.bottomAnchor, right: contentView.rightAnchor, paddingTop: 20)
 
     }
 
@@ -300,20 +299,7 @@ class HomeController: UIViewController {
     func animateDimCell(_ cell: UICollectionViewCell) {
         UIView.animate( withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: { cell.alpha = 0.5 }, completion: nil)
     }
-//    func sampleTest(){
-//        guard let signIn = GIDSignIn.sharedInstance() else {return}
-//        signIn.currentUser.authentication.getTokensWithHandler { (auth, error) in
-//            guard error == nil else { return }
-//            let accessToken = auth?.accessToken
-//            let refreshToken = auth?.refreshToken
-//            print("access: \(accessToken)")
-//            print("refresh: \(refreshToken)")
-//        }
-//    }
-
 }
-
-
 
 // MARK: - CollectionView Extensions
 
@@ -322,9 +308,9 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == self.circularCollectionView {
             return recommendedChannels.count
-        }else if collectionView == self.carouselCollectionView {
+        } else if collectionView == self.carouselCollectionView {
             return relatedChannel.count
-        }else {
+        } else {
             return bannerImages.count
         }
     }
@@ -335,15 +321,14 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: circularIdentifier, for: indexPath as IndexPath) as! CircularChannelCell
             cell.channel = recommendedChannels[indexPath.row]
             return cell
-        }
-        else if collectionView == self.carouselCollectionView {
+        } else if collectionView == self.carouselCollectionView {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: carouselIdentifier, for: indexPath) as! CarouselChannelCell
             cell.channel = relatedChannel[indexPath.row]
             cell.layer.cornerRadius = 10
             cell.layer.masksToBounds = true
             cell.alpha = 0.5
             return cell
-        }else {
+        } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: bannerIdentifier, for: indexPath) as! BannerCell
             cell.image = bannerImages[indexPath.row]
             return cell
@@ -354,24 +339,24 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource {
         if collectionView == self.circularCollectionView {
             let controller = ChannelDetailController(channelId: recommendedChannels[indexPath.row].channelIdx!)
             navigationController?.pushViewController(controller, animated: true)
-        }else if collectionView == self.carouselCollectionView {
+        } else if collectionView == self.carouselCollectionView {
             let controller = ChannelDetailController(channelId: relatedChannel[indexPath.row].channelIdx!)
             navigationController?.pushViewController(controller, animated: true)
-        }else{
+        } else {
 
         }
     }
 
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
 
-        if scrollView == carouselCollectionView{
+        if scrollView == carouselCollectionView {
             let cellWidthIncludeSpacing = 285.adjusted(by: .horizontal) + 20
             var offset = targetContentOffset.pointee
             let index = (offset.x + scrollView.contentInset.left) / cellWidthIncludeSpacing
             let roundedIndex: CGFloat = round(index)
             offset = CGPoint(x: roundedIndex * cellWidthIncludeSpacing - scrollView.contentInset.left, y: scrollView.contentInset.top)
             targetContentOffset.pointee = offset
-        }else if scrollView == bannerCollectionView {
+        } else if scrollView == bannerCollectionView {
             let page = Int(targetContentOffset.pointee.x / view.frame.width)
             self.pageControl.currentPage = page
             counter = page
@@ -389,12 +374,10 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource {
             }
             if Int(roundedIndex) != previousIndex {
                 let preIndexPath = IndexPath(item: previousIndex, section: 0)
-                if let preCell = carouselCollectionView.cellForItem(at: preIndexPath){ animateDimCell(preCell)
+                if let preCell = carouselCollectionView.cellForItem(at: preIndexPath) { animateDimCell(preCell)
                 }
                 previousIndex = indexPath.item
             }
         }
     }
 }
-
-

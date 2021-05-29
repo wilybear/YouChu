@@ -25,7 +25,7 @@ class MyPageTableViewCell: UITableViewCell {
     }()
 
     var title: String? {
-        didSet{
+        didSet {
             name.text = title
         }
     }
@@ -43,21 +43,21 @@ class MyPageTableViewCell: UITableViewCell {
 
     // MARK: - Helpers
 
-    private func configureUI(){
+    private func configureUI() {
         addSubview(name)
-        name.anchor(top:topAnchor, left: leftAnchor, bottom: bottomAnchor, paddingLeft: 15)
+        name.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, paddingLeft: 15)
         addSubview(arrow)
-        arrow.anchor(top:topAnchor, bottom: bottomAnchor, right: rightAnchor ,paddingRight: 15)
+        arrow.anchor(top: topAnchor, bottom: bottomAnchor, right: rightAnchor, paddingRight: 15)
     }
 
-    func addVersionInfo(){
+    func addVersionInfo() {
         arrow.removeFromSuperview()
         let versionLabel = UILabel()
         versionLabel.textColor = UIColor.lightGray
         versionLabel.text = "1.0.0"
         versionLabel.font = UIFont.systemFont(ofSize: 17.adjusted(by: .horizontal))
         addSubview(versionLabel)
-        versionLabel.anchor(top:topAnchor, bottom: bottomAnchor, right: rightAnchor, paddingRight: 15)
+        versionLabel.anchor(top: topAnchor, bottom: bottomAnchor, right: rightAnchor, paddingRight: 15)
     }
 
 }

@@ -5,14 +5,13 @@
 //  Created by 김현식 on 2021/04/15.
 //
 
-
 import UIKit
 
 let rankCellIdentifier = "rankCell"
 
 class RankingController: UIViewController {
 
-    var channels:[Channel] = []
+    var channels: [Channel] = []
     var currentPage = 0
     var isLastPage = false
     var isPaging = false
@@ -56,13 +55,13 @@ class RankingController: UIViewController {
     }
 
     // MARK: - API
-    func fetchRankingChannel(with topic:Topic, pageNumber: Int) {
+    func fetchRankingChannel(with topic: Topic, pageNumber: Int) {
         showLoader(true)
         isPaging = true
-        Service.fetchRankingChannelList(of: topic,userId: (UserInfo.user?.id)! ,size: 20, page: pageNumber) { result in
+        Service.fetchRankingChannelList(of: topic, userId: (UserInfo.user?.id)!, size: 20, page: pageNumber) { result in
             switch result {
             case .success(let page):
-                if page.last{
+                if page.last {
                     self.isLastPage = true
                     self.isPaging = false
                     self.showLoader(false)
@@ -74,7 +73,7 @@ class RankingController: UIViewController {
 
                 self.isPaging = false
 
-                //when first intialize, scroll to the top
+                // when first intialize, scroll to the top
                 if self.currentPage == 1 {
                     self.scrollToTop()
                 }
@@ -89,13 +88,13 @@ class RankingController: UIViewController {
 
     // MARK: - Helpers
 
-    private func configureUI(){
+    private func configureUI() {
         view.addSubview(header)
         header.delegate = self
         header.setHeight(105)
-        header.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor,right: view.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingRight: 10)
+        header.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingRight: 10)
         view.addSubview(tableView)
-        tableView.anchor(top: header.bottomAnchor, left: view.leftAnchor,bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor)
+        tableView.anchor(top: header.bottomAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor)
     }
 
     private func scrollToTop() {
@@ -125,7 +124,6 @@ extension RankingController: UITableViewDataSource, UITableViewDelegate {
         navigationController?.pushViewController(controller, animated: true)
     }
 }
-
 
 // MARK: DumiData
 

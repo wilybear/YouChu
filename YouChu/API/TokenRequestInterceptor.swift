@@ -29,7 +29,7 @@ class TokenRequestInterceptor: RequestInterceptor {
                 result ? completion(.retry) : completion(.doNotRetry)
             }
             completion(.retryWithDelay(retryDelay))
-        }else{
+        } else {
             return completion(.doNotRetry)
         }
     }
@@ -39,7 +39,7 @@ class TokenRequestInterceptor: RequestInterceptor {
         guard let currentUser = signIn.currentUser else {
             return
         }
-        AF.request(baseUrl + "userIndex", method: .get,parameters: ["google_user_id": currentUser.userID])
+        AF.request(baseUrl + "userIndex", method: .get, parameters: ["google_user_id": currentUser.userID])
             .validate(statusCode: 200..<300)
             .responseDecodable(of: ResonseForResgister.self) { response in
             switch response.result {
@@ -48,10 +48,11 @@ class TokenRequestInterceptor: RequestInterceptor {
                 let tk = TokenUtils()
                 tk.create("https://www.youchu.link", account: "accessToken", value: token)
                 completion(true)
+                print("DEBUG: I Got a new pil")
             case .failure(let err):
+                print(err)
                 completion(false)
             }
         }
     }
-    
 }

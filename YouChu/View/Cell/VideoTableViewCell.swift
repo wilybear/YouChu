@@ -13,7 +13,7 @@ class VideoTableViewCell: UITableViewCell {
     // MARK: - Properties
 
     var video: Video? {
-        didSet{
+        didSet {
             setVideosInfos()
         }
     }
@@ -58,23 +58,23 @@ class VideoTableViewCell: UITableViewCell {
     }
     // MARK: - Helpers
 
-    private func configureUI(){
+    private func configureUI() {
 
         addSubview(thumbnailImageView)
         thumbnailImageView.centerY(inView: contentView)
         thumbnailImageView.setWidth(186.adjusted(by: .vertical))
-        thumbnailImageView.anchor(top:topAnchor, left: leftAnchor, bottom: bottomAnchor, paddingTop: 10, paddingLeft: 15 ,paddingBottom: 10)
+        thumbnailImageView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 10)
 
         addSubview(titleLabel)
-        titleLabel.anchor(top:topAnchor, left: thumbnailImageView.rightAnchor, right: rightAnchor, paddingTop: 15, paddingLeft: 10,paddingRight: 15)
+        titleLabel.anchor(top: topAnchor, left: thumbnailImageView.rightAnchor, right: rightAnchor, paddingTop: 15, paddingLeft: 10, paddingRight: 15)
         addSubview(publishedAtLabel)
-        publishedAtLabel.anchor(left: thumbnailImageView.rightAnchor,right: rightAnchor, paddingLeft: 10, paddingRight: 15)
+        publishedAtLabel.anchor(left: thumbnailImageView.rightAnchor, right: rightAnchor, paddingLeft: 10, paddingRight: 15)
         addSubview(viewCountLabel)
-        viewCountLabel.anchor(top: publishedAtLabel.bottomAnchor, left: thumbnailImageView.rightAnchor, bottom: bottomAnchor,right: rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 15, paddingRight: 15)
+        viewCountLabel.anchor(top: publishedAtLabel.bottomAnchor, left: thumbnailImageView.rightAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 15, paddingRight: 15)
 
     }
 
-    private func setVideosInfos(){
+    private func setVideosInfos() {
         guard let video = video else { return }
         titleLabel.text = video.title
         thumbnailImageView.sd_setImage(with: video.thumbnailUrl)

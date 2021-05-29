@@ -13,7 +13,7 @@ class VideoViewController: UITableViewController {
     // MARK: - Properties
 
     var channel: Channel? {
-        didSet{
+        didSet {
             fetchVideos()
         }
     }
@@ -26,13 +26,13 @@ class VideoViewController: UITableViewController {
     }
 
     // MARK: - API
-    func fetchVideos(){
+    func fetchVideos() {
         guard let channel = channel else {
             return
         }
 
         Service.fetchLatestVideos(of: channel.channelId!) { result in
-            switch result{
+            switch result {
             case .success(let videos):
                 self.videos = videos
                 self.tableView.reloadData()
@@ -43,7 +43,7 @@ class VideoViewController: UITableViewController {
     }
 
     // MARK: - Helpers
-    private func configureUI(){
+    private func configureUI() {
         tableView.register(VideoTableViewCell.self, forCellReuseIdentifier: VideoViewController.CellIdentifier)
         tableView.rowHeight = 125.adjusted(by: .vertical)
         tableView.separatorStyle = .none

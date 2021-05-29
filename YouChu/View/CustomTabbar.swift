@@ -37,10 +37,9 @@ class CustomTabbar: UITabBar {
         shapeLayer.fillColor = color?.cgColor ?? UIColor.white.cgColor
         shapeLayer.lineWidth = 2
         shapeLayer.shadowColor = UIColor.black.cgColor
-        shapeLayer.shadowOffset = CGSize(width: 0   , height: -3);
+        shapeLayer.shadowOffset = CGSize(width: 0, height: -3)
         shapeLayer.shadowOpacity = 0.2
         shapeLayer.shadowPath =  UIBezierPath(roundedRect: newBounds, cornerRadius: radii).cgPath
-
 
         if let oldShapeLayer = self.shapeLayer {
             layer.replaceSublayer(oldShapeLayer, with: shapeLayer)
@@ -76,6 +75,5 @@ class CustomTabbar: UITabBar {
 //    //    }
 //
 //    }
-
 
 }

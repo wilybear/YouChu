@@ -12,7 +12,7 @@ class CircularChannelCell: UICollectionViewCell {
     // MARK: - Properties
 
     var channel: Channel? {
-        didSet{
+        didSet {
             channelCell.setImage(url: channel?.thumbnailUrl)
             channelCell.title = channel?.title
         }
@@ -34,7 +34,7 @@ class CircularChannelCell: UICollectionViewCell {
         addSubview(channelCell)
         channelCell.fillSuperview()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

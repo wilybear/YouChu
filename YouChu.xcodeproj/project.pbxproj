@@ -24,6 +24,7 @@
 		375FE46D2639755E00740866 /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375FE46C2639755E00740866 /* VideoViewController.swift */; };
 		376CD139265530DC00A09764 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 376CD138265530DC00A09764 /* Color.swift */; };
 		376CD13B26555A4900A09764 /* ResponseWithPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 376CD13A26555A4900A09764 /* ResponseWithPage.swift */; };
+		377586FA2662AA36001C0768 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 377586F92662AA36001C0768 /* .swiftlint.yml */; };
 		3778ACE7262CAE22008F95AB /* CircularImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3778ACE6262CAE22008F95AB /* CircularImageButton.swift */; };
 		3778AD002632A2DF008F95AB /* TagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3778ACFF2632A2DF008F95AB /* TagCell.swift */; };
 		3778AD0426343F1E008F95AB /* RankingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3778AD0326343F1E008F95AB /* RankingTableViewCell.swift */; };
@@ -75,6 +76,7 @@
 		375FE46C2639755E00740866 /* VideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
 		376CD138265530DC00A09764 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		376CD13A26555A4900A09764 /* ResponseWithPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseWithPage.swift; sourceTree = "<group>"; };
+		377586F92662AA36001C0768 /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		3778ACE6262CAE22008F95AB /* CircularImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularImageButton.swift; sourceTree = "<group>"; };
 		3778ACFF2632A2DF008F95AB /* TagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCell.swift; sourceTree = "<group>"; };
 		3778AD0326343F1E008F95AB /* RankingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingTableViewCell.swift; sourceTree = "<group>"; };
@@ -148,6 +150,7 @@
 		37FB46FC2628440A008781C0 = {
 			isa = PBXGroup;
 			children = (
+				377586F92662AA36001C0768 /* .swiftlint.yml */,
 				37FB47072628440A008781C0 /* YouChu */,
 				37FB47062628440A008781C0 /* Products */,
 				9F793563A2DFBC8DD6B7AD6A /* Pods */,
@@ -277,6 +280,7 @@
 				37FB47032628440A008781C0 /* Resources */,
 				B05FCCCEE248A67C29D57E82 /* [CP] Embed Pods Frameworks */,
 				81718F93CFC0D5121A51CE72 /* [CP] Copy Pods Resources */,
+				377586F82662A993001C0768 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -324,6 +328,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				377586FA2662AA36001C0768 /* .swiftlint.yml in Resources */,
 				37FB47152628440C008781C0 /* LaunchScreen.storyboard in Resources */,
 				37FB47122628440C008781C0 /* Assets.xcassets in Resources */,
 				37FB47102628440A008781C0 /* Main.storyboard in Resources */,
@@ -333,6 +338,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		377586F82662A993001C0768 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if test -d \"/opt/homebrew/bin/\"; then\n  PATH=\"/opt/homebrew/bin/:${PATH}\"\nfi\n\nexport PATH\n\nif which swiftlint >/dev/null; then\n  swiftlint autocorrect && swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
 		81718F93CFC0D5121A51CE72 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -595,7 +617,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = edu.wilybear.YouChu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -615,7 +637,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = edu.wilybear.YouChu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

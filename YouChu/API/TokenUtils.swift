@@ -13,12 +13,12 @@ class TokenUtils {
     static let service = "https://www.youchu.link"
     static let account = "accessToken"
 
-    func create(_ service: String, account: String, value: String){
+    func create(_ service: String, account: String, value: String) {
         let keyChainQuery: NSDictionary = [
-            kSecClass : kSecClassGenericPassword,
+            kSecClass: kSecClassGenericPassword,
             kSecAttrService: service,
             kSecAttrAccount: account,
-            kSecValueData : value.data(using: .utf8, allowLossyConversion: false)!
+            kSecValueData: value.data(using: .utf8, allowLossyConversion: false)!
         ]
 
         SecItemDelete(keyChainQuery)
@@ -36,14 +36,14 @@ class TokenUtils {
             kSecMatchLimit: kSecMatchLimitOne
         ]
 
-        var dataTypeRef:AnyObject?
+        var dataTypeRef: AnyObject?
         let status = SecItemCopyMatching(keyChainQuery, &dataTypeRef)
 
-        if(status == errSecSuccess){
+        if status == errSecSuccess {
             let retruevedData = dataTypeRef as! Data
-            let value = String(data:retruevedData, encoding: String.Encoding.utf8)
+            let value = String(data: retruevedData, encoding: String.Encoding.utf8)
             return value
-        }else {
+        } else {
             print("failed to loading, status code = \(status)")
             return nil
         }
@@ -65,7 +65,7 @@ class TokenUtils {
     func getAuthorizationHeader(serviceID: String) -> HTTPHeaders? {
         let serviceID = serviceID
         if let accessToken = self.read(serviceID, account: "accessToken") {
-            return ["Authorization" : "Bearer \(accessToken)",
+            return ["Authorization": "Bearer \(accessToken)",
                     "Content-Type": "application/json"] as HTTPHeaders
         } else {
             return nil

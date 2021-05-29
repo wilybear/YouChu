@@ -8,7 +8,6 @@
 
 import UIKit
 import JGProgressHUD
-import RAMAnimatedTabBarController
 
 extension UIViewController {
     static let hud = JGProgressHUD(style: .dark)
@@ -145,7 +144,7 @@ extension UIView {
 }
 
 extension UIView {
-    func setupShadow(){
+    func setupShadow() {
         self.layer.shadowColor = UIColor.black.cgColor
         self.layer.shadowOpacity = 0.5
         self.layer.shadowOffset = .zero
@@ -170,7 +169,6 @@ extension UIView {
         layer.insertSublayer(shadowLayer, at: 0)
         return shadowLayer
     }
-
 
     // https://www.youtube.com/watch?v=S4iygtaoYCs 블로그 기록
     public enum Animation {
@@ -207,26 +205,24 @@ extension UIView {
         return self
     }
 
-    private func offsetFor(edge:Animation) -> CGPoint {
+    private func offsetFor(edge: Animation) -> CGPoint {
         if (self.superview?.frame.size) != nil {
             switch edge {
             case .none:
                 return CGPoint.zero
             case .left:
-                return CGPoint(x: -(frame.width + 50.adjusted(by: .horizontal)), y:0)
+                return CGPoint(x: -(frame.width + 50.adjusted(by: .horizontal)), y: 0)
             case .right:
-                return CGPoint(x: (frame.width + 50.adjusted(by: .horizontal)), y:0)
+                return CGPoint(x: (frame.width + 50.adjusted(by: .horizontal)), y: 0)
             case .top:
-                return CGPoint(x: 0,y: -frame.maxY)
+                return CGPoint(x: 0, y: -frame.maxY)
             }
         }
         return .zero
     }
-    var globalPoint :CGPoint? {
+    var globalPoint: CGPoint? {
         return self.superview?.convert(self.frame.origin, to: nil)
     }
-
-
 }
 
 extension Int {
@@ -236,18 +232,15 @@ extension Int {
         let million = number / 1000000
         if million >= 1.0 {
             return "\(round(million*10)/10)M"
-        }
-        else if thousand >= 1.0 {
+        } else if thousand >= 1.0 {
             return "\(round(thousand*10)/10)K"
-        }
-        else {
+        } else {
             return "\(self)"
         }
     }
 }
 
 extension CGFloat {
-
     func adjusted(by dir: Direction) -> (CGFloat) {
         switch dir {
         case .horizontal:
@@ -267,7 +260,7 @@ extension Int {
             return CGFloat(self) * Device.heightRatio
         }
     }
-    func addComma() -> String{
+    func addComma() -> String {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
         let result = numberFormatter.string(from: NSNumber(value: self)) ?? "-"
@@ -275,26 +268,14 @@ extension Int {
     }
 }
 
-
 enum Direction {
     case vertical
     case horizontal
 }
 
-extension RAMAnimatedTabBarItem {
-    convenience init(title: String, image: UIImage?, tag: Int, animation: RAMItemAnimation, selectedColor: UIColor, unselectedColor: UIColor) {
-        self.init(title: title, image: image, tag: 0)
-        animation.iconSelectedColor = selectedColor
-        animation.textSelectedColor = selectedColor
-        self.animation = animation
-        self.textColor = unselectedColor
-        self.iconColor = unselectedColor
-    }
-}
-
 extension UIDevice {
     var hasNotch: Bool {
-        let bottom = UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.safeAreaInsets.bottom ?? CGFloat.zero
+        let bottom = UIApplication.shared.windows.filter { $0.isKeyWindow }.first?.safeAreaInsets.bottom ?? CGFloat.zero
         return bottom > 0
     }
 }

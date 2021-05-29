@@ -14,14 +14,14 @@ protocol VideoDelegate: AnyObject {
     func openYoutubeVideo(index: Int)
 }
 
-class ChannelDetailController: UIViewController{
+class ChannelDetailController: UIViewController {
 
     // MARK: - Properties
 
     weak var delegate: VideoDelegate?
 
     var channel: Channel? {
-        didSet{
+        didSet {
             configureChannelInfo()
             let detailVC = viewControllers[0] as! DetailViewController
             detailVC.channel = channel
@@ -49,7 +49,6 @@ class ChannelDetailController: UIViewController{
 
     var headerHeightConstraint: NSLayoutConstraint?
     var bannerHeightConstraint: NSLayoutConstraint?
-
 
     private var pagingViewController = PagingViewController()
 
@@ -93,7 +92,6 @@ class ChannelDetailController: UIViewController{
         return bt
     }()
 
-
     private lazy var container = UIView()
 
     // MARK: - LifeCycle
@@ -130,7 +128,7 @@ class ChannelDetailController: UIViewController{
 
     // MARK: - API
 
-    func configureChannelInfo(){
+    func configureChannelInfo() {
         guard let channel = channel else {
             return
         }
@@ -144,7 +142,7 @@ class ChannelDetailController: UIViewController{
 
     // MARK: - Helpers
 
-    private func configurePaging(){
+    private func configurePaging() {
         addChild(pagingViewController)
         view.addSubview(pagingViewController.view)
         pagingViewController.didMove(toParent: self)
@@ -160,13 +158,13 @@ class ChannelDetailController: UIViewController{
 
     }
 
-    private func configureUI(){
+    private func configureUI() {
         view.addSubview(container)
 
         container.clipsToBounds = true
         container.addSubview(bannerImage)
 
-        bannerImage.anchor(top:container.topAnchor, left: container.leftAnchor , right: container.rightAnchor)
+        bannerImage.anchor(top: container.topAnchor, left: container.leftAnchor, right: container.rightAnchor)
         bannerHeightConstraint = bannerImage.heightAnchor.constraint(equalToConstant: bannerImageHeight)
         bannerHeightConstraint?.isActive = true
 
@@ -179,13 +177,13 @@ class ChannelDetailController: UIViewController{
         container.addSubview(thumbnailImageView)
         thumbnailImageView.centerX(inView: container)
         thumbnailImageView.anchor(top: bannerImage.bottomAnchor, paddingTop: -imageSize/2)
-        container.anchor(top:view.topAnchor, left: view.leftAnchor, right: view.rightAnchor)
+        container.anchor(top: view.topAnchor, left: view.leftAnchor, right: view.rightAnchor)
 
         headerHeightConstraint = container.heightAnchor.constraint(equalToConstant: headerHeight)
         headerHeightConstraint?.isActive = true
 
         container.addSubview(subscriberCount)
-        subscriberCount.anchor(left: container.leftAnchor, bottom: container.bottomAnchor,paddingLeft: 15, paddingBottom: 50)
+        subscriberCount.anchor(left: container.leftAnchor, bottom: container.bottomAnchor, paddingLeft: 15, paddingBottom: 50)
         subscriberCount.layer.zPosition = -1
 
         container.addSubview(youtubeLinkButton)
@@ -199,7 +197,7 @@ class ChannelDetailController: UIViewController{
 
     // transparent navigation bar
     // 블로그 기록
-    private func configureNavBar(){
+    private func configureNavBar() {
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = true
@@ -210,7 +208,7 @@ class ChannelDetailController: UIViewController{
         self.navigationItem.title = " "
     }
 
-    private func resetNavBar(){
+    private func resetNavBar() {
         self.navigationController?.navigationBar.setBackgroundImage(nil, for: UIBarMetrics.default)
         self.navigationController?.navigationBar.shadowImage = nil
         self.navigationController?.navigationBar.isTranslucent = false
@@ -234,12 +232,12 @@ class ChannelDetailController: UIViewController{
         }
     }
 
-    @objc func preferAction(){
+    @objc func preferAction() {
         guard let channel = channel else { return }
         guard let user = UserInfo.user else { return }
         heartImageButton.isUserInteractionEnabled = false
         if channel.isPreffered {
-            Service.deletePreferredChannel(userId: user.id , channelIdx: channel.channelIdx!) { response in
+            Service.deletePreferredChannel(userId: user.id, channelIdx: channel.channelIdx!) { response in
                 switch response {
                 case .success(_):
                     self.heartImageButton.setImage(UIImage(systemName: "heart"), for: .normal)
@@ -248,8 +246,8 @@ class ChannelDetailController: UIViewController{
                 }
                 self.heartImageButton.isUserInteractionEnabled = true
             }
-        }else{
-            Service.updatePreferredChannel(userId: user.id , channelIdx: channel.channelIdx!) { response in
+        } else {
+            Service.updatePreferredChannel(userId: user.id, channelIdx: channel.channelIdx!) { response in
                 switch response {
                 case .success(_):
                     self.heartImageButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
@@ -299,7 +297,7 @@ extension ChannelDetailController: PagingViewControllerDelegate {
     }
 }
 
-extension ChannelDetailController: UITableViewDelegate{
+extension ChannelDetailController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
@@ -311,17 +309,17 @@ extension ChannelDetailController: UITableViewDelegate{
      //   let changeStartOffset: CGFloat = -100.adjusted(by: .vertical)
         let changeSpeed: CGFloat = 50.adjusted(by: .vertical)
         thumbnailImageView.alpha = min(1.0, (bannerHeightConstraint!.constant - minHeight) / changeSpeed)
-        //print(bannerHeightConstraint!.constant, headerHeightConstraint!.constant)
+        // print(bannerHeightConstraint!.constant, headerHeightConstraint!.constant)
         if headerHeightConstraint!.constant == minHeight {
             self.navigationItem.title = channel?.title
-        }else{
+        } else {
             self.navigationItem.title = " "
         }
         guard scrollView.contentOffset.y > 0 else {
             if headerHeightConstraint!.constant < headerHeight {
-                headerHeightConstraint!.constant += min(abs(scrollView.contentOffset.y) * 3,10)
+                headerHeightConstraint!.constant += min(abs(scrollView.contentOffset.y) * 3, 10)
                 if bannerHeightConstraint!.constant < bannerImageHeight {
-                    bannerHeightConstraint!.constant += min(abs(scrollView.contentOffset.y) * 3,10)
+                    bannerHeightConstraint!.constant += min(abs(scrollView.contentOffset.y) * 3, 10)
                 }
 
                 scrollView.contentOffset.y = 0
@@ -334,7 +332,7 @@ extension ChannelDetailController: UITableViewDelegate{
             }
             return
         }
-        //print("DEBUG: height: \( headerHeightConstraint!.constant) ,minHeight:\(minHeight)")
+        // print("DEBUG: height: \( headerHeightConstraint!.constant) ,minHeight:\(minHeight)")
         if headerHeightConstraint!.constant > minHeight {
             headerHeightConstraint!.constant = max(headerHeightConstraint!.constant - scrollView.contentOffset.y, minHeight )
             bannerHeightConstraint!.constant = max(bannerHeightConstraint!.constant - scrollView.contentOffset.y, minHeight )
@@ -342,10 +340,4 @@ extension ChannelDetailController: UITableViewDelegate{
         }
     }
 
-
 }
-
-
-
-
-

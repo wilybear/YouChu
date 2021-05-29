@@ -11,11 +11,9 @@ target 'YouChu' do
 	pod 'ActiveLabel'
 	pod 'SDWebImage'
 	pod 'JGProgressHUD'
-	pod 'TTTAttributedLabel'
 	pod 'DropDown'
 	pod 'Parchment', '~> 3.0'
 	pod "SwiftRater"
-	pod 'RAMAnimatedTabBarController'
 	pod 'Alamofire'
 	pod 'GoogleSignIn'
 end

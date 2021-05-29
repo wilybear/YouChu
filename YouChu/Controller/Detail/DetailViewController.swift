@@ -13,7 +13,7 @@ class DetailViewController: UITableViewController {
 
     // MARK: - Properties
     var channel: Channel? {
-        didSet{
+        didSet {
             configureChannelInfo()
         }
     }
@@ -35,14 +35,14 @@ class DetailViewController: UITableViewController {
     ]
 
     // TODO: should be channed to view model
-    private var infoList:[String?] = []
+    private var infoList: [String?] = []
 
-    private var keywordList:[Keyword] = []
+    private var keywordList: [Keyword] = []
 
     // MARK: - LifeCycle
 
     // MARK: - API
-    func configureChannelInfo(){
+    func configureChannelInfo() {
         guard let channel = channel else {
             return
         }
@@ -59,7 +59,7 @@ class DetailViewController: UITableViewController {
 
         Service.fetchTopics(of: channel.channelIdx!) { topics in
             guard let topics = topics else { return }
-            let topicNames = topics.map{$0.topicName}
+            let topicNames = topics.map {$0.topicName}
             self.infoList[5] = topicNames.joined(separator: "/")
             self.tableView.reloadData()
         }
@@ -73,7 +73,7 @@ class DetailViewController: UITableViewController {
     }
 
     // MARK: - Helpers
-    private func configureUI(){
+    private func configureUI() {
         tableView.register(DetailTableViewCell.self, forCellReuseIdentifier: DetailViewController.CellIdentifier)
         tableView.estimatedRowHeight = 30.adjusted(by: .vertical)
         tableView.allowsSelection = false

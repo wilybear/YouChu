@@ -39,18 +39,18 @@ class DetailTableViewCell: UITableViewCell {
     }()
 
     var infoType: String? {
-        didSet{
+        didSet {
             infoTypeLabel.text = infoType
         }
     }
     var info: String? {
-        didSet{
+        didSet {
             infoLabel.text = info
         }
     }
 
     var keywordList: [Keyword]? {
-        didSet{
+        didSet {
             collectionView.reloadData()
             configureKeywordView()
         }
@@ -70,16 +70,16 @@ class DetailTableViewCell: UITableViewCell {
     }
     // MARK: - Helpers
 
-    private func configureUI(){
+    private func configureUI() {
 
         addSubview(infoTypeLabel)
-        infoTypeLabel.anchor(top:topAnchor, left: leftAnchor, paddingTop: 15, paddingLeft: 10)
+        infoTypeLabel.anchor(top: topAnchor, left: leftAnchor, paddingTop: 15, paddingLeft: 10)
         infoTypeLabel.setWidth(90.adjusted(by: .horizontal))
         addSubview(infoLabel)
-        infoLabel.anchor(top:topAnchor, left: infoTypeLabel.rightAnchor, bottom: bottomAnchor, right: rightAnchor ,paddingTop:15, paddingLeft: 10,paddingRight: 15)
+        infoLabel.anchor(top: topAnchor, left: infoTypeLabel.rightAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 15, paddingLeft: 10, paddingRight: 15)
     }
 
-    private func configureKeywordView(){
+    private func configureKeywordView() {
         infoLabel.removeFromSuperview()
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -87,7 +87,7 @@ class DetailTableViewCell: UITableViewCell {
         if let contraint = keywordHeightContraint {
             contraint.isActive = false
         }
-        collectionView.anchor(top:topAnchor, left: infoTypeLabel.rightAnchor, bottom: bottomAnchor, right: rightAnchor ,paddingTop:15, paddingLeft: 10, paddingRight: 20)
+        collectionView.anchor(top: topAnchor, left: infoTypeLabel.rightAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 15, paddingLeft: 10, paddingRight: 20)
         collectionView.setNeedsLayout()
         layoutIfNeeded()
         keywordHeightContraint = collectionView.heightAnchor.constraint(equalToConstant: collectionView.contentSize.height)
@@ -98,7 +98,7 @@ class DetailTableViewCell: UITableViewCell {
     }
 }
 
-extension DetailTableViewCell : UICollectionViewDelegate, UICollectionViewDataSource {
+extension DetailTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return keywordList!.count
     }
@@ -119,7 +119,7 @@ extension DetailTableViewCell: UICollectionViewDelegateFlowLayout {
         // dataArary is the managing array for your UICollectionView.
         let item = keywordList![indexPath.row].keyword
         let itemSize = item.size(withAttributes: [
-            NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 14.adjusted(by: .horizontal))
+            NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14.adjusted(by: .horizontal))
         ])
         return CGSize(width: itemSize.width + 10.adjusted(by: .horizontal), height: itemSize.height + 7.adjusted(by: .vertical))
     }

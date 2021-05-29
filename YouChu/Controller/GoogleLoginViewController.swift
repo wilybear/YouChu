@@ -8,10 +8,8 @@
 import UIKit
 import GoogleSignIn
 
-
-
 class GoogleLoginViewController: UIViewController {
-    
+
     private lazy var googleSignInButton: GIDSignInButton = {
         let gidButton = GIDSignInButton()
         gidButton.style = .standard
@@ -41,7 +39,6 @@ class GoogleLoginViewController: UIViewController {
         return label
     }()
 
-
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .mainColor_3
@@ -52,23 +49,20 @@ class GoogleLoginViewController: UIViewController {
         icon.center(inView: view)
         icon.setDimensions(height: 250, width: 250)
         titleLabel.centerX(inView: view)
-        titleLabel.anchor(top:icon.bottomAnchor)
+        titleLabel.anchor(top: icon.bottomAnchor)
         support.centerX(inView: view)
         support.anchor(top: titleLabel.bottomAnchor, paddingTop: 5)
         googleSignInButton.centerX(inView: view)
-        googleSignInButton.anchor(top:support.bottomAnchor,bottom: view.safeAreaLayoutGuide.bottomAnchor, paddingTop: 10, paddingBottom: 100)
-
+        googleSignInButton.anchor(top: support.bottomAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, paddingTop: 10, paddingBottom: 100)
 
         GIDSignIn.sharedInstance()?.presentingViewController = self
         GIDSignIn.sharedInstance()?.delegate = self
         GIDSignIn.sharedInstance()?.scopes = ["https://www.googleapis.com/auth/youtube.readonly"]
 
-
     }
 
-
-    func hasRequiredScope(scope:[Any]) -> Bool {
-        return scope.contains{ $0 as! String == "https://www.googleapis.com/auth/youtube.readonly"}
+    func hasRequiredScope(scope: [Any]) -> Bool {
+        return scope.contains { $0 as! String == "https://www.googleapis.com/auth/youtube.readonly"}
     }
 
 }
@@ -88,9 +82,9 @@ extension GoogleLoginViewController: GIDSignInDelegate {
       // If you ever changed the client ID you use for Google Sign-in, or
       // requested a different set of scopes, then also confirm that they
       // have the values you expect before proceeding.
-        if (signIn.currentUser.authentication.clientID != "235837674630-g4j6mibrsrtiomp5fus179jg796nmt0t.apps.googleusercontent.com"
+        if signIn.currentUser.authentication.clientID != "235837674630-g4j6mibrsrtiomp5fus179jg796nmt0t.apps.googleusercontent.com"
             // TODO: Implement hasYourRequiredScopes
-                || !self.hasRequiredScope(scope:signIn.currentUser.grantedScopes)) {
+                || !self.hasRequiredScope(scope: signIn.currentUser.grantedScopes) {
           signIn.signOut()
         }
 
@@ -100,7 +94,7 @@ extension GoogleLoginViewController: GIDSignInDelegate {
                 return }
             let accessToken = auth?.accessToken
             UserInfo.registerUser(userToken: accessToken!, googleId: user.userID) { result in
-                switch result{
+                switch result {
                 case .success(let response):
                     print("register 성공")
                     let tk = TokenUtils()
@@ -116,7 +110,7 @@ extension GoogleLoginViewController: GIDSignInDelegate {
                         switch result {
                         case .success(let user):
                             print("token으로 유저 정보 가져옴")
-                            let data: [String:User] = ["user": user!]
+                            let data: [String: User] = ["user": user!]
                             NotificationCenter.default.post(name: Notification.Name(rawValue: "User"), object: nil, userInfo: data)
                             self.dismiss(animated: false, completion: nil)
                         case .failure(let err):
@@ -143,5 +137,3 @@ extension GoogleLoginViewController: GIDSignInDelegate {
         }
     }
 }
-
-

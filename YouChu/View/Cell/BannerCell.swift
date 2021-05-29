@@ -12,7 +12,7 @@ class BannerCell: UICollectionViewCell {
     // MARK: - Properties
 
     var image: UIImage? {
-        didSet{
+        didSet {
             bannerImage.image = image
         }
     }
@@ -23,7 +23,6 @@ class BannerCell: UICollectionViewCell {
         iv.clipsToBounds = true
         return iv
     }()
-
 
     // MARK: - Lifecycle
 

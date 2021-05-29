@@ -21,7 +21,7 @@ class CategoryRow: UITableViewCell {
         return layout
     }()
 
-    lazy var collectionView:UICollectionView = {
+    lazy var collectionView: UICollectionView = {
         let cv = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
         cv.setCollectionViewLayout(layout, animated: true)
         cv.translatesAutoresizingMaskIntoConstraints = false
@@ -63,8 +63,8 @@ extension CategoryRow: UICollectionViewDataSource, UICollectionViewDelegate {
 extension CategoryRow: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let itemsPerRow:CGFloat = 5
-        let hardCodedPadding:CGFloat = 8
+        let itemsPerRow: CGFloat = 5
+        let hardCodedPadding: CGFloat = 8
         let itemWidth = (collectionView.bounds.width / itemsPerRow) - hardCodedPadding
         let itemHeight = collectionView.bounds.height - (2 * hardCodedPadding)
             //  return CGSize(width: itemWidth, height: itemHeight)

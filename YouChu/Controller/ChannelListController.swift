@@ -24,16 +24,15 @@ class ChannelListController: UIViewController {
         return tv
     }()
 
-
     // MARK: - LifeCycle
 
-    init(title: String, channels: [Channel]){
+    init(title: String, channels: [Channel]) {
         self.channels = channels
         super.init(nibName: nil, bundle: nil)
         self.title = title
     }
 
-    init(title: String, type: ListType){
+    init(title: String, type: ListType) {
         self.listType = type
         super.init(nibName: nil, bundle: nil)
         self.title = title
@@ -63,7 +62,7 @@ class ChannelListController: UIViewController {
 
     // MARK: - API
 
-    func fetchUsersChannel(){
+    func fetchUsersChannel() {
         guard let type = listType else {
             return
         }
@@ -96,9 +95,9 @@ class ChannelListController: UIViewController {
 
     // MARK: - Helpers
 
-    private func configureUI(){
+    private func configureUI() {
         view.addSubview(tableView)
-        tableView.anchor(top:view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor)
+        tableView.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor)
     }
 
     // MARK: - Actions

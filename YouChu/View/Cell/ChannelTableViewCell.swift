@@ -12,8 +12,8 @@ class ChannelTableViewCell: UITableViewCell {
 
     private let imageSize: CGFloat = 70.adjusted(by: .vertical)
 
-    var channel : Channel? {
-        didSet{
+    var channel: Channel? {
+        didSet {
             setUpChannelInfo()
         }
     }
@@ -49,7 +49,6 @@ class ChannelTableViewCell: UITableViewCell {
         return bt
     }()
 
-
     // MARK: - LifeCycle
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -63,7 +62,7 @@ class ChannelTableViewCell: UITableViewCell {
 
     // MARK: - Helpers
 
-    func configureUI(){
+    func configureUI() {
         let middleStack = UIStackView(arrangedSubviews: [nameLabel, subscriberCountLabel])
         middleStack.axis = .vertical
         middleStack.distribution = .fill
@@ -78,10 +77,10 @@ class ChannelTableViewCell: UITableViewCell {
 
         addSubview(middleStack)
         middleStack.centerY(inView: contentView)
-        middleStack.anchor( left: thumbnailImageView.rightAnchor, right: rightAnchor , paddingLeft: 20, paddingRight: 20)
+        middleStack.anchor( left: thumbnailImageView.rightAnchor, right: rightAnchor, paddingLeft: 20, paddingRight: 20)
     }
 
-    private func setUpChannelInfo(){
+    private func setUpChannelInfo() {
         guard let channel = channel else {
             return
         }
@@ -94,6 +93,3 @@ class ChannelTableViewCell: UITableViewCell {
     }
 
 }
-
-
-

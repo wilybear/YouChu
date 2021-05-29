@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct User: Codable{
+struct User: Codable {
     let id: Int
     let email: String
     let preferCount: Int
@@ -20,4 +20,3 @@ struct User: Codable{
         case dislikeCount = "dislike_count"
     }
 }
-

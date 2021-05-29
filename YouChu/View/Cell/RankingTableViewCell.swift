@@ -11,13 +11,13 @@ class RankingTableViewCell: UITableViewCell {
     private let imageSize: CGFloat = 65.adjusted(by: .vertical)
 
     var channel: Channel? {
-        didSet{
+        didSet {
             setChannelInfo()
         }
     }
 
-    var rank:Int?{
-        didSet{
+    var rank: Int? {
+        didSet {
             rankingLabel.text = String(rank ?? 0)
         }
     }
@@ -59,7 +59,6 @@ class RankingTableViewCell: UITableViewCell {
         return bt
     }()
 
-
     // MARK: - LifeCycle
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -73,13 +72,12 @@ class RankingTableViewCell: UITableViewCell {
 
     // MARK: - Helpers
 
-    func configureUI(){
+    func configureUI() {
         let middleStack = UIStackView(arrangedSubviews: [nameLabel, subscriberCountLabel])
         middleStack.axis = .vertical
         middleStack.distribution = .fill
         middleStack.spacing = 15
         middleStack.alignment = .leading
-        
 
         addSubview(rankingLabel)
         rankingLabel.setWidth(50)
@@ -94,11 +92,11 @@ class RankingTableViewCell: UITableViewCell {
 
         addSubview(heartImageButton)
         heartImageButton.centerY(inView: contentView)
-        heartImageButton.anchor(right: rightAnchor , paddingLeft: 10, paddingRight: 30)
+        heartImageButton.anchor(right: rightAnchor, paddingLeft: 10, paddingRight: 30)
 
         addSubview(middleStack)
         middleStack.centerY(inView: contentView)
-        middleStack.anchor( left: thumbnailImageView.rightAnchor, right: heartImageButton.leftAnchor , paddingLeft: 10, paddingRight: 10)
+        middleStack.anchor( left: thumbnailImageView.rightAnchor, right: heartImageButton.leftAnchor, paddingLeft: 10, paddingRight: 10)
     }
 
     func setChannelInfo() {
@@ -112,12 +110,12 @@ class RankingTableViewCell: UITableViewCell {
     }
 
     // MARK: - Action
-    @objc func preferAction(){
+    @objc func preferAction() {
         guard let channel = channel else { return }
         guard let user = UserInfo.user else { return }
         heartImageButton.isUserInteractionEnabled = false
         if channel.isPreffered {
-            Service.deletePreferredChannel(userId: user.id , channelIdx: channel.channelIdx!) { response in
+            Service.deletePreferredChannel(userId: user.id, channelIdx: channel.channelIdx!) { response in
                 switch response {
                 case .success(_):
                     self.heartImageButton.setImage(UIImage(systemName: "heart"), for: .normal)
@@ -127,8 +125,8 @@ class RankingTableViewCell: UITableViewCell {
                 }
                 self.heartImageButton.isUserInteractionEnabled = true
             }
-        }else{
-            Service.updatePreferredChannel(userId: user.id , channelIdx: channel.channelIdx!) { response in
+        } else {
+            Service.updatePreferredChannel(userId: user.id, channelIdx: channel.channelIdx!) { response in
                 switch response {
                 case .success(_):
                     self.heartImageButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
@@ -142,5 +140,3 @@ class RankingTableViewCell: UITableViewCell {
 
     }
 }
-
-

@@ -7,12 +7,11 @@
 
 import Foundation
 
-
 struct Page<T: Codable>: Codable {
     let data: T?
     let last: Bool
 
-    enum CodingKeys: String,CodingKey {
+    enum CodingKeys: String, CodingKey {
         case data = "content"
         case last
     }

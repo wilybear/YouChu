@@ -27,10 +27,9 @@ class ChannelListNEViewController: UIViewController {
         return tv
     }()
 
-
     // MARK: - LifeCycle
 
-    init(title: NSMutableAttributedString, channels: [Channel], type: ChannelListType){
+    init(title: NSMutableAttributedString, channels: [Channel], type: ChannelListType) {
         self.channels = channels
         listType = type
         super.init(nibName: nil, bundle: nil)
@@ -51,7 +50,7 @@ class ChannelListNEViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.backgroundColor = .white
-        navigationController?.navigationBar.setBackgroundImage(nil, for:.default)
+        navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
         navigationController?.navigationBar.shadowImage = nil
         navigationController?.navigationBar.isTranslucent = true
         navigationController?.navigationBar.layoutIfNeeded()
@@ -119,21 +118,18 @@ class ChannelListNEViewController: UIViewController {
 
     // MARK: - Helpers
 
-    private func configureUI(){
+    private func configureUI() {
         view.addSubview(tableView)
-        tableView.anchor(top:view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor)
+        tableView.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor)
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
         var numOfSections: Int = 0
-        if !channels.isEmpty
-        {
+        if !channels.isEmpty {
             tableView.separatorStyle = .singleLine
             numOfSections = 1
             tableView.backgroundView = nil
-        }
-        else
-        {
+        } else {
             let noDataLabel: UILabel  = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height))
             noDataLabel.text = "채널이 존재하지 않습니다."
             noDataLabel.textColor = UIColor.black
@@ -178,6 +174,6 @@ extension ChannelListNEViewController {
     }
 }
 
-enum ChannelListType{
+enum ChannelListType {
     case recommended, related
 }

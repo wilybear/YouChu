@@ -12,7 +12,6 @@ import GoogleSignIn
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         SwiftRater.daysUntilPrompt = 3
@@ -20,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         SwiftRater.showLaterButton = true
         SwiftRater.countryCode = "kr"
         SwiftRater.showLog = true
-        //TODO: Set debug mode false when lauching app
+        // TODO: Set debug mode false when lauching app
         SwiftRater.debugMode = true
         SwiftRater.appLaunched()
         UINavigationBar.appearance().shadowImage = UIImage()
@@ -43,11 +42,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
-    
+
     @available(iOS 9.0, *)
-    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any]) -> Bool {
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any]) -> Bool {
       return GIDSignIn.sharedInstance().handle(url)
     }
 
 }
-

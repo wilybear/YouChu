@@ -18,7 +18,7 @@ struct Video: Codable {
         URL(string: thumbnail ?? "")
     }
 
-    var viewCountText: String{
+    var viewCountText: String {
         viewCount?.addComma() ?? "-"
     }
 
@@ -39,7 +39,7 @@ struct Video: Codable {
     }
 }
 //
-//"videoProfile": "https://i.ytimg.com/vi/3hisEjbHylw/mqdefault.jpg",
+// "videoProfile": "https://i.ytimg.com/vi/3hisEjbHylw/mqdefault.jpg",
 //            "title": "[미리 보는 오픈마이크] 벌써부터 레전드 귀호강 예약👂! 매주 월/수 저녁 6시 유튜브 공개 | 비긴어게인 오픈마이크",
 //            "publishedAt": "2021-05-21",
 //            "viewCount": 10744

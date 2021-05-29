@@ -77,5 +77,3 @@ enum Topic: String, CaseIterable {
     case tennis = "테니스"
     case reggae = "레게"
 }
-
-

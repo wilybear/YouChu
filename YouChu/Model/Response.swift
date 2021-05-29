@@ -14,7 +14,7 @@ struct Response<T: Codable>: Codable {
     let standardValue: String?
 
     enum CodingKeys: CodingKey {
-        case status,message, data, standardValue
+        case status, message, data, standardValue
     }
 
     init(from decoder: Decoder) throws {

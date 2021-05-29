@@ -43,12 +43,12 @@ class MainTabController: UITabBarController {
     }
 
     // MARK: - API
-    func checkIfuserIsLoggedIn(){
+    func checkIfuserIsLoggedIn() {
         guard let signIn = GIDSignIn.sharedInstance() else { return }
-        if (signIn.hasPreviousSignIn()) {
+        if signIn.hasPreviousSignIn() {
             signIn.restorePreviousSignIn()
 
-        }else{
+        } else {
             DispatchQueue.main.async {
                 let controller = GoogleLoginViewController()
                 let nav = UINavigationController(rootViewController: controller)
@@ -60,19 +60,19 @@ class MainTabController: UITabBarController {
 
     // MARK: - Helpers
 
-    func configureViewControllers(){
+    func configureViewControllers() {
         view.backgroundColor = .white
-        let myPage = templateNavigationController(title:"내 정보" ,unselectedImage: #imageLiteral(resourceName: "profile"), selectedImage: #imageLiteral(resourceName: "profile"), rootViewController:  MyPageController())
-        let ranking =  templateNavigationController(title:"랭킹", unselectedImage: #imageLiteral(resourceName: "trophy"), selectedImage: #imageLiteral(resourceName: "trophy"), rootViewController:  RankingController())
-        let home = templateNavigationController(title:"홈",unselectedImage: #imageLiteral(resourceName: "home"), selectedImage: #imageLiteral(resourceName: "home"), rootViewController:  HomeController())
-        let recommendation =  templateNavigationController(title:"추천",unselectedImage: #imageLiteral(resourceName: "discover"), selectedImage: #imageLiteral(resourceName: "discover"), rootViewController:  RecommendationController())
+        let myPage = templateNavigationController(title: "내 정보", unselectedImage: #imageLiteral(resourceName: "profile"), selectedImage: #imageLiteral(resourceName: "profile"), rootViewController: MyPageController())
+        let ranking =  templateNavigationController(title: "랭킹", unselectedImage: #imageLiteral(resourceName: "trophy"), selectedImage: #imageLiteral(resourceName: "trophy"), rootViewController: RankingController())
+        let home = templateNavigationController(title: "홈", unselectedImage: #imageLiteral(resourceName: "home"), selectedImage: #imageLiteral(resourceName: "home"), rootViewController: HomeController())
+        let recommendation =  templateNavigationController(title: "추천", unselectedImage: #imageLiteral(resourceName: "discover"), selectedImage: #imageLiteral(resourceName: "discover"), rootViewController: RecommendationController())
         viewControllers = [home, recommendation, ranking, myPage]
         tabBar.isTranslucent = false
         tabBar.tintColor = .mainColor_5
         tabBar.unselectedItemTintColor = .mainColor_1
     }
 
-    func templateNavigationController(title: String, unselectedImage: UIImage, selectedImage: UIImage, rootViewController: UIViewController) -> UINavigationController{
+    func templateNavigationController(title: String, unselectedImage: UIImage, selectedImage: UIImage, rootViewController: UIViewController) -> UINavigationController {
         let nav = UINavigationController(rootViewController: rootViewController)
         nav.tabBarItem.image = unselectedImage
         nav.tabBarItem.selectedImage = selectedImage
@@ -88,9 +88,6 @@ class MainTabController: UITabBarController {
         tabBar.itemWidth = UIScreen.main.bounds.width / 8
     }
 }
-
-
-
 
 // MARK: - Properties
 

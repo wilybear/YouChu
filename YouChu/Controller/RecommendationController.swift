@@ -5,7 +5,6 @@
 //  Created by 김현식 on 2021/04/15.
 //
 
-
 import UIKit
 
 class RecommendationController: UIViewController {
@@ -47,7 +46,7 @@ class RecommendationController: UIViewController {
     }()
 
     private var recommendingChannel: Channel? {
-        didSet{
+        didSet {
             guard let channel = recommendingChannel else {
                 return
             }
@@ -55,12 +54,11 @@ class RecommendationController: UIViewController {
         }
     }
 
-
     // MARK: - LifeCycle
 
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
 //        recommendingChannel = Test.fetchData().randomElement()!
-        //TODO: fetch random channel
+        // TODO: fetch random channel
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
 
@@ -72,23 +70,19 @@ class RecommendationController: UIViewController {
         super.viewDidLoad()
         fetchRandomChannel(completion: nil)
         configureUI()
-        lockButton(true)
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        if recommendingChannel == nil {
+            fetchRandomChannel(completion: nil)
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
-        DispatchQueue.main.async {
-            self.lockButton(true)
-            _ = self.channelCardView.slideIn(from:.top) { _ in
-                self.lockButton(false)
-            }
-        }
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -98,10 +92,10 @@ class RecommendationController: UIViewController {
 
     // MARK: - API
 
-    func fetchRandomChannel(completion: ((Channel)->Void)?){
+    func fetchRandomChannel(completion: ((Channel) -> Void)?) {
         guard let user = UserInfo.user else { return }
         Service.fetchRandomChannel(userId: user.id) { result in
-            switch result{
+            switch result {
             case .success(let channel):
                 self.recommendingChannel = channel
                 completion?(channel)
@@ -111,12 +105,11 @@ class RecommendationController: UIViewController {
         }
     }
 
-
     // MARK: - Helpers
 
-    func configureUI(){
+    func configureUI() {
         view.addSubview(helpLabel)
-        helpLabel.anchor(top:view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 30)
+        helpLabel.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 30)
 
         let stack = UIStackView(arrangedSubviews: [dislikeButton, likeButton])
         stack.distribution = .fillEqually
@@ -127,23 +120,22 @@ class RecommendationController: UIViewController {
         stack.anchor(bottom: view.safeAreaLayoutGuide.bottomAnchor, paddingBottom: 20)
 
         view.addSubview(channelCardView)
-        channelCardView.anchor(top:helpLabel.bottomAnchor, left: view.leftAnchor, bottom: stack.topAnchor, right: view.rightAnchor ,paddingTop: 20, paddingLeft: 50, paddingBottom: 20, paddingRight: 50)
-        channelCardView.alpha = 0.2
+        channelCardView.anchor(top: helpLabel.bottomAnchor, left: view.leftAnchor, bottom: stack.topAnchor, right: view.rightAnchor, paddingTop: 20, paddingLeft: 50, paddingBottom: 20, paddingRight: 50)
+        channelCardView.alpha = 0
     }
 
-
-    func lockButton(_ isAnimating:Bool){
+    func lockButton(_ isAnimating: Bool) {
         likeButton.isUserInteractionEnabled = !isAnimating
         dislikeButton.isUserInteractionEnabled = !isAnimating
     }
 
     // MARK: - Actions
 
-    @objc func handleLikeAction(){
+    @objc func handleLikeAction() {
         lockButton(true)
 
         Service.updatePreferredChannel(userId: UserInfo.user!.id, channelIdx: (recommendingChannel?.channelIdx)!) { result in
-            switch result{
+            switch result {
             case .success(_):
                 break
             case .failure(_):
@@ -151,20 +143,19 @@ class RecommendationController: UIViewController {
             }
         }
 
-        _ = self.channelCardView.slideOut(from: .right) { finished in
-            //TODO: fetch random channel
+        _ = self.channelCardView.slideOut(from: .right) { _ in
+            // TODO: fetch random channel
             self.fetchRandomChannel { _ in
-                _ = self.channelCardView.slideIn(from: .top)
                 self.lockButton(false)
             }
         }
     }
 
-    @objc func handleDislikeAction(){
+    @objc func handleDislikeAction() {
         lockButton(true)
 
         Service.updateDislikedChannel(userId: UserInfo.user!.id, channelIdx: (recommendingChannel?.channelIdx)!) { result in
-            switch result{
+            switch result {
             case .success(_):
                 break
             case .failure(_):
@@ -172,15 +163,14 @@ class RecommendationController: UIViewController {
             }
         }
 
-        _ = self.channelCardView.slideOut(from: .left) { finished in
+        _ = self.channelCardView.slideOut(from: .left) { _ in
             self.fetchRandomChannel { _ in
-                _ = self.channelCardView.slideIn(from: .top)
                 self.lockButton(false)
             }
         }
     }
 
-    @objc func handleCardViewPanGesture(gesture: UIPanGestureRecognizer){
+    @objc func handleCardViewPanGesture(gesture: UIPanGestureRecognizer) {
 
         switch gesture.state {
         case .began:
@@ -193,9 +183,9 @@ class RecommendationController: UIViewController {
             print(channelCardView.frame)
             if translation.x > 100.adjusted(by: .horizontal) {
                 handleLikeAction()
-            }else if translation.x < -100.adjusted(by: .horizontal) {
+            } else if translation.x < -100.adjusted(by: .horizontal) {
                 handleDislikeAction()
-            }else{
+            } else {
                 UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.7, options: [.curveEaseInOut]) {
                     self.channelCardView.transform = CGAffineTransform(translationX: 0, y: 0)
                 }
@@ -209,9 +199,12 @@ class RecommendationController: UIViewController {
 // MARK: DumiData
 
 extension RecommendationController: ChannelCardViewDelegate {
+    func slideInAfterLoading() {
+        _ = self.channelCardView.slideIn(from: .top)
+    }
+
     func handleDetailButton(_ channelCardView: ChannelCardView) {
         let controller = ChannelDetailController(channelId: (recommendingChannel?.channelIdx)!)
         navigationController?.pushViewController(controller, animated: true)
     }
 }
-

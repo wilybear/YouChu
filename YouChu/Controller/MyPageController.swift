@@ -14,7 +14,7 @@ let mypageCellIdentifier = "mypageCell"
 
 class MyPageController: UIViewController {
 
-    private let mypageTitle = ["버전 정보","문의하기","리뷰 작성하기","구독 채널 동기화하기","회원 탈퇴"];
+    private let mypageTitle = ["버전 정보", "문의하기", "리뷰 작성하기", "구독 채널 동기화하기", "회원 탈퇴", "개인 정보 처리 방침", "오픈소스 라인센스"]
 
     // MARK: - Properties
     private lazy var tableView: UITableView = {
@@ -54,7 +54,7 @@ class MyPageController: UIViewController {
     }()
 
     private lazy var accountStack: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [googleLogoView,gmailAddressLabel,logoutButton])
+        let stack = UIStackView(arrangedSubviews: [googleLogoView, gmailAddressLabel, logoutButton])
         stack.axis = .horizontal
         stack.distribution = .fillProportionally
         stack.alignment = .center
@@ -95,7 +95,7 @@ class MyPageController: UIViewController {
     }()
 
     private lazy var channelStack: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [preferedLabel,dislikedLabel])
+        let stack = UIStackView(arrangedSubviews: [preferedLabel, dislikedLabel])
         stack.axis = .horizontal
         stack.distribution = .fillEqually
         stack.alignment = .center
@@ -107,8 +107,6 @@ class MyPageController: UIViewController {
         return stack
     }()
 
-
-
     // MARK: - LifeCycle
 
     override func viewDidLoad() {
@@ -119,7 +117,7 @@ class MyPageController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         fetchUserStats()
-        self.navigationController?.navigationBar.setBackgroundImage(nil, for:.default)
+        self.navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
         self.navigationController?.navigationBar.shadowImage = nil
         self.navigationController?.navigationBar.layoutIfNeeded()
     }
@@ -129,12 +127,12 @@ class MyPageController: UIViewController {
     }
 
     // MARK: - API
-    func fetchUserStats(){
+    func fetchUserStats() {
         guard let user = UserInfo.user else {
             return
         }
         UserInfo.fetchUser(userId: user.id) { response in
-            switch response{
+            switch response {
             case .success(let user):
                 guard let user = user else {
                     return
@@ -149,66 +147,66 @@ class MyPageController: UIViewController {
     }
 
     // MARK: - Helpers
-    private func configureUI(){
+    private func configureUI() {
         let bgColor = UIColor.systemGray6.withAlphaComponent(0.6)
         view.backgroundColor = bgColor
         navigationItem.title = "내 정보"
         view.addSubview(accountStack)
 
         googleLogoView.setDimensions(height: 20, width: 20, by: .horizontal)
-        accountStack.anchor(top:view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 20, paddingLeft: 30, paddingRight: 30)
+        accountStack.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 20, paddingLeft: 30, paddingRight: 30)
 
         view.addSubview(channelStack)
         channelStack.centerX(inView: view)
-        channelStack.anchor(top:accountStack.bottomAnchor,left: view.leftAnchor, right: view.rightAnchor, paddingTop: 20,paddingLeft: 30, paddingRight: 30)
+        channelStack.anchor(top: accountStack.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 20, paddingLeft: 30, paddingRight: 30)
 
         view.addSubview(tableView)
         tableView.centerX(inView: view)
-        tableView.anchor(top: channelStack.bottomAnchor,left: view.leftAnchor, right: view.rightAnchor, paddingTop: 20, paddingLeft: 30, paddingRight: 30 )
+        tableView.anchor(top: channelStack.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 20, paddingLeft: 30, paddingRight: 30 )
         tableView.setHeight(CGFloat(54 * mypageTitle.count))
-        
+
     }
     private func attributedStatText(value: Int, label: String) -> NSAttributedString {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 10.adjusted(by: .vertical)
         paragraphStyle.alignment = .center
-        let attributedText = NSMutableAttributedString(string: "\(value)\n",attributes: [.font:UIFont.boldSystemFont(ofSize: 17.adjusted(by: .horizontal))])
-        attributedText.append(NSAttributedString(string: label,attributes: [.font:UIFont.systemFont(ofSize: 17.adjusted(by: .horizontal)), .foregroundColor: UIColor.lightGray]))
-        attributedText.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, attributedText.length))
+        let attributedText = NSMutableAttributedString(string: "\(value)\n", attributes: [.font: UIFont.boldSystemFont(ofSize: 17.adjusted(by: .horizontal))])
+        attributedText.append(NSAttributedString(string: label, attributes: [.font: UIFont.systemFont(ofSize: 17.adjusted(by: .horizontal)), .foregroundColor: UIColor.lightGray]))
+        attributedText.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0, length: attributedText.length))
         return attributedText
     }
-    private func openAppStoreReview(){
+    private func openAppStoreReview() {
         if let appstoreURL = URL(string: "https://apps.apple.com/app/id1558327474") {
-            //TODO: should change app id
+            // TODO: should change app id
             var components = URLComponents(url: appstoreURL, resolvingAgainstBaseURL: false)
-//            components?.queryItems = [
-//              URLQueryItem(name: "action", value: "write-review")
-//            ]
-//            guard let writeReviewURL = components?.url else {
-//                return
-//            }
+            components?.queryItems = [
+              URLQueryItem(name: "action", value: "write-review")
+            ]
+            guard (components?.url) != nil else {
+                return
+            }
             UIApplication.shared.open(appstoreURL, options: [:], completionHandler: nil)
         }
     }
 
     // MARK: - Actions
-    @objc func preferTapAction(sender:UITapGestureRecognizer) {
+    @objc func preferTapAction(sender: UITapGestureRecognizer) {
         let controller = ChannelListController(title: "선호채널", type: .prefer)
         self.navigationController?.pushViewController(controller, animated: true)
     }
-    @objc func dislikeTapAction(sender:UITapGestureRecognizer) {
+    @objc func dislikeTapAction(sender: UITapGestureRecognizer) {
         let controller = ChannelListController(title: "비선호채널", type: .dislike)
         self.navigationController?.pushViewController(controller, animated: true)
     }
 
-    @objc func logout(){
+    @objc func logout() {
         guard let signIn = GIDSignIn.sharedInstance() else { return }
         let tk = TokenUtils()
         tk.delete(TokenUtils.service, account: TokenUtils.account)
         signIn.signOut()
         UIControl().sendAction(#selector(URLSessionTask.suspend), to: UIApplication.shared, for: nil)
-            //Comment if you want to minimise app
-            Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false) { (timer) in
+            // Comment if you want to minimise app
+            Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false) { (_) in
                 exit(0)
         }
     }
@@ -219,14 +217,14 @@ class MyPageController: UIViewController {
         }
         let composer = MFMailComposeViewController()
         composer.mailComposeDelegate = self
-        //TODO: change email
+        // TODO: change email
         composer.setToRecipients(["samerj9712@gmail.com"])
         composer.setSubject("[유추 의견 제출]")
         composer.setMessageBody("", isHTML: false)
         present(composer, animated: true)
     }
 
-    func deleteUser(){
+    func deleteUser() {
         guard let user = UserInfo.user else {
             return
         }
@@ -235,7 +233,7 @@ class MyPageController: UIViewController {
             switch result {
             case .success(_):
                 let alert = UIAlertController(title: "회원 탈퇴", message: "성공적으로 회원탈퇴가 이루어졌습니다. 감사합니다.", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "네", style: .default, handler: { action in
+                alert.addAction(UIAlertAction(title: "네", style: .default, handler: { _ in
                     exit(0)
                 }))
                 let tk = TokenUtils()
@@ -251,7 +249,7 @@ class MyPageController: UIViewController {
         }
     }
 
-    func syncYTSubscribtionList(){
+    func syncYTSubscribtionList() {
         guard let signIn = GIDSignIn.sharedInstance() else {return}
         signIn.currentUser.authentication.getTokensWithHandler { (auth, error) in
             if error != nil {
@@ -269,7 +267,7 @@ class MyPageController: UIViewController {
                         self.showMessage(withTitle: "동기화 실패", message: "유튜브 구독 목록을 불러오는데 실패했습니다.")
                     }
                 }
-            } else{
+            } else {
                 self.showMessage(withTitle: "Error", message: "access Token을 가져오는데 실패했습니다.")
             }
 
@@ -278,12 +276,11 @@ class MyPageController: UIViewController {
 
 }
 
-
 // MARK: - TableViewDelegate, DataSource
 
 extension MyPageController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return mypageTitle.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -300,30 +297,34 @@ extension MyPageController: UITableViewDelegate, UITableViewDataSource {
         tableView.deselectRow(at: indexPath, animated: true)
         switch indexPath.row {
         case 1:
-            //mail
+            // mail
             showMailComposer()
         case 2:
-            //review
+            // review
             openAppStoreReview()
         case 3:
-            //동기화
+            // 동기화
             syncYTSubscribtionList()
         case 4: // 회원탈퇴
             let alert = UIAlertController(title: "회원 탈퇴", message: "정말로 탈퇴하시겠습니까? 탈퇴 시 모든 데이터가 서버에서 삭제됩니다.", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "네", style: .default, handler: { action in
+            alert.addAction(UIAlertAction(title: "네", style: .default, handler: { _ in
                 self.deleteUser()
             }))
             alert.addAction(UIAlertAction(title: "아니오", style: .cancel, handler: nil))
 
             self.present(alert, animated: true)
+        case 5: // 개인정보 처리 방침
+            break
+        case 6: // 오픈 소스 관련 공지
+            break
 
         default:
-            break;
+            break
         }
     }
 }
 
-extension MyPageController : MFMailComposeViewControllerDelegate {
+extension MyPageController: MFMailComposeViewControllerDelegate {
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
             if let _ = error {
                 controller.dismiss(animated: true, completion: nil)

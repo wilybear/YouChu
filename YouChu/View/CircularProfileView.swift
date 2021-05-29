@@ -29,22 +29,21 @@ class CircularProfileView: UIView {
 
     var fontSize: CGFloat
 
-    var image: UIImage?{
-        didSet{
+    var image: UIImage? {
+        didSet {
             channelImageView.image = image
         }
     }
     var title: String? {
-        didSet{
+        didSet {
             channelTitle.text = title
         }
     }
     var imageSize: CGFloat
 
-
     // MARK: - LifeCycle
 
-    init(fontSize: CGFloat = 24, imageSize: CGFloat = 80 ){
+    init(fontSize: CGFloat = 24, imageSize: CGFloat = 80 ) {
         self.fontSize = fontSize
         self.imageSize = imageSize
         super.init(frame: CGRect.zero)
@@ -57,7 +56,7 @@ class CircularProfileView: UIView {
 
     // MARK: - Helpers
 
-    private func configureUI(){
+    private func configureUI() {
         addSubview(channelImageView)
         channelImageView.centerX(inView: self)
         addSubview(channelTitle)
@@ -66,11 +65,22 @@ class CircularProfileView: UIView {
         channelImageView.setDimensions(height: imageSize, width: imageSize)
         channelImageView.layer.cornerRadius = imageSize/2
         channelTitle.anchor(top: channelImageView.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 5)
-        self.anchor(top:channelImageView.topAnchor, bottom: channelTitle.bottomAnchor)
+        self.anchor(top: channelImageView.topAnchor, bottom: channelTitle.bottomAnchor)
     }
 
-    func setImage(url: URL?){
+    func setImage(url: URL?) {
         channelImageView.sd_setImage(with: url)
+    }
+
+    func setImage(url: URL?, completion:@escaping (Bool) -> Void) {
+        channelImageView.sd_setImage(with: url) { image, error, _, _ in
+            if error != nil {
+                self.channelImageView.image = image
+            } else {
+                self.channelImageView.image = image
+            }
+            completion(true)
+        }
     }
 
     // MARK: - Actions

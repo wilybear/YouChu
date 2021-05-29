@@ -14,7 +14,7 @@ class CarouselChannelCell: UICollectionViewCell {
     private let imageSize: CGFloat = 85.adjusted(by: .vertical)
 
     var channel: Channel? {
-        didSet{
+        didSet {
             setUpChannelInfo()
         }
     }
@@ -64,7 +64,7 @@ class CarouselChannelCell: UICollectionViewCell {
         middleStack.distribution = .fill
         middleStack.spacing = 5.adjusted(by: .horizontal)
         middleStack.alignment = .leading
-        
+
         backgroundColor = .white
         addSubview(bannerImageView)
         bannerImageView.fillSuperview()
@@ -84,7 +84,7 @@ class CarouselChannelCell: UICollectionViewCell {
 
     // MARK: - Helpers
 
-    private func setUpChannelInfo(){
+    private func setUpChannelInfo() {
         guard let channel = channel else {
             return
         }

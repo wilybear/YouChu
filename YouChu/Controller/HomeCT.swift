@@ -22,7 +22,7 @@ class HomeCT: UITableViewController {
 
     // MARK: - Helpers
 
-    func configureTableView(){
+    func configureTableView() {
         view.backgroundColor = .white
         tableView.register(CategoryRow.self, forCellReuseIdentifier: "tableCell")
 
@@ -55,7 +55,6 @@ class HomeCT: UITableViewController {
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 200
     }
-
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "tableCell") as! CategoryRow
