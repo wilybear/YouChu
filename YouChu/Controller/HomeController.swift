@@ -7,6 +7,7 @@
 
 import UIKit
 import GoogleSignIn
+import SDWebImage
 
 let bannerIdentifier = "banner"
 let circularIdentifier = "circular"
@@ -21,17 +22,12 @@ class HomeController: UIViewController {
 
     private lazy var pageControl: UIPageControl = {
         let pc = UIPageControl()
-        pc.numberOfPages = bannerImages.count
+        pc.numberOfPages = banners.count
         pc.currentPage = 0
         return pc
     }()
 
-    private var bannerImages = [
-        UIImage(named: "banner1"),
-        UIImage(named: "banner1"),
-        UIImage(named: "banner1"),
-        UIImage(named: "banner1")
-    ]
+    private var banners: [Banner] = []
 
     private let scrollView = UIScrollView()
     private let contentView = UIView()
@@ -140,6 +136,7 @@ class HomeController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        fetchBanners()
         DispatchQueue.main.async {
             self.timer = Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(self.changeImage), userInfo: nil, repeats: true)
         }
@@ -157,27 +154,41 @@ class HomeController: UIViewController {
 
     // MARK: - API
 
+    func fetchBanners() {
+        Service.fetchBanners { [self] result in
+            switch result {
+            case .success(let banners):
+                self.banners = banners
+                bannerCollectionView.reloadData()
+            case .failure(let err):
+                self.showMessage(withTitle: "Err", message: "Failed to fetch banners \(err)")
+            }
+        }
+    }
+
     func fetchUser() {
         if UserInfo.user != nil {
             self.fetchRelatedChannels()
             self.fetchRecommendedChannels()
-        } else {
-            guard let signIn = GIDSignIn.sharedInstance() else { return }
-            guard let currentUser = signIn.currentUser else {
-                return
-            }
-            showLoader(true)
-            UserInfo.fetchUser(googleId: currentUser.userID) { result in
-                switch result {
-                case .success(_):
-                    self.fetchRecommendedChannels()
-                    self.fetchRelatedChannels()
-                    self.showLoader(false)
-                case .failure(let err):
-                    self.showMessage(withTitle: "Error", message: "Unable to fetch user \(err)")
-                }
-            }
         }
+//        else {
+//            let tk = TokenUtils()
+//            guard let userId = tk.getUserIdFromToken(TokenUtils.service) else {
+//                return
+//            }
+//            showLoader(true)
+//            UserInfo.fetchUser(userId: userId) { result in
+//                switch result {
+//                case .success(_):
+//                    self.fetchRecommendedChannels()
+//                    self.fetchRelatedChannels()
+//                    self.showLoader(false)
+//                case .failure(let err):
+//                    self.showMessage(withTitle: "Error", message: "Unable to fetch user \(err)")
+//                    self.showLoader(false)
+//                }
+//            }
+//        }
     }
 
     func fetchRecommendedChannels() {
@@ -222,7 +233,7 @@ class HomeController: UIViewController {
 
     // MARK: - Actions
     @objc func changeImage() {
-        if counter < bannerImages.count {
+        if counter < banners.count {
             let index = IndexPath.init(item: counter, section: 0)
             self.bannerCollectionView.scrollToItem(at: index, at: .centeredVertically, animated: true)
             pageControl.currentPage = counter
@@ -311,7 +322,7 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource {
         } else if collectionView == self.carouselCollectionView {
             return relatedChannel.count
         } else {
-            return bannerImages.count
+            return banners.count
         }
     }
 
@@ -330,7 +341,7 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource {
             return cell
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: bannerIdentifier, for: indexPath) as! BannerCell
-            cell.image = bannerImages[indexPath.row]
+            cell.bannerImage.sd_setImage(with: URL(string: banners[indexPath.row].bannerUrl))
             return cell
         }
     }
@@ -343,6 +354,9 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource {
             let controller = ChannelDetailController(channelId: relatedChannel[indexPath.row].channelIdx!)
             navigationController?.pushViewController(controller, animated: true)
         } else {
+            if let url = URL(string: banners[indexPath.row].connectUrl) {
+                UIApplication.shared.open(url)
+            }
 
         }
     }

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import ActiveLabel
 
 protocol TagCellDelegate: AnyObject {
     func didSelect(keyword: String)
@@ -21,12 +22,26 @@ class DetailTableViewCell: UITableViewCell {
         return label
     }()
 
-    private let infoLabel: UILabel = {
+    private let detail: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 15.adjusted(by: .horizontal))
         label.textColor = .darkGray
         label.textAlignment = .left
         label.numberOfLines = 0
+        return label
+    }()
+
+    private lazy var infoLabel: ActiveLabel = {
+        let label = ActiveLabel()
+        label.textAlignment = .left
+        label.font = .systemFont(ofSize: 15.adjusted(by: .horizontal))
+        label.textColor = .darkGray
+        label.enabledTypes = [.url]
+        label.numberOfLines = 0
+        label.handleURLTap { url in
+            UIApplication.shared.open(url)
+        }
+        label.isUserInteractionEnabled = true
         return label
     }()
 
@@ -68,6 +83,28 @@ class DetailTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    // MARK: - Overrides Touch methods
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.infoLabel.touchesBegan(touches, with: event)
+        super.touchesBegan(touches, with: event)
+    }
+
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.infoLabel.touchesMoved(touches, with: event)
+        super.touchesMoved(touches, with: event)
+    }
+
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.infoLabel.touchesEnded(touches, with: event)
+        super.touchesEnded(touches, with: event)
+    }
+
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.infoLabel.touchesCancelled(touches, with: event)
+        super.touchesCancelled(touches, with: event)
+    }
+
     // MARK: - Helpers
 
     private func configureUI() {

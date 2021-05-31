@@ -16,6 +16,7 @@ PODS:
     - GTMSessionFetcher/Core (~> 1.5)
   - GTMSessionFetcher/Core (1.5.0)
   - JGProgressHUD (2.2)
+  - JWTDecode (2.6.0)
   - Parchment (3.0.1)
   - SDWebImage (5.11.0):
     - SDWebImage/Core (= 5.11.0)
@@ -28,6 +29,7 @@ DEPENDENCIES:
   - DropDown
   - GoogleSignIn
   - JGProgressHUD
+  - JWTDecode (~> 2.6)
   - Parchment (~> 3.0)
   - SDWebImage
   - SwiftRater
@@ -42,6 +44,7 @@ SPEC REPOS:
     - GTMAppAuth
     - GTMSessionFetcher
     - JGProgressHUD
+    - JWTDecode
     - Parchment
     - SDWebImage
     - SwiftRater
@@ -55,10 +58,11 @@ SPEC CHECKSUMS:
   GTMAppAuth: 5b53231ef6920f149ab84b2969cb0ab572da3077
   GTMSessionFetcher: b3503b20a988c4e20cc189aa798fd18220133f52
   JGProgressHUD: d83d7a981b85d11205e19ff8ad5bb9c40571c847
+  JWTDecode: 480ca441ddbd5fbfb2abf17870af62f86436be58
   Parchment: 466a1cfb6151780db8acb4bbedc2d9c6bfa1e2ff
   SDWebImage: 7acbb57630ac7db4a495547fb73916ff3e432f6b
   SwiftRater: 6094fa6e9b3866ff8beca0a871b4b5f9ab896a6d
 
-PODFILE CHECKSUM: 22e2318249356f35da7e556ab2720ee5d06c016e
+PODFILE CHECKSUM: 867aa5e88eea79a454452ecdb6bdb17c31f91f41
 
 COCOAPODS: 1.10.1

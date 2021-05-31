@@ -10,14 +10,7 @@ import UIKit
 class BannerCell: UICollectionViewCell {
 
     // MARK: - Properties
-
-    var image: UIImage? {
-        didSet {
-            bannerImage.image = image
-        }
-    }
-
-    private let bannerImage: UIImageView = {
+    var bannerImage: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true

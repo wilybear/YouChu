@@ -87,7 +87,7 @@ class ChannelTableViewCell: UITableViewCell {
         thumbnailImageView.sd_setImage(with: channel.thumbnailUrl)
         nameLabel.text = channel.title
         subscriberCountLabel.text = "구독자 " + channel.subscriberCountText
-        if channel.isPreffered {
+        if channel.isPreffered == .prefer {
             heartImageButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
         }
     }

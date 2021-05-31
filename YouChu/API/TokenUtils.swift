@@ -7,6 +7,7 @@
 
 import Security
 import Alamofire
+import JWTDecode
 
 class TokenUtils {
 
@@ -45,6 +46,14 @@ class TokenUtils {
             return value
         } else {
             print("failed to loading, status code = \(status)")
+            return nil
+        }
+    }
+
+    func getUserIdFromToken(_ service: String) -> Int? {
+        if let token = read(service, account: TokenUtils.account), let jwt = try? decode(jwt: token), let subject = jwt.subject {
+            return Int(subject)
+        } else {
             return nil
         }
     }

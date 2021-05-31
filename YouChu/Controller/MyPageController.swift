@@ -14,7 +14,7 @@ let mypageCellIdentifier = "mypageCell"
 
 class MyPageController: UIViewController {
 
-    private let mypageTitle = ["버전 정보", "문의하기", "리뷰 작성하기", "구독 채널 동기화하기", "회원 탈퇴", "개인 정보 처리 방침", "오픈소스 라인센스"]
+    private let mypageTitle = ["버전 정보", "문의하기", "리뷰 작성하기", "구독 채널 동기화하기", "회원 탈퇴", "개인 정보 처리 방침", "오픈소스 라이센스", "서비스 이용 약관"]
 
     // MARK: - Properties
     private lazy var tableView: UITableView = {
@@ -176,7 +176,7 @@ class MyPageController: UIViewController {
         return attributedText
     }
     private func openAppStoreReview() {
-        if let appstoreURL = URL(string: "https://apps.apple.com/app/id1558327474") {
+        if let appstoreURL = URL(string: "https://apps.apple.com/app/id1569978828") {
             // TODO: should change app id
             var components = URLComponents(url: appstoreURL, resolvingAgainstBaseURL: false)
             components?.queryItems = [
@@ -218,7 +218,7 @@ class MyPageController: UIViewController {
         let composer = MFMailComposeViewController()
         composer.mailComposeDelegate = self
         // TODO: change email
-        composer.setToRecipients(["samerj9712@gmail.com"])
+        composer.setToRecipients(["youchu0530@gmail.com"])
         composer.setSubject("[유추 의견 제출]")
         composer.setMessageBody("", isHTML: false)
         present(composer, animated: true)
@@ -264,7 +264,7 @@ class MyPageController: UIViewController {
                         self.fetchUserStats()
                         self.showMessage(withTitle: "동기화 성공", message: "성공적으로 유튜브 구독 목록을 불러왔습니다.")
                     case .failure(_):
-                        self.showMessage(withTitle: "동기화 실패", message: "유튜브 구독 목록을 불러오는데 실패했습니다.")
+                        self.showMessage(withTitle: "동기화 실패", message: "유튜브 구독 목록을 불러오는데 실패했습니다. 구글 계정의 유투브 엑세스 권환을 확인해주세요.")
                     }
                 }
             } else {
@@ -314,9 +314,18 @@ extension MyPageController: UITableViewDelegate, UITableViewDataSource {
 
             self.present(alert, animated: true)
         case 5: // 개인정보 처리 방침
-            break
+            if let url = URL(string: "https://www.youchu.link/Personal_Information.html") {
+                UIApplication.shared.open(url)
+            }
+
         case 6: // 오픈 소스 관련 공지
-            break
+            if let url = URL(string: "https://www.youchu.link/license_information.html") {
+                UIApplication.shared.open(url)
+            }
+        case 7: // 서비스 이용 약관
+            if let url = URL(string: "https://www.youchu.link/Service.html") {
+                UIApplication.shared.open(url)
+            }
 
         default:
             break

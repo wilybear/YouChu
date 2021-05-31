@@ -47,7 +47,22 @@ class MainTabController: UITabBarController {
         guard let signIn = GIDSignIn.sharedInstance() else { return }
         if signIn.hasPreviousSignIn() {
             signIn.restorePreviousSignIn()
-
+            let tk = TokenUtils()
+            guard let userId = tk.getUserIdFromToken(TokenUtils.service) else {
+                return
+            }
+            showLoader(true)
+            UserInfo.fetchUser(userId: userId) { result in
+                switch result {
+                case .success(_):
+                    self.showLoader(false)
+                    self.configureViewControllers()
+                case .failure(let err):
+                    self.showMessage(withTitle: "Error", message: "Unable to fetch user \(err)")
+                    self.showLoader(false)
+                }
+            }
+            print("restored")
         } else {
             DispatchQueue.main.async {
                 let controller = GoogleLoginViewController()

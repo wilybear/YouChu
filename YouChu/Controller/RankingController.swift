@@ -39,18 +39,22 @@ class RankingController: UIViewController {
         configureUI()
         showLoader(true)
         fetchRankingChannel(with: .all, pageNumber: currentPage)
-
+//        NotificationCenter.default.addObserver(self,
+//                                               selector: #selector(checkChannelsChange),
+//                                               name: Notification.Name("preferStateChange"),
+//                                               object: nil)
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
+        if !channels.isEmpty {
+            reloadRankingChannelList()
+        }
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
     }
 
@@ -86,6 +90,26 @@ class RankingController: UIViewController {
         }
     }
 
+    func reloadRankingChannelList() {
+        showLoader(true)
+        isPaging = true
+        Service.fetchRankingChannelList(of: currentTopic, userId: (UserInfo.user?.id)!, size: 20 * currentPage, page: 0) { result in
+            switch result {
+            case .success(let page):
+                self.channels = page.data ?? []
+                self.tableView.reloadData()
+                self.isPaging = false
+
+                // when first intialize, scroll to the top
+                self.showLoader(false)
+            case .failure(let err):
+                self.showMessage(withTitle: "Err", message: "Cannot fetch list from server: \(err)")
+                self.isPaging = false
+                self.showLoader(false)
+            }
+        }
+    }
+
     // MARK: - Helpers
 
     private func configureUI() {
@@ -102,6 +126,21 @@ class RankingController: UIViewController {
 
         self.tableView.scrollToRow(at: topRow, at: .top, animated: true)
     }
+
+    // MARK: - Actios
+
+//    @objc func checkChannelsChange(notification: NSNotification) {
+//        if let dict = notification.object as? NSDictionary {
+//            if let changedChannel = dict["channel"] as? Channel {
+//                guard let idx = channels.firstIndex(where: { channel in
+//                    channel.channelIdx == changedChannel.channelIdx
+//                }) else {return}
+//                channels[idx] = changedChannel
+//                self.tableView.reloadData()
+//            }
+//        }
+//
+//    }
 }
 
 // MARK: - UITableViewDelegate, DataSource

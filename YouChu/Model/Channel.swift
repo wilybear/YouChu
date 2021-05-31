@@ -8,7 +8,6 @@
 import UIKit
 
 struct Channel: Codable {
-
     let channelIdx: Int?
     let channelId: String?
     let title: String?
@@ -19,7 +18,7 @@ struct Channel: Codable {
     let subscriberCount: Int?
     let bannerImage: String?
     let videoCount: Int?
-    var isPreffered: Bool
+    var isPreffered: ChannelState
 
     var thumbnailUrl: URL? {
         URL(string: thumbnail ?? "")
@@ -65,7 +64,12 @@ struct Channel: Codable {
         subscriberCount = (try? values.decode(Int.self, forKey: .subscriberCount)) ?? nil
         bannerImage = (try? values.decode(String.self, forKey: .bannerImage)) ?? nil
         videoCount = (try? values.decode(Int.self, forKey: .videoCount)) ?? nil
-        isPreffered = (try? values.decode(Bool.self, forKey: .isPreffered)) ?? false
-
+        isPreffered = (try? values.decode(ChannelState.self, forKey: .isPreffered)) ?? .normal
     }
+}
+
+enum ChannelState: Int, Codable {
+    case normal = 0
+    case prefer = 1
+    case dislike = 2
 }

@@ -10,8 +10,8 @@ import Alamofire
 
 struct Service {
 
-    static func fetchChannelDetail(channelIdx: Int, completion:@escaping(Channel?) -> Void) {
-        AF.request(baseUrl + "channel", method: .get, parameters: ["channel_index": channelIdx])
+    static func fetchChannelDetail(channelIdx: Int, userId: Int, completion:@escaping(Channel?) -> Void) {
+        AF.request(baseUrl + "channel", method: .get, parameters: ["channel_index": channelIdx, "user_id": userId])
             .validate(statusCode: 200..<300)
             .responseDecodable(of: Response<Channel>.self) { response in
                 switch response.result {
@@ -37,7 +37,6 @@ struct Service {
     }
 
     static func fetchTopics(of channelIdx: Int, completion:@escaping([TopicData]?) -> Void) {
-        print(channelIdx)
         AF.request(baseUrl + "getTopic", method: .get, parameters: ["channel_index": channelIdx])
             .validate(statusCode: 200..<300)
             .responseDecodable(of: Response<[TopicData]>.self) { response in
@@ -255,6 +254,23 @@ struct Service {
                     }
                     completion(.success(data))
                 case .failure(let err):
+                    completion(.failure(err))
+                }
+            }
+    }
+
+    static func fetchBanners(completion:@escaping( Result<[Banner], Error>) -> Void) {
+        AF.request(baseUrl + "banner", method: .get)
+            .validate(statusCode: 200..<300)
+            .responseDecodable(of: Response<[Banner]>.self) { response in
+                switch response.result {
+                case .success(_):
+                    guard let data = response.value?.data else {
+                        return
+                    }
+                    completion(.success(data))
+                case .failure(let err):
+                    print(err)
                     completion(.failure(err))
                 }
             }

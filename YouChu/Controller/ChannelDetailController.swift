@@ -85,10 +85,17 @@ class ChannelDetailController: UIViewController {
         return bt
     }()
 
-    private lazy var heartImageButton: UIButton = {
+    private lazy var likeButton: UIButton = {
         let bt = UIButton(type: .system)
-        bt.tintColor = .systemRed
+        bt.tintColor = .mainColor_5
         bt.addTarget(self, action: #selector(preferAction), for: .touchUpInside)
+        return bt
+    }()
+
+    private lazy var dislikeButton: UIButton = {
+        let bt = UIButton(type: .system)
+        bt.tintColor = .complementaryColor
+        bt.addTarget(self, action: #selector(dislikeAction), for: .touchUpInside)
         return bt
     }()
 
@@ -98,8 +105,10 @@ class ChannelDetailController: UIViewController {
 
     init(channelId: Int) {
         super.init(nibName: nil, bundle: nil)
-        Service.fetchChannelDetail(channelIdx: channelId) { channel in
-            self.channel = channel
+        if let user = UserInfo.user {
+            Service.fetchChannelDetail(channelIdx: channelId, userId: user.id) { channel in
+                self.channel = channel
+            }
         }
     }
 
@@ -136,7 +145,18 @@ class ChannelDetailController: UIViewController {
         thumbnailImageView.title = channel.title
         bannerImage.sd_setImage(with: channel.bannerImageUrl)
         subscriberCount.text = channel.subscriberCountText
-        heartImageButton.setImage(channel.isPreffered ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart"), for: .normal)
+        switch channel.isPreffered {
+        case .prefer:
+            likeButton.setImage(UIImage(systemName: "hand.thumbsup.fill"), for: .normal)
+            dislikeButton.setImage(UIImage(systemName: "hand.thumbsdown"), for: .normal)
+        case .dislike:
+            likeButton.setImage(UIImage(systemName: "hand.thumbsup"), for: .normal)
+            dislikeButton.setImage(UIImage(systemName: "hand.thumbsdown.fill"), for: .normal)
+        case .normal:
+            likeButton.setImage(UIImage(systemName: "hand.thumbsup"), for: .normal)
+            dislikeButton.setImage(UIImage(systemName: "hand.thumbsdown"), for: .normal)
+
+        }
 
     }
 
@@ -190,9 +210,12 @@ class ChannelDetailController: UIViewController {
         youtubeLinkButton.anchor(bottom: container.bottomAnchor, right: container.rightAnchor, paddingBottom: 50, paddingRight: 15)
         youtubeLinkButton.layer.zPosition = -1
 
-        container.addSubview(heartImageButton)
-        heartImageButton.anchor(bottom: container.bottomAnchor, right: youtubeLinkButton.leftAnchor, paddingBottom: 50, paddingRight: 5)
-        heartImageButton.layer.zPosition = -1
+        container.addSubview(likeButton)
+        likeButton.anchor(bottom: container.bottomAnchor, right: youtubeLinkButton.leftAnchor, paddingBottom: 50, paddingRight: 5)
+        likeButton.layer.zPosition = -1
+        container.addSubview(dislikeButton)
+        dislikeButton.anchor(bottom: container.bottomAnchor, right: likeButton.leftAnchor, paddingBottom: 50, paddingRight: 5)
+        dislikeButton.layer.zPosition = -1
     }
 
     // transparent navigation bar
@@ -235,29 +258,118 @@ class ChannelDetailController: UIViewController {
     @objc func preferAction() {
         guard let channel = channel else { return }
         guard let user = UserInfo.user else { return }
-        heartImageButton.isUserInteractionEnabled = false
-        if channel.isPreffered {
-            Service.deletePreferredChannel(userId: user.id, channelIdx: channel.channelIdx!) { response in
+        likeButton.isUserInteractionEnabled = false
+        dislikeButton.isUserInteractionEnabled = false
+        switch channel.isPreffered {
+        case .normal:
+            Service.updatePreferredChannel(userId: user.id, channelIdx: channel.channelIdx!) {[self] response in
                 switch response {
                 case .success(_):
-                    self.heartImageButton.setImage(UIImage(systemName: "heart"), for: .normal)
+                    self.likeButton.setImage(UIImage(systemName: "hand.thumbsup.fill"), for: .normal)
+                    self.channel?.isPreffered = .prefer
+                    sendChannelChanges(channel: self.channel!)
                 case .failure(_):
                     break
                 }
-                self.heartImageButton.isUserInteractionEnabled = true
+                likeButton.isUserInteractionEnabled = true
+                dislikeButton.isUserInteractionEnabled = true
             }
-        } else {
-            Service.updatePreferredChannel(userId: user.id, channelIdx: channel.channelIdx!) { response in
+        case .dislike:
+            Service.deleteDislikedChannel(userId: user.id, channelIdx: channel.channelIdx!) {[self] response in
                 switch response {
                 case .success(_):
-                    self.heartImageButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+                    dislikeButton.setImage(UIImage(systemName: "hand.thumbsdown"), for: .normal)
                 case .failure(_):
                     break
                 }
-                self.heartImageButton.isUserInteractionEnabled = true
+            }
+            Service.updatePreferredChannel(userId: user.id, channelIdx: channel.channelIdx!) { [self] response in
+                switch response {
+                case .success(_):
+                    self.likeButton.setImage(UIImage(systemName: "hand.thumbsup.fill"), for: .normal)
+                    self.channel?.isPreffered = .prefer
+                    sendChannelChanges(channel: self.channel!)
+                case .failure(_):
+                    break
+                }
+                likeButton.isUserInteractionEnabled = true
+                dislikeButton.isUserInteractionEnabled = true
+            }
+        case .prefer:
+            Service.deletePreferredChannel(userId: user.id, channelIdx: channel.channelIdx!) {[self] response in
+                switch response {
+                case .success(_):
+                    likeButton.setImage(UIImage(systemName: "hand.thumbsup"), for: .normal)
+                    self.channel?.isPreffered = .normal
+                    sendChannelChanges(channel: self.channel!)
+                case .failure(_):
+                    break
+                }
+                likeButton.isUserInteractionEnabled = true
+                dislikeButton.isUserInteractionEnabled = true
             }
         }
 
+    }
+
+    @objc func dislikeAction() {
+        guard let channel = channel else { return }
+        guard let user = UserInfo.user else { return }
+        likeButton.isUserInteractionEnabled = false
+        dislikeButton.isUserInteractionEnabled = false
+        switch channel.isPreffered {
+        case .normal:
+            Service.updateDislikedChannel(userId: user.id, channelIdx: channel.channelIdx!) {[self] response in
+                switch response {
+                case .success(_):
+                    self.dislikeButton.setImage(UIImage(systemName: "hand.thumbsdown.fill"), for: .normal)
+                    self.channel?.isPreffered = .dislike
+                case .failure(_):
+                    break
+                }
+                likeButton.isUserInteractionEnabled = true
+                dislikeButton.isUserInteractionEnabled = true
+            }
+        case .dislike:
+            Service.deleteDislikedChannel(userId: user.id, channelIdx: channel.channelIdx!) {[self] response in
+                switch response {
+                case .success(_):
+                    dislikeButton.setImage(UIImage(systemName: "hand.thumbsdown"), for: .normal)
+                    self.channel?.isPreffered = .normal
+                case .failure(_):
+                    break
+                }
+            }
+
+        case .prefer:
+            Service.deletePreferredChannel(userId: user.id, channelIdx: channel.channelIdx!) {[self] response in
+                switch response {
+                case .success(_):
+                    likeButton.setImage(UIImage(systemName: "hand.thumbsup"), for: .normal)
+                case .failure(_):
+                    break
+                }
+                likeButton.isUserInteractionEnabled = true
+                dislikeButton.isUserInteractionEnabled = true
+            }
+            Service.updateDislikedChannel(userId: user.id, channelIdx: channel.channelIdx!) {[self] response in
+                switch response {
+                case .success(_):
+                    self.dislikeButton.setImage(UIImage(systemName: "hand.thumbsdown.fill"), for: .normal)
+                    self.channel?.isPreffered = .dislike
+                    sendChannelChanges(channel: self.channel!)
+                case .failure(_):
+                    break
+                }
+                likeButton.isUserInteractionEnabled = true
+                dislikeButton.isUserInteractionEnabled = true
+            }
+        }
+    }
+
+    func sendChannelChanges(channel: Channel) {
+       // let dic = ["channel": channel]
+      //  NotificationCenter.default.post(name: Notification.Name("preferStateChange"), object: dic)
     }
 
 }
@@ -300,8 +412,12 @@ extension ChannelDetailController: PagingViewControllerDelegate {
 extension ChannelDetailController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        delegate?.openYoutubeVideo(index: indexPath.row)
+        if tableView == self.viewControllers[0].tableView {
+            tableView.deselectRow(at: indexPath, animated: true)
+        } else {
+            tableView.deselectRow(at: indexPath, animated: true)
+            delegate?.openYoutubeVideo(index: indexPath.row)
+        }
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

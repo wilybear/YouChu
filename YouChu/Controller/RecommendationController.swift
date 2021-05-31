@@ -58,7 +58,6 @@ class RecommendationController: UIViewController {
 
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
 //        recommendingChannel = Test.fetchData().randomElement()!
-        // TODO: fetch random channel
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
 
@@ -74,9 +73,6 @@ class RecommendationController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if recommendingChannel == nil {
-            fetchRandomChannel(completion: nil)
-        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -137,6 +133,8 @@ class RecommendationController: UIViewController {
         Service.updatePreferredChannel(userId: UserInfo.user!.id, channelIdx: (recommendingChannel?.channelIdx)!) { result in
             switch result {
             case .success(_):
+         //       let dic = ["channel": self.recommendingChannel!]
+         //       NotificationCenter.default.post(name: Notification.Name("preferStateChange"), object: dic)
                 break
             case .failure(_):
                 self.showMessage(withTitle: "Error", message: "failed to update prefer channel")
@@ -180,7 +178,6 @@ class RecommendationController: UIViewController {
             channelCardView.transform = CGAffineTransform(translationX: translatioon.x, y: 0)
         case .ended, .cancelled:
             let translation = gesture.translation(in: view)
-            print(channelCardView.frame)
             if translation.x > 100.adjusted(by: .horizontal) {
                 handleLikeAction()
             } else if translation.x < -100.adjusted(by: .horizontal) {

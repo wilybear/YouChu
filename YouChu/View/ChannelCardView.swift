@@ -63,7 +63,7 @@ class ChannelCardView: UIView {
         label.enabledTypes = [.url]
         label.numberOfLines = 8
         label.handleURLTap { url in
-            print(url)
+            UIApplication.shared.open(url)
         }
         return label
     }()

@@ -24,7 +24,6 @@ class TokenRequestInterceptor: RequestInterceptor {
     func retry(_ request: Request, for session: Session, dueTo error: Error, completion: @escaping (RetryResult) -> Void) {
         let response = request.task?.response as? HTTPURLResponse
         if let statusCode = response?.statusCode, statusCode == 302, request.retryCount < retryLimit {
-            print("retried")
             getNewAccessToken { result in
                 result ? completion(.retry) : completion(.doNotRetry)
             }
@@ -48,7 +47,6 @@ class TokenRequestInterceptor: RequestInterceptor {
                 let tk = TokenUtils()
                 tk.create("https://www.youchu.link", account: "accessToken", value: token)
                 completion(true)
-                print("DEBUG: I Got a new pil")
             case .failure(let err):
                 print(err)
                 completion(false)

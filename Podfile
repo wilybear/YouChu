@@ -16,4 +16,5 @@ target 'YouChu' do
 	pod "SwiftRater"
 	pod 'Alamofire'
 	pod 'GoogleSignIn'
+	pod 'JWTDecode', '~> 2.6'
 end

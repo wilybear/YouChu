@@ -96,20 +96,17 @@ extension GoogleLoginViewController: GIDSignInDelegate {
             UserInfo.registerUser(userToken: accessToken!, googleId: user.userID) { result in
                 switch result {
                 case .success(let response):
-                    print("register 성공")
                     let tk = TokenUtils()
                     guard let token = response.token else {
                         return
                     }
                     tk.create("https://www.youchu.link", account: "accessToken", value: token)
-                    print("token 발급")
                     guard let user = response.data else {
                         return
                     }
                     UserInfo.fetchUser(userId: user) { result in
                         switch result {
                         case .success(let user):
-                            print("token으로 유저 정보 가져옴")
                             let data: [String: User] = ["user": user!]
                             NotificationCenter.default.post(name: Notification.Name(rawValue: "User"), object: nil, userInfo: data)
                             self.dismiss(animated: false, completion: nil)

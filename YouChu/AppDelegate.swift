@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         SwiftRater.countryCode = "kr"
         SwiftRater.showLog = true
         // TODO: Set debug mode false when lauching app
-        SwiftRater.debugMode = true
+        SwiftRater.debugMode = false
         SwiftRater.appLaunched()
         UINavigationBar.appearance().shadowImage = UIImage()
         UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)

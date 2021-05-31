@@ -104,7 +104,7 @@ class RankingTableViewCell: UITableViewCell {
             return
         }
         thumbnailImageView.sd_setImage(with: channel.thumbnailUrl)
-        heartImageButton.setImage(channel.isPreffered ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart"), for: .normal)
+        heartImageButton.setImage(channel.isPreffered == .prefer ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart"), for: .normal)
         nameLabel.text = channel.title
         subscriberCountLabel.text = "구독자 " + channel.subscriberCountText
     }
@@ -114,29 +114,40 @@ class RankingTableViewCell: UITableViewCell {
         guard let channel = channel else { return }
         guard let user = UserInfo.user else { return }
         heartImageButton.isUserInteractionEnabled = false
-        if channel.isPreffered {
-            Service.deletePreferredChannel(userId: user.id, channelIdx: channel.channelIdx!) { response in
+        switch channel.isPreffered {
+        case .normal:
+            Service.updatePreferredChannel(userId: user.id, channelIdx: channel.channelIdx!) {[self] response in
                 switch response {
                 case .success(_):
-                    self.heartImageButton.setImage(UIImage(systemName: "heart"), for: .normal)
-                    self.channel?.isPreffered = false
+                    self.channel?.isPreffered = .prefer
                 case .failure(_):
                     break
                 }
-                self.heartImageButton.isUserInteractionEnabled = true
+                heartImageButton.isUserInteractionEnabled = true
             }
-        } else {
-            Service.updatePreferredChannel(userId: user.id, channelIdx: channel.channelIdx!) { response in
+        case .dislike:
+            Service.deleteDislikedChannel(userId: user.id, channelIdx: channel.channelIdx!) {
+               _ in
+            }
+            Service.updatePreferredChannel(userId: user.id, channelIdx: channel.channelIdx!) { [self] response in
                 switch response {
                 case .success(_):
-                    self.heartImageButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-                    self.channel?.isPreffered = true
+                    self.channel?.isPreffered = .prefer
                 case .failure(_):
                     break
                 }
-                self.heartImageButton.isUserInteractionEnabled = true
+                heartImageButton.isUserInteractionEnabled = true
+            }
+        case .prefer:
+            Service.deletePreferredChannel(userId: user.id, channelIdx: channel.channelIdx!) {[self] response in
+                switch response {
+                case .success(_):
+                    self.channel?.isPreffered = .normal
+                case .failure(_):
+                    break
+                }
+                heartImageButton.isUserInteractionEnabled = true
             }
         }
-
     }
 }
