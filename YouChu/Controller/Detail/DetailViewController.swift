@@ -88,6 +88,7 @@ class DetailViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: DetailViewController.CellIdentifier, for: indexPath) as! DetailTableViewCell
+        cell.contentView.isUserInteractionEnabled = false
         cell.infoType = infoTypeList[indexPath.row]
         cell.info = infoList.isEmpty ? "" : infoList[indexPath.row]
         if cell.info == nil {

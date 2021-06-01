@@ -29,7 +29,7 @@ class RecommendationController: UIViewController {
 
     private let likeButton: UIButton = {
         let button = CircularShadowButton(type: .system)
-        button.setImage(#imageLiteral(resourceName: "like").withTintColor(.white), for: .normal)
+        button.setImage(UIImage(systemName: "hand.thumbsup.fill")!.withTintColor(.white), for: .normal)
         button.tintColor = .white
         button.layerBackgroundColor = .mainColor_4
         button.addTarget(self, action: #selector(handleLikeAction), for: .touchUpInside)
@@ -38,10 +38,19 @@ class RecommendationController: UIViewController {
 
     private let dislikeButton: UIButton = {
         let button = CircularShadowButton(type: .system)
-        button.setImage(#imageLiteral(resourceName: "ic_close").withTintColor(.white), for: .normal)
+        button.setImage(UIImage(systemName: "hand.thumbsdown.fill")!.withTintColor(.white), for: .normal)
         button.tintColor = .white
         button.layerBackgroundColor = .complementaryColor2
         button.addTarget(self, action: #selector(handleDislikeAction), for: .touchUpInside)
+        return button
+    }()
+
+    private let refreshButton: UIButton = {
+        let button = CircularShadowButton(type: .system)
+        button.setImage(UIImage(systemName: "repeat"), for: .normal)
+        button.tintColor = .white
+        button.layerBackgroundColor = .lightGray
+        button.addTarget(self, action: #selector(handleRefreshAction), for: .touchUpInside)
         return button
     }()
 
@@ -107,11 +116,12 @@ class RecommendationController: UIViewController {
         view.addSubview(helpLabel)
         helpLabel.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 30)
 
-        let stack = UIStackView(arrangedSubviews: [dislikeButton, likeButton])
+        let stack = UIStackView(arrangedSubviews: [dislikeButton, refreshButton, likeButton])
         stack.distribution = .fillEqually
         view.addSubview(stack)
-        stack.setDimensions(height: 60, width: 140, by: .vertical)
+        stack.setDimensions(height: 55, width: 205, by: .vertical)
         stack.setCustomSpacing(20.adjusted(by: .vertical), after: dislikeButton)
+        stack.setCustomSpacing(20.adjusted(by: .vertical), after: refreshButton)
         stack.centerX(inView: view)
         stack.anchor(bottom: view.safeAreaLayoutGuide.bottomAnchor, paddingBottom: 20)
 
@@ -142,6 +152,16 @@ class RecommendationController: UIViewController {
         }
 
         _ = self.channelCardView.slideOut(from: .right) { _ in
+            // TODO: fetch random channel
+            self.fetchRandomChannel { _ in
+                self.lockButton(false)
+            }
+        }
+    }
+
+    @objc func handleRefreshAction() {
+        lockButton(true)
+        _ = self.channelCardView.slideOut(from: .top) { _ in
             // TODO: fetch random channel
             self.fetchRandomChannel { _ in
                 self.lockButton(false)

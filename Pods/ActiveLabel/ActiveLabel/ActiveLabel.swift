@@ -455,6 +455,7 @@ typealias ElementTuple = (range: NSRange, element: ActiveElement, type: ActiveTy
     
     //MARK: - Handle UI Responder touches
     open override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        print("touch called")
         guard let touch = touches.first else { return }
         if onTouch(touch) { return }
         super.touchesBegan(touches, with: event)
