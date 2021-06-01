@@ -97,8 +97,8 @@ class MainTabController: UITabBarController {
 
     func tabBarConfigure() {
         tabBar.items?.forEach({
-            $0.titlePositionAdjustment = UIOffset(horizontal: 0.0, vertical: 5.adjusted(by: .vertical))
-            $0.imageInsets = UIEdgeInsets(top: 5.adjusted(by: .vertical), left: 0, bottom: -5.adjusted(by: .vertical), right: 0)
+            $0.titlePositionAdjustment = UIOffset(horizontal: 0.0, vertical: 3.adjusted(by: .vertical))
+            $0.imageInsets = UIEdgeInsets(top: 3.adjusted(by: .vertical), left: 0, bottom: -3.adjusted(by: .vertical), right: 0)
         })
         tabBar.itemWidth = UIScreen.main.bounds.width / 8
     }

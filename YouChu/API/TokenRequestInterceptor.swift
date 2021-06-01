@@ -10,7 +10,7 @@ import GoogleSignIn
 
 class TokenRequestInterceptor: RequestInterceptor {
     let retryLimit = 5
-    let retryDelay: TimeInterval = 5
+    let retryDelay: TimeInterval = 1
 
     func adapt(_ urlRequest: URLRequest, for session: Session, completion: @escaping (Result<URLRequest, Error>) -> Void) {
         var urlRequest = urlRequest
