@@ -48,7 +48,7 @@ class DetailTableViewCell: UITableViewCell {
 
     var infoType: String? {
         didSet {
-            infoTypeLabel.text = infoType
+            infoTypeLabel.text = infoType?.localized()
         }
     }
     var info: String? {

@@ -77,10 +77,10 @@ class MainTabController: UITabBarController {
 
     func configureViewControllers() {
         view.backgroundColor = .white
-        let myPage = templateNavigationController(title: "내 정보", unselectedImage: #imageLiteral(resourceName: "profile"), selectedImage: #imageLiteral(resourceName: "profile"), rootViewController: MyPageController())
-        let ranking =  templateNavigationController(title: "랭킹", unselectedImage: #imageLiteral(resourceName: "trophy"), selectedImage: #imageLiteral(resourceName: "trophy"), rootViewController: RankingController())
-        let home = templateNavigationController(title: "홈", unselectedImage: #imageLiteral(resourceName: "home"), selectedImage: #imageLiteral(resourceName: "home"), rootViewController: HomeController())
-        let recommendation =  templateNavigationController(title: "추천", unselectedImage: #imageLiteral(resourceName: "discover"), selectedImage: #imageLiteral(resourceName: "discover"), rootViewController: RecommendationController())
+        let myPage = templateNavigationController(title: "내 정보".localized(), unselectedImage: #imageLiteral(resourceName: "profile"), selectedImage: #imageLiteral(resourceName: "profile"), rootViewController: MyPageController())
+        let ranking =  templateNavigationController(title: "랭킹".localized(), unselectedImage: #imageLiteral(resourceName: "trophy"), selectedImage: #imageLiteral(resourceName: "trophy"), rootViewController: RankingController())
+        let home = templateNavigationController(title: "홈".localized(), unselectedImage: #imageLiteral(resourceName: "home"), selectedImage: #imageLiteral(resourceName: "home"), rootViewController: HomeController())
+        let recommendation =  templateNavigationController(title: "추천".localized(), unselectedImage: #imageLiteral(resourceName: "discover"), selectedImage: #imageLiteral(resourceName: "discover"), rootViewController: RecommendationController())
         viewControllers = [home, recommendation, ranking, myPage]
         tabBar.isTranslucent = false
         tabBar.tintColor = .mainColor_5

@@ -41,7 +41,7 @@ class RankingHeader: UIView {
 
     private let categoryLabel: UILabel = {
         let label = UILabel()
-        label.text = "카테고리"
+        label.text = "카테고리".localized()
         label.textColor = .white
         label.font = .boldSystemFont(ofSize: 18.adjusted(by: .horizontal))
         return label

@@ -16,14 +16,3 @@ extension UIColor {
     static let complementaryColor = UIColor(named: "ComplementaryColor")!
     static let complementaryColor2 = UIColor(named: "ComplementaryColor2")!
 }
-
-/*
-TODO
- 개인정보방침 페이지 오픈소스 라이센스 페이지 연결
- 기기별 사이즈 확인
-
-
- // 올리고 할꺼
-
-
- */

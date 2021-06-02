@@ -21,7 +21,7 @@ class RecommendationController: UIViewController {
 
     private let helpLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = "이런 채널은 어떠세요?".coloredAttributedColor(stringToColor: "채널", color: .complementaryColor)
+        label.attributedText = "이런 채널은 어떠세요?".localized().coloredAttributedColor(stringToColor: "채널".localized(), color: .complementaryColor)
         label.font = UIFont.boldSystemFont(ofSize: 22.adjusted(by: .horizontal))
         label.textAlignment = .center
         return label

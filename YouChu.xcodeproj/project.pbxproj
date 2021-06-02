@@ -25,6 +25,8 @@
 		375FE46D2639755E00740866 /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375FE46C2639755E00740866 /* VideoViewController.swift */; };
 		376CD139265530DC00A09764 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 376CD138265530DC00A09764 /* Color.swift */; };
 		376CD13B26555A4900A09764 /* ResponseWithPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 376CD13A26555A4900A09764 /* ResponseWithPage.swift */; };
+		3771BEC4266746EA002567D9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3771BEC6266746EA002567D9 /* Localizable.strings */; };
+		3771BECB26675308002567D9 /* LocalNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3771BECA26675308002567D9 /* LocalNotificationManager.swift */; };
 		377586FA2662AA36001C0768 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 377586F92662AA36001C0768 /* .swiftlint.yml */; };
 		3778ACE7262CAE22008F95AB /* CircularImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3778ACE6262CAE22008F95AB /* CircularImageButton.swift */; };
 		3778AD002632A2DF008F95AB /* TagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3778ACFF2632A2DF008F95AB /* TagCell.swift */; };
@@ -78,6 +80,11 @@
 		375FE46C2639755E00740866 /* VideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
 		376CD138265530DC00A09764 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		376CD13A26555A4900A09764 /* ResponseWithPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseWithPage.swift; sourceTree = "<group>"; };
+		3771BEC5266746EA002567D9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		3771BEC72667470F002567D9 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Main.strings; sourceTree = "<group>"; };
+		3771BEC826674710002567D9 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		3771BEC926674710002567D9 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
+		3771BECA26675308002567D9 /* LocalNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationManager.swift; sourceTree = "<group>"; };
 		377586F92662AA36001C0768 /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		3778ACE6262CAE22008F95AB /* CircularImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularImageButton.swift; sourceTree = "<group>"; };
 		3778ACFF2632A2DF008F95AB /* TagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCell.swift; sourceTree = "<group>"; };
@@ -152,6 +159,7 @@
 		37FB46FC2628440A008781C0 = {
 			isa = PBXGroup;
 			children = (
+				3771BEC6266746EA002567D9 /* Localizable.strings */,
 				377586F92662AA36001C0768 /* .swiftlint.yml */,
 				37FB47072628440A008781C0 /* YouChu */,
 				37FB47062628440A008781C0 /* Products */,
@@ -249,6 +257,7 @@
 				3789E0B52642F43C00894656 /* Device.swift */,
 				37534FCF2654F6C5003A5C42 /* Statics.swift */,
 				376CD138265530DC00A09764 /* Color.swift */,
+				3771BECA26675308002567D9 /* LocalNotificationManager.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -315,6 +324,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ko,
 			);
 			mainGroup = 37FB46FC2628440A008781C0;
 			productRefGroup = 37FB47062628440A008781C0 /* Products */;
@@ -331,6 +341,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3771BEC4266746EA002567D9 /* Localizable.strings in Resources */,
 				377586FA2662AA36001C0768 /* .swiftlint.yml in Resources */,
 				37FB47152628440C008781C0 /* LaunchScreen.storyboard in Resources */,
 				37FB47122628440C008781C0 /* Assets.xcassets in Resources */,
@@ -443,6 +454,7 @@
 				376CD139265530DC00A09764 /* Color.swift in Sources */,
 				37FB473B2628466E008781C0 /* HomeController.swift in Sources */,
 				3747FDD0263E774F00916764 /* Videos.swift in Sources */,
+				3771BECB26675308002567D9 /* LocalNotificationManager.swift in Sources */,
 				376CD13B26555A4900A09764 /* ResponseWithPage.swift in Sources */,
 				3747FDD6263E822100916764 /* Channel.swift in Sources */,
 				3789E0B62642F43C00894656 /* Device.swift in Sources */,
@@ -470,10 +482,20 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		3771BEC6266746EA002567D9 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3771BEC5266746EA002567D9 /* en */,
+				3771BEC926674710002567D9 /* ko */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		37FB470E2628440A008781C0 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				37FB470F2628440A008781C0 /* Base */,
+				3771BEC72667470F002567D9 /* ko */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -482,6 +504,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				37FB47142628440C008781C0 /* Base */,
+				3771BEC826674710002567D9 /* ko */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -493,6 +516,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -554,6 +578,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -612,7 +637,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1234;
+				CURRENT_PROJECT_VERSION = 22;
 				DEVELOPMENT_TEAM = 6YNXK75768;
 				INFOPLIST_FILE = YouChu/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -633,7 +658,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1234;
+				CURRENT_PROJECT_VERSION = 22;
 				DEVELOPMENT_TEAM = 6YNXK75768;
 				INFOPLIST_FILE = YouChu/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

@@ -49,7 +49,7 @@ class ChannelCardView: UIView {
 
     private let instructionTitle: UILabel = {
         let label = UILabel()
-        label.text = "채널 소개"
+        label.text = "채널 소개".localized()
         label.textAlignment = .left
         label.font = UIFont.boldSystemFont(ofSize: 18.adjusted(by: .horizontal))
         return label
@@ -72,7 +72,7 @@ class ChannelCardView: UIView {
 
     private let TagListTitle: UILabel = {
         let label = UILabel()
-        label.text = "채널 키워드"
+        label.text = "채널 키워드".localized()
         label.textAlignment = .left
         label.font = UIFont.boldSystemFont(ofSize: 18.adjusted(by: .horizontal))
         return label

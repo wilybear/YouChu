@@ -26,7 +26,7 @@ class GoogleLoginViewController: UIViewController {
         let label = UILabel()
         label.textAlignment = .center
         label.textColor = .white
-        label.text = "유추"
+        label.text = "유추".localized()
         label.font = UIFont.boldSystemFont(ofSize: 30.adjusted(by: .horizontal))
         return label
     }()
@@ -34,7 +34,7 @@ class GoogleLoginViewController: UIViewController {
         let label = UILabel()
         label.textAlignment = .center
         label.textColor = .white
-        label.text = "구글 로그인을 통해 구독 목록을 가져옵니다."
+        label.text = "구글 로그인을 통해 구독 목록을 가져옵니다.".localized()
         label.font = UIFont.boldSystemFont(ofSize: 12.adjusted(by: .horizontal))
         return label
     }()

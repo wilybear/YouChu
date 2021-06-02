@@ -44,7 +44,7 @@ class MyPageController: UIViewController {
 
     private let logoutButton: UIButton = {
         let bt = UIButton(type: .system)
-        bt.setTitle("로그아웃", for: .normal)
+        bt.setTitle("로그아웃".localized(), for: .normal)
         let color = UIColor.systemRed.withAlphaComponent(0.8)
         bt.setTitleColor(color, for: .normal)
         bt.titleLabel?.font = UIFont.systemFont(ofSize: 14.adjusted(by: .horizontal))
@@ -138,8 +138,8 @@ class MyPageController: UIViewController {
                     return
                 }
                 self.gmailAddressLabel.text = user.email
-                self.preferedLabel.attributedText = self.attributedStatText(value: user.preferCount, label: "선호 채널")
-                self.dislikedLabel.attributedText = self.attributedStatText(value: user.dislikeCount, label: "비선호 채널")
+                self.preferedLabel.attributedText = self.attributedStatText(value: user.preferCount, label: "선호 채널".localized())
+                self.dislikedLabel.attributedText = self.attributedStatText(value: user.dislikeCount, label: "비선호 채널".localized())
             case .failure(_):
                 break
             }
@@ -150,7 +150,7 @@ class MyPageController: UIViewController {
     private func configureUI() {
         let bgColor = UIColor.systemGray6.withAlphaComponent(0.6)
         view.backgroundColor = bgColor
-        navigationItem.title = "내 정보"
+        navigationItem.title = "내 정보".localized()
         view.addSubview(accountStack)
 
         googleLogoView.setDimensions(height: 20, width: 20, by: .horizontal)
@@ -191,11 +191,11 @@ class MyPageController: UIViewController {
 
     // MARK: - Actions
     @objc func preferTapAction(sender: UITapGestureRecognizer) {
-        let controller = ChannelListController(title: "선호채널", type: .prefer)
+        let controller = ChannelListController(title: "선호채널".localized(), type: .prefer)
         self.navigationController?.pushViewController(controller, animated: true)
     }
     @objc func dislikeTapAction(sender: UITapGestureRecognizer) {
-        let controller = ChannelListController(title: "비선호채널", type: .dislike)
+        let controller = ChannelListController(title: "비선호채널".localized(), type: .dislike)
         self.navigationController?.pushViewController(controller, animated: true)
     }
 
@@ -287,7 +287,7 @@ extension MyPageController: UITableViewDelegate, UITableViewDataSource {
         guard  let cell = tableView.dequeueReusableCell(withIdentifier: mypageCellIdentifier, for: indexPath) as? MyPageTableViewCell else {
             return UITableViewCell()
         }
-        cell.title = mypageTitle[indexPath.row]
+        cell.title = mypageTitle[indexPath.row].localized()
         if indexPath.row == 0 { cell.addVersionInfo() }
 
         return cell

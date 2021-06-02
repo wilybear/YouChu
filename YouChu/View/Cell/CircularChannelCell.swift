@@ -20,8 +20,6 @@ class CircularChannelCell: UICollectionViewCell {
 
     private let channelCell: CircularProfileView = {
         let cpv = CircularProfileView(fontSize: 13.adjusted(by: .horizontal), imageSize: 75.adjusted(by: .vertical))
-        cpv.image = #imageLiteral(resourceName: "paka")
-        cpv.title = "PAKA"
         return cpv
     }()
 

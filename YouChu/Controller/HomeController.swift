@@ -97,14 +97,14 @@ class HomeController: UIViewController {
 
     private let labelForFirstCollectionView: UILabel = {
         let label = UILabel()
-        label.attributedText = "당신만을 위한 맞춤 채널".coloredAttributedColor( stringToColor: "맞춤", color: .complementaryColor2)
+        label.attributedText = "당신만을 위한 맞춤 채널".localized().coloredAttributedColor( stringToColor: "맞춤".localized(), color: .complementaryColor2)
         label.font = UIFont.boldSystemFont(ofSize: 18.adjusted(by: .horizontal))
         return label
     }()
 
     private lazy var moreButtonForFirst: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("더 보기", for: .normal)
+        button.setTitle("더 보기".localized(), for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 13)
         button.setTitleColor(.lightGray, for: .normal)
         button.addTarget(self, action: #selector(handleMore), for: .touchUpInside)
@@ -119,7 +119,7 @@ class HomeController: UIViewController {
 
     private lazy var moreButtonForSecond: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("더 보기", for: .normal)
+        button.setTitle("더 보기".localized(), for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 13)
         button.setTitleColor(.lightGray, for: .normal)
         button.addTarget(self, action: #selector(handleMore), for: .touchUpInside)
@@ -137,6 +137,7 @@ class HomeController: UIViewController {
         super.viewDidLoad()
         configureUI()
         fetchBanners()
+        setNotification()
         DispatchQueue.main.async {
             self.timer = Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(self.changeImage), userInfo: nil, repeats: true)
         }
@@ -145,6 +146,7 @@ class HomeController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationItem.titleView = UIImageView(image: #imageLiteral(resourceName: "titleLogo"))
+//        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "bell.fill")?.withTintColor(.mainColor_4), style: .plain, target: self, action: #selector(handleNotification))
         fetchUser()
     }
 
@@ -208,6 +210,13 @@ class HomeController: UIViewController {
         }
     }
 
+    func setNotification() {
+        let manager = LocalNotificationManager()
+        manager.requestPermission()
+        manager.addNotification(title: "점심 먹고 나른한 지금 유추에서 새로운 채널을 찾아보세요!")
+        manager.scheduleNotifications()
+    }
+
     func fetchRelatedChannels() {
         guard let user = UserInfo.user else {
             return
@@ -221,7 +230,7 @@ class HomeController: UIViewController {
                     let endIdx = channelName.index(channelName.startIndex, offsetBy: 17)
                     channelName = channelName[channelName.startIndex..<endIdx] + "..."
                 }
-                self.labelForSecondCollectionView.attributedText = (channelName + "와 연관된 채널").coloredAttributedColor(stringToColor: "연관된", color: .complementaryColor)
+                self.labelForSecondCollectionView.attributedText = (channelName + "와 연관된 채널".localized()).coloredAttributedColor(stringToColor: "연관된".localized(), color: .complementaryColor)
                 self.relatedChannel = Array(data.prefix(upTo: 12))
                 self.relatedChannelMax = data
                 self.carouselCollectionView.reloadData()
@@ -249,14 +258,18 @@ class HomeController: UIViewController {
 
     @objc func handleMore(_ sender: UIButton) {
         if sender == moreButtonForFirst {
-            let title = "맞춤 채널".coloredAttributedColor(stringToColor: "맞춤", color: .complementaryColor2)
+            let title = "맞춤 채널".localized().coloredAttributedColor(stringToColor: "맞춤".localized(), color: .complementaryColor2)
             let controller = ChannelListNEViewController(title: title, channels: recommendedChannelsMax, type: .recommended)
             self.navigationController?.pushViewController(controller, animated: true)
         } else if sender == moreButtonForSecond {
-            let title = "연관 채널".coloredAttributedColor(stringToColor: "연관", color: .complementaryColor)
+            let title = "연관 채널".localized().coloredAttributedColor(stringToColor: "연관".localized(), color: .complementaryColor)
             let controller = ChannelListNEViewController(title: title, channels: relatedChannelMax, type: .related)
             self.navigationController?.pushViewController(controller, animated: true)
         }
+    }
+
+    @objc func handleNotification() {
+        print("hello")
     }
 
     // MARK: - Helpers
