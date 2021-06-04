@@ -172,25 +172,24 @@ class HomeController: UIViewController {
         if UserInfo.user != nil {
             self.fetchRelatedChannels()
             self.fetchRecommendedChannels()
+        } else {
+            let tk = TokenUtils()
+            guard let userId = tk.getUserIdFromToken(TokenUtils.service) else {
+                return
+            }
+            showLoader(true)
+            UserInfo.fetchUser(userId: userId) { result in
+                switch result {
+                case .success(_):
+                    self.fetchRecommendedChannels()
+                    self.fetchRelatedChannels()
+                    self.showLoader(false)
+                case .failure(let err):
+                    self.showMessage(withTitle: "Error", message: "Unable to fetch user \(err)")
+                    self.showLoader(false)
+                }
+            }
         }
-//        else {
-//            let tk = TokenUtils()
-//            guard let userId = tk.getUserIdFromToken(TokenUtils.service) else {
-//                return
-//            }
-//            showLoader(true)
-//            UserInfo.fetchUser(userId: userId) { result in
-//                switch result {
-//                case .success(_):
-//                    self.fetchRecommendedChannels()
-//                    self.fetchRelatedChannels()
-//                    self.showLoader(false)
-//                case .failure(let err):
-//                    self.showMessage(withTitle: "Error", message: "Unable to fetch user \(err)")
-//                    self.showLoader(false)
-//                }
-//            }
-//        }
     }
 
     func fetchRecommendedChannels() {
@@ -203,6 +202,7 @@ class HomeController: UIViewController {
             case .success(let data):
                 self.recommendedChannels = Array(data.prefix(upTo: 12))
                 self.recommendedChannelsMax = data
+                DataManager.sharedInstance.saveChannels(data)
                 self.circularCollectionView.reloadData()
             case .failure(_):
                 self.showMessage(withTitle: "Error", message: "Unable to fetch data from server")

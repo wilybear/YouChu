@@ -34,11 +34,16 @@ class TokenRequestInterceptor: RequestInterceptor {
     }
 
     func getNewAccessToken(completion: @escaping(_ isSuccess: Bool) -> Void) {
-        guard let signIn = GIDSignIn.sharedInstance() else { return }
-        guard let currentUser = signIn.currentUser else {
+        var id: String?
+        if let signIn = GIDSignIn.sharedInstance(), let currentUser = signIn.currentUser {
+            id = currentUser.userID
+        } else if let userId = UserDefaults.standard.string(forKey: "userId") {
+            id = userId
+        }
+        guard let userId = id else {
             return
         }
-        AF.request(baseUrl + "userIndex", method: .get, parameters: ["google_user_id": currentUser.userID])
+        AF.request(baseUrl + "userIndex", method: .get, parameters: ["google_user_id": userId])
             .validate(statusCode: 200..<300)
             .responseDecodable(of: ResonseForResgister.self) { response in
             switch response.result {

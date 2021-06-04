@@ -7,6 +7,7 @@
 
 import UIKit
 import GoogleSignIn
+import AuthenticationServices
 
 class MainTabController: UITabBarController {
 
@@ -44,33 +45,58 @@ class MainTabController: UITabBarController {
 
     // MARK: - API
     func checkIfuserIsLoggedIn() {
-        guard let signIn = GIDSignIn.sharedInstance() else { return }
-        if signIn.hasPreviousSignIn() {
-            signIn.restorePreviousSignIn()
-            let tk = TokenUtils()
-            guard let userId = tk.getUserIdFromToken(TokenUtils.service) else {
-                return
-            }
-            showLoader(true)
-            UserInfo.fetchUser(userId: userId) { result in
-                switch result {
-                case .success(_):
-                    self.showLoader(false)
-                    self.configureViewControllers()
-                case .failure(let err):
-                    self.showMessage(withTitle: "Error", message: "Unable to fetch user \(err)")
-                    self.showLoader(false)
+        var checkCount = 2
+        func needLoginAppear() {
+            checkCount -= 1
+            if checkCount == 0 {
+                DispatchQueue.main.async {
+                    let controller = GoogleLoginViewController()
+                    let nav = UINavigationController(rootViewController: controller)
+                    nav.modalPresentationStyle = .fullScreen
+                    self.present(nav, animated: true, completion: nil)
                 }
             }
-            print("restored")
-        } else {
-            DispatchQueue.main.async {
-                let controller = GoogleLoginViewController()
-                let nav = UINavigationController(rootViewController: controller)
-                nav.modalPresentationStyle = .fullScreen
-                self.present(nav, animated: true, completion: nil)
+        }
+        if let signIn = GIDSignIn.sharedInstance() {
+            if signIn.hasPreviousSignIn() {
+                signIn.restorePreviousSignIn()
+                let tk = TokenUtils()
+                guard let userId = tk.getUserIdFromToken(TokenUtils.service) else {
+                    return
+                }
+                showLoader(true)
+                UserInfo.fetchUser(userId: userId) { result in
+                    switch result {
+                    case .success(_):
+                        self.showLoader(false)
+                        self.configureViewControllers()
+                    case .failure(let err):
+                        self.showMessage(withTitle: "Error", message: "Unable to fetch user \(err)")
+                        self.showLoader(false)
+                    }
+                }
+            } else {
+                needLoginAppear()
             }
         }
+
+        if let userId = UserDefaults.standard.string(forKey: "userId") {
+            let appleIDProvider = ASAuthorizationAppleIDProvider()
+            appleIDProvider.getCredentialState(forUserID: userId) { (credentialState, _) in
+            switch credentialState {
+                case .authorized:
+                    print("Auto login successful")
+                case .revoked, .notFound:
+                    needLoginAppear()
+                    break
+                default:
+                    break
+                }
+            }
+        } else {
+            needLoginAppear()
+        }
+
     }
 
     // MARK: - Helpers

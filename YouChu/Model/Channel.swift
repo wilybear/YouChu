@@ -7,17 +7,47 @@
 
 import UIKit
 
-struct Channel: Codable {
-    let channelIdx: Int?
-    let channelId: String?
-    let title: String?
-    let description: String?
-    let publishedAt: String?
-    let thumbnail: String?
-    let viewCount: Int?
-    let subscriberCount: Int?
-    let bannerImage: String?
-    let videoCount: Int?
+public class Channel: NSObject, Codable, NSCoding, NSSecureCoding {
+    public static var supportsSecureCoding = true
+
+    public func encode(with coder: NSCoder) {
+        coder.encode(channelIdx, forKey: "channel_index")
+        coder.encode(channelId, forKey: "channel_id")
+        coder.encode(title, forKey: "title")
+        coder.encode(introduction, forKey: "introduction")
+        coder.encode(publishedAt, forKey: "published_at")
+        coder.encode(thumbnail, forKey: "thumbnail")
+        coder.encode(viewCount, forKey: "view_count")
+        coder.encode(bannerImage, forKey: "banner_image")
+        coder.encode(subscriberCount, forKey: "subscriber_count")
+        coder.encode(videoCount, forKey: "video_count")
+        coder.encode(isPreffered, forKey: "isPreferred")
+    }
+
+    public required init?(coder: NSCoder) {
+        self.channelIdx = coder.decodeObject(forKey: "channel_index") as? Int
+        self.channelId = coder.decodeObject(forKey: "channel_id") as? String
+        self.title = coder.decodeObject(forKey: "title") as? String
+        self.introduction = coder.decodeObject(forKey: "introduction") as? String
+        self.publishedAt = coder.decodeObject(forKey: "published_at") as? String
+        self.thumbnail = coder.decodeObject(forKey: "thumbnail") as? String
+        self.viewCount = coder.decodeObject(forKey: "view_count") as? Int
+        self.bannerImage = coder.decodeObject(forKey: "banner_image") as? String
+        self.subscriberCount = coder.decodeObject(forKey: "subscriber_count") as? Int
+        self.videoCount = coder.decodeObject(forKey: "video_count") as? Int
+        self.isPreffered = coder.decodeObject(forKey: "isPreferred") as? ChannelState ?? .normal
+    }
+
+    var channelIdx: Int?
+    var channelId: String?
+    var title: String?
+    var introduction: String?
+    var publishedAt: String?
+    var thumbnail: String?
+    var viewCount: Int?
+    var subscriberCount: Int?
+    var bannerImage: String?
+    var videoCount: Int?
     var isPreffered: ChannelState
 
     var thumbnailUrl: URL? {
@@ -42,7 +72,7 @@ struct Channel: Codable {
         case channelIdx = "channel_index"
         case channelId = "channel_id"
         case title
-        case description
+        case introduction
         case publishedAt = "published_at"
         case thumbnail
         case viewCount = "view_count"
@@ -52,12 +82,12 @@ struct Channel: Codable {
         case isPreffered = "isPreferred"
     }
 
-    init(from decoder: Decoder) throws {
+    required public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         channelIdx = (try? values.decode(Int.self, forKey: .channelIdx)) ?? nil
         channelId = (try? values.decode(String.self, forKey: .channelId)) ?? nil
         title = (try? values.decode(String.self, forKey: .title)) ?? nil
-        description = (try? values.decode(String.self, forKey: .description)) ?? nil
+        introduction = (try? values.decode(String.self, forKey: .introduction)) ?? nil
         publishedAt = (try? values.decode(String.self, forKey: .publishedAt)) ?? nil
         thumbnail = (try? values.decode(String.self, forKey: .thumbnail)) ?? nil
         viewCount = (try? values.decode(Int.self, forKey: .viewCount)) ?? nil

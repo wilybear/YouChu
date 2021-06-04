@@ -71,6 +71,24 @@ class UserInfo {
             }
     }
 
+    static func registerUser(identityToken: String, appleId: String, email: String, completion: @escaping(Result<ResonseForResgister, Error>) -> Void) {
+        let header: HTTPHeaders = [ "Content-Type": "application/json" ]
+        AF.request(baseUrl + "Apple/Register", method: .post, parameters: ["identity_token": identityToken, "apple_user_id": appleId, "user_email": email], encoding: JSONEncoding.default, headers: header)
+            .validate(statusCode: 200..<400)
+            .responseDecodable(of: ResonseForResgister.self) { response in
+                switch response.result {
+                case .success(_):
+                    guard let value = response.value else {
+                        return
+                    }
+                    completion(.success(value))
+                case .failure(let err):
+                    print(err)
+                    completion(.failure(err))
+                }
+            }
+    }
+
     static func deleteUserData(userId: Int, completion:@escaping(Result<Int, Error>) -> Void) {
         let tk = TokenUtils()
         guard let header = tk.getAuthorizationHeader(serviceID: TokenUtils.service) else {

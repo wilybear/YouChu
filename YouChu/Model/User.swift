@@ -12,11 +12,18 @@ struct User: Codable {
     let email: String
     let preferCount: Int
     let dislikeCount: Int
+    let domain: Domain
 
     enum CodingKeys: String, CodingKey {
         case id = "user_id"
         case email = "user_email"
         case preferCount = "prefer_count"
         case dislikeCount = "dislike_count"
+        case domain
     }
+}
+
+enum Domain: String, Codable {
+    case google = "Google"
+    case apple = "Apple"
 }

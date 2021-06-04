@@ -7,6 +7,7 @@
 
 import UIKit
 import GoogleSignIn
+import AuthenticationServices
 
 class GoogleLoginViewController: UIViewController {
 
@@ -22,6 +23,14 @@ class GoogleLoginViewController: UIViewController {
         return iv
     }()
 
+    private lazy var appleSignInButton: UIStackView = {
+        let authorizationButton = ASAuthorizationAppleIDButton(type: .signIn, style: .black)
+        authorizationButton.addTarget(self, action: #selector(appleSignInButtonPress), for: .touchUpInside)
+        let stackview = UIStackView()
+        stackview.addArrangedSubview(authorizationButton)
+        return stackview
+    }()
+
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
@@ -34,7 +43,7 @@ class GoogleLoginViewController: UIViewController {
         let label = UILabel()
         label.textAlignment = .center
         label.textColor = .white
-        label.text = "구글 로그인을 통해 구독 목록을 가져옵니다.".localized()
+        label.text = "구글 로그인만 유튜브 계정 연동을 지원합니다.".localized()
         label.font = UIFont.boldSystemFont(ofSize: 12.adjusted(by: .horizontal))
         return label
     }()
@@ -52,8 +61,14 @@ class GoogleLoginViewController: UIViewController {
         titleLabel.anchor(top: icon.bottomAnchor)
         support.centerX(inView: view)
         support.anchor(top: titleLabel.bottomAnchor, paddingTop: 5)
-        googleSignInButton.centerX(inView: view)
-        googleSignInButton.anchor(top: support.bottomAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, paddingTop: 10, paddingBottom: 100)
+
+        let stackView = UIStackView(arrangedSubviews: [googleSignInButton, appleSignInButton])
+        stackView.axis = .vertical
+        stackView.distribution = .fillEqually
+        stackView.setHeight(100)
+        view.addSubview(stackView)
+        stackView.centerX(inView: view)
+        stackView.anchor(top: support.bottomAnchor, paddingTop: 10)
 
         GIDSignIn.sharedInstance()?.presentingViewController = self
         GIDSignIn.sharedInstance()?.delegate = self
@@ -65,6 +80,76 @@ class GoogleLoginViewController: UIViewController {
         return scope.contains { $0 as! String == "https://www.googleapis.com/auth/youtube.readonly"}
     }
 
+    @objc func appleSignInButtonPress() {
+        let appleIDProvider = ASAuthorizationAppleIDProvider()
+        let request = appleIDProvider.createRequest()
+        request.requestedScopes = [.email]
+
+        let authorizationController = ASAuthorizationController(authorizationRequests: [request])
+        authorizationController.delegate = self
+        authorizationController.presentationContextProvider = self
+        authorizationController.performRequests()
+    }
+
+}
+
+extension GoogleLoginViewController: ASAuthorizationControllerPresentationContextProviding, ASAuthorizationControllerDelegate {
+    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+        return self.view.window!
+    }
+    // Apple ID 연동 성공 시
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+        switch authorization.credential {
+        // Apple ID
+        case let appleIDCredential as ASAuthorizationAppleIDCredential:
+
+            // 계정 정보 가져오기
+            let userIdentifier = appleIDCredential.user
+            let email = appleIDCredential.email
+            let identityToken = appleIDCredential.identityToken
+            let tokenString = String(data: identityToken!, encoding: .utf8)
+//
+//            print("User ID : \(userIdentifier)")
+//            print("User Email : \(email ?? "")")
+//            print("Token: \(String(describing: identityToken))")
+
+            UserInfo.registerUser(identityToken: tokenString ?? "", appleId: userIdentifier, email: email ?? "") { result in
+                switch result {
+                case .success(let response):
+                    let tk = TokenUtils()
+                    guard let token = response.token else {
+                        return
+                    }
+                    tk.create("https://www.youchu.link", account: "accessToken", value: token)
+                    guard let user = response.data else {
+                        return
+                    }
+                    UserInfo.fetchUser(userId: user) { result in
+                        switch result {
+                        case .success(let user):
+                            let data: [String: User] = ["user": user!]
+                            NotificationCenter.default.post(name: Notification.Name(rawValue: "User"), object: nil, userInfo: data)
+                            UserDefaults.standard.set(userIdentifier, forKey: "userId")
+                            DataManager.sharedInstance.createUser()
+                            self.dismiss(animated: false, completion: nil)
+                        case .failure(let err):
+                            self.showMessage(withTitle: "에러", message: "올바르지 않은 접근입니다. \(err)")
+                        }
+                    }
+                case .failure(let err):
+                    self.showMessage(withTitle: "로그안 실패", message: "계정 생성 및 로그인에 실패하셨습니다. \(err)")
+                }
+            }
+
+        default:
+            break
+        }
+    }
+
+    // Apple ID 연동 실패 시
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+        // Handle error.
+    }
 }
 
 extension GoogleLoginViewController: GIDSignInDelegate {
@@ -109,6 +194,7 @@ extension GoogleLoginViewController: GIDSignInDelegate {
                         case .success(let user):
                             let data: [String: User] = ["user": user!]
                             NotificationCenter.default.post(name: Notification.Name(rawValue: "User"), object: nil, userInfo: data)
+                            DataManager.sharedInstance.createUser()
                             self.dismiss(animated: false, completion: nil)
                         case .failure(let err):
                             self.showMessage(withTitle: "에러", message: "올바르지 않은 접근입니다. \(err)")

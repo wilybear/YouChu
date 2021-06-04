@@ -65,14 +65,16 @@ class RankingController: UIViewController {
         Service.fetchRankingChannelList(of: topic, userId: (UserInfo.user?.id)!, size: 20, page: pageNumber) { result in
             switch result {
             case .success(let page):
+
+                self.channels.append(contentsOf: page.data ?? [])
+                self.tableView.reloadData()
+
                 if page.last {
                     self.isLastPage = true
                     self.isPaging = false
                     self.showLoader(false)
                     break
                 }
-                self.channels.append(contentsOf: page.data ?? [])
-                self.tableView.reloadData()
                 self.currentPage += 1
 
                 self.isPaging = false

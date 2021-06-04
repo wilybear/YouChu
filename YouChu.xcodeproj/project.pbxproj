@@ -44,6 +44,8 @@
 		37DC810A262B1CAF00711CF0 /* CarouselChannelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DC8109262B1CAF00711CF0 /* CarouselChannelCell.swift */; };
 		37DC810D262B2D5500711CF0 /* BannerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DC810C262B2D5500711CF0 /* BannerCell.swift */; };
 		37DC8110262B9BAE00711CF0 /* ChannelCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DC810F262B9BAE00711CF0 /* ChannelCardView.swift */; };
+		37E0056326688F3100048C20 /* YouChu.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 37E0056126688F3100048C20 /* YouChu.xcdatamodeld */; };
+		37E00566266A23BF00048C20 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37E00565266A23BF00048C20 /* DataManager.swift */; };
 		37E814B52628796E00B3C75B /* CircularChannelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37E814B42628796E00B3C75B /* CircularChannelCell.swift */; };
 		37FB47092628440A008781C0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37FB47082628440A008781C0 /* AppDelegate.swift */; };
 		37FB470B2628440A008781C0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37FB470A2628440A008781C0 /* SceneDelegate.swift */; };
@@ -102,6 +104,9 @@
 		37DC8109262B1CAF00711CF0 /* CarouselChannelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselChannelCell.swift; sourceTree = "<group>"; };
 		37DC810C262B2D5500711CF0 /* BannerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerCell.swift; sourceTree = "<group>"; };
 		37DC810F262B9BAE00711CF0 /* ChannelCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelCardView.swift; sourceTree = "<group>"; };
+		37E0056226688F3100048C20 /* YouChu.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = YouChu.xcdatamodel; sourceTree = "<group>"; };
+		37E0056426689AB900048C20 /* YouChu.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = YouChu.entitlements; sourceTree = "<group>"; };
+		37E00565266A23BF00048C20 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		37E814B42628796E00B3C75B /* CircularChannelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularChannelCell.swift; sourceTree = "<group>"; };
 		37FB47052628440A008781C0 /* YouChu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YouChu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		37FB47082628440A008781C0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -179,6 +184,7 @@
 		37FB47072628440A008781C0 /* YouChu */ = {
 			isa = PBXGroup;
 			children = (
+				37E0056426689AB900048C20 /* YouChu.entitlements */,
 				37FB472C26284523008781C0 /* Utils */,
 				37FB472B26284521008781C0 /* API */,
 				37FB472A2628451D008781C0 /* Controller */,
@@ -190,6 +196,7 @@
 				37FB47112628440C008781C0 /* Assets.xcassets */,
 				37FB47132628440C008781C0 /* LaunchScreen.storyboard */,
 				37FB47162628440C008781C0 /* Info.plist */,
+				37E0056126688F3100048C20 /* YouChu.xcdatamodeld */,
 			);
 			path = YouChu;
 			sourceTree = "<group>";
@@ -258,6 +265,7 @@
 				37534FCF2654F6C5003A5C42 /* Statics.swift */,
 				376CD138265530DC00A09764 /* Color.swift */,
 				3771BECA26675308002567D9 /* LocalNotificationManager.swift */,
+				37E00565266A23BF00048C20 /* DataManager.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -437,6 +445,7 @@
 				3747FDCD263E76D900916764 /* VideoTableViewCell.swift in Sources */,
 				37FB47382628465E008781C0 /* RankingController.swift in Sources */,
 				371DCA71264FD66000B3724C /* Keyword.swift in Sources */,
+				37E00566266A23BF00048C20 /* DataManager.swift in Sources */,
 				375FE46D2639755E00740866 /* VideoViewController.swift in Sources */,
 				371DCA6B264ECDEA00B3724C /* User.swift in Sources */,
 				375FE46A2639754F00740866 /* DetailViewController.swift in Sources */,
@@ -462,6 +471,7 @@
 				37DC810D262B2D5500711CF0 /* BannerCell.swift in Sources */,
 				371DCA6F264F9D6200B3724C /* Response.swift in Sources */,
 				37FB47312628457F008781C0 /* MainTabController.swift in Sources */,
+				37E0056326688F3100048C20 /* YouChu.xcdatamodeld in Sources */,
 				3747FDD3263E818800916764 /* ChannelListController.swift in Sources */,
 				3778AD0C26345810008F95AB /* RankingHeader.swift in Sources */,
 				37DC8110262B9BAE00711CF0 /* ChannelCardView.swift in Sources */,
@@ -636,8 +646,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = YouChu/YouChu.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 22;
+				CURRENT_PROJECT_VERSION = 0604;
 				DEVELOPMENT_TEAM = 6YNXK75768;
 				INFOPLIST_FILE = YouChu/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -657,8 +668,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = YouChu/YouChu.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 22;
+				CURRENT_PROJECT_VERSION = 0604;
 				DEVELOPMENT_TEAM = 6YNXK75768;
 				INFOPLIST_FILE = YouChu/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -694,6 +706,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		37E0056126688F3100048C20 /* YouChu.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				37E0056226688F3100048C20 /* YouChu.xcdatamodel */,
+			);
+			currentVersion = 37E0056226688F3100048C20 /* YouChu.xcdatamodel */;
+			path = YouChu.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 37FB46FD2628440A008781C0 /* Project object */;
 }

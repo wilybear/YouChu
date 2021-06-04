@@ -30,7 +30,6 @@ class MyPageController: UIViewController {
 
     private let googleLogoView: UIImageView = {
         let iv = UIImageView()
-        iv.image = #imageLiteral(resourceName: "google")
         return iv
     }()
 
@@ -54,6 +53,7 @@ class MyPageController: UIViewController {
     }()
 
     private lazy var accountStack: UIStackView = {
+
         let stack = UIStackView(arrangedSubviews: [googleLogoView, gmailAddressLabel, logoutButton])
         stack.axis = .horizontal
         stack.distribution = .fillProportionally
@@ -140,6 +140,12 @@ class MyPageController: UIViewController {
                 self.gmailAddressLabel.text = user.email
                 self.preferedLabel.attributedText = self.attributedStatText(value: user.preferCount, label: "선호 채널".localized())
                 self.dislikedLabel.attributedText = self.attributedStatText(value: user.dislikeCount, label: "비선호 채널".localized())
+                self.googleLogoView.image = user.domain == .google ? #imageLiteral(resourceName: "google") : UIImage(systemName: "applelogo")?.withTintColor(.black)
+                if user.domain == .apple {
+                    self.logoutButton.removeFromSuperview()
+                    self.googleLogoView.setDimensions(height: 20, width: 15)
+                    self.googleLogoView.tintColor = .black
+                }
             case .failure(_):
                 break
             }
@@ -200,14 +206,22 @@ class MyPageController: UIViewController {
     }
 
     @objc func logout() {
-        guard let signIn = GIDSignIn.sharedInstance() else { return }
-        let tk = TokenUtils()
-        tk.delete(TokenUtils.service, account: TokenUtils.account)
-        signIn.signOut()
-        UIControl().sendAction(#selector(URLSessionTask.suspend), to: UIApplication.shared, for: nil)
-            // Comment if you want to minimise app
-            Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false) { (_) in
-                exit(0)
+        guard let user = UserInfo.user else {
+            return
+        }
+        if user.domain == .apple {
+            self.showMessage(withTitle: "죄송합니다.", message: "애플 유저는 회원탈퇴를 이용해주세요")
+        } else {
+            guard let signIn = GIDSignIn.sharedInstance() else { return }
+            let tk = TokenUtils()
+            tk.delete(TokenUtils.service, account: TokenUtils.account)
+            signIn.signOut()
+            DataManager.sharedInstance.deleteUser()
+            UIControl().sendAction(#selector(URLSessionTask.suspend), to: UIApplication.shared, for: nil)
+                // Comment if you want to minimise app
+                Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false) { (_) in
+                    exit(0)
+            }
         }
     }
 
@@ -232,7 +246,12 @@ class MyPageController: UIViewController {
         UserInfo.deleteUserData(userId: user.id) { result in
             switch result {
             case .success(_):
-                let alert = UIAlertController(title: "회원 탈퇴", message: "성공적으로 회원탈퇴가 이루어졌습니다. 감사합니다.", preferredStyle: .alert)
+                DataManager.sharedInstance.deleteUser()
+                var message = "성공적으로 회원탈퇴가 이루어졌습니다. 감사합니다."
+                if user.domain == .apple {
+                    message += "애플 유저는 설정 > 암호 및 보안 > Apple ID를 사용하는 앱 에서 해당 앱을 삭제해야 정상적으로 탈퇴됩니다."
+                }
+                let alert = UIAlertController(title: "회원 탈퇴", message: message, preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "네", style: .default, handler: { _ in
                     exit(0)
                 }))
