@@ -46,6 +46,7 @@
 		37DC8110262B9BAE00711CF0 /* ChannelCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DC810F262B9BAE00711CF0 /* ChannelCardView.swift */; };
 		37E0056326688F3100048C20 /* YouChu.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 37E0056126688F3100048C20 /* YouChu.xcdatamodeld */; };
 		37E00566266A23BF00048C20 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37E00565266A23BF00048C20 /* DataManager.swift */; };
+		37E00568266A3E5100048C20 /* NetworkMangager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37E00567266A3E5100048C20 /* NetworkMangager.swift */; };
 		37E814B52628796E00B3C75B /* CircularChannelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37E814B42628796E00B3C75B /* CircularChannelCell.swift */; };
 		37FB47092628440A008781C0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37FB47082628440A008781C0 /* AppDelegate.swift */; };
 		37FB470B2628440A008781C0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37FB470A2628440A008781C0 /* SceneDelegate.swift */; };
@@ -107,6 +108,7 @@
 		37E0056226688F3100048C20 /* YouChu.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = YouChu.xcdatamodel; sourceTree = "<group>"; };
 		37E0056426689AB900048C20 /* YouChu.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = YouChu.entitlements; sourceTree = "<group>"; };
 		37E00565266A23BF00048C20 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		37E00567266A3E5100048C20 /* NetworkMangager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMangager.swift; sourceTree = "<group>"; };
 		37E814B42628796E00B3C75B /* CircularChannelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularChannelCell.swift; sourceTree = "<group>"; };
 		37FB47052628440A008781C0 /* YouChu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YouChu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		37FB47082628440A008781C0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -266,6 +268,7 @@
 				376CD138265530DC00A09764 /* Color.swift */,
 				3771BECA26675308002567D9 /* LocalNotificationManager.swift */,
 				37E00565266A23BF00048C20 /* DataManager.swift */,
+				37E00567266A3E5100048C20 /* NetworkMangager.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -466,6 +469,7 @@
 				3771BECB26675308002567D9 /* LocalNotificationManager.swift in Sources */,
 				376CD13B26555A4900A09764 /* ResponseWithPage.swift in Sources */,
 				3747FDD6263E822100916764 /* Channel.swift in Sources */,
+				37E00568266A3E5100048C20 /* NetworkMangager.swift in Sources */,
 				3789E0B62642F43C00894656 /* Device.swift in Sources */,
 				37534FCE2654F497003A5C42 /* UserInfo.swift in Sources */,
 				37DC810D262B2D5500711CF0 /* BannerCell.swift in Sources */,
@@ -648,7 +652,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = YouChu/YouChu.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0604;
+				CURRENT_PROJECT_VERSION = 0610;
 				DEVELOPMENT_TEAM = 6YNXK75768;
 				INFOPLIST_FILE = YouChu/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -670,7 +674,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = YouChu/YouChu.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0604;
+				CURRENT_PROJECT_VERSION = 0610;
 				DEVELOPMENT_TEAM = 6YNXK75768;
 				INFOPLIST_FILE = YouChu/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

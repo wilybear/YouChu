@@ -10,7 +10,6 @@ import GoogleSignIn
 import AuthenticationServices
 
 class MainTabController: UITabBarController {
-
     // MARK: - Properties
     private var bounceAnimaton: CAKeyframeAnimation = {
         let bounceAnimation = CAKeyframeAnimation(keyPath: "transform.scale")
@@ -23,6 +22,8 @@ class MainTabController: UITabBarController {
     // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        let netConnection = NetMonitor.shared
+        netConnection.startMonitoring()
         checkIfuserIsLoggedIn()
         view.backgroundColor = .white
         setValue(CustomTabbar(frame: tabBar.frame), forKey: "tabBar")

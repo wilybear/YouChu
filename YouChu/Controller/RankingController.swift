@@ -60,9 +60,12 @@ class RankingController: UIViewController {
 
     // MARK: - API
     func fetchRankingChannel(with topic: Topic, pageNumber: Int) {
+        guard let user = UserInfo.user else {
+            return
+        }
         showLoader(true)
         isPaging = true
-        Service.fetchRankingChannelList(of: topic, userId: (UserInfo.user?.id)!, size: 20, page: pageNumber) { result in
+        Service.fetchRankingChannelList(of: topic, userId: user.id, size: 20, page: pageNumber) { result in
             switch result {
             case .success(let page):
 

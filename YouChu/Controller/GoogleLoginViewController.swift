@@ -130,7 +130,7 @@ extension GoogleLoginViewController: ASAuthorizationControllerPresentationContex
                             let data: [String: User] = ["user": user!]
                             NotificationCenter.default.post(name: Notification.Name(rawValue: "User"), object: nil, userInfo: data)
                             UserDefaults.standard.set(userIdentifier, forKey: "userId")
-                            DataManager.sharedInstance.createUser()
+                         //   DataManager.sharedInstance.createUser()
                             self.dismiss(animated: false, completion: nil)
                         case .failure(let err):
                             self.showMessage(withTitle: "에러", message: "올바르지 않은 접근입니다. \(err)")
@@ -194,7 +194,7 @@ extension GoogleLoginViewController: GIDSignInDelegate {
                         case .success(let user):
                             let data: [String: User] = ["user": user!]
                             NotificationCenter.default.post(name: Notification.Name(rawValue: "User"), object: nil, userInfo: data)
-                            DataManager.sharedInstance.createUser()
+                      //      DataManager.sharedInstance.createUser()
                             self.dismiss(animated: false, completion: nil)
                         case .failure(let err):
                             self.showMessage(withTitle: "에러", message: "올바르지 않은 접근입니다. \(err)")

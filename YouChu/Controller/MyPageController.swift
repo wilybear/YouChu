@@ -128,6 +128,23 @@ class MyPageController: UIViewController {
 
     // MARK: - API
     func fetchUserStats() {
+        if !NetMonitor.shared.internetConnection {
+            if let userJson = UserDefaults.standard.object(forKey: "user") as? Data {
+                let decoder = JSONDecoder()
+                if let user = try? decoder.decode(User.self, from: userJson) {
+                    self.gmailAddressLabel.text = user.email
+                    self.preferedLabel.attributedText = self.attributedStatText(value: user.preferCount, label: "선호 채널".localized())
+                    self.dislikedLabel.attributedText = self.attributedStatText(value: user.dislikeCount, label: "비선호 채널".localized())
+                    self.googleLogoView.image = user.domain == .google ? #imageLiteral(resourceName: "google") : UIImage(systemName: "applelogo")?.withTintColor(.black)
+                    if user.domain == .apple {
+                        self.logoutButton.removeFromSuperview()
+                        self.googleLogoView.setDimensions(height: 20, width: 15)
+                        self.googleLogoView.tintColor = .black
+                    }
+                }
+            }
+        }
+
         guard let user = UserInfo.user else {
             return
         }
@@ -216,7 +233,6 @@ class MyPageController: UIViewController {
             let tk = TokenUtils()
             tk.delete(TokenUtils.service, account: TokenUtils.account)
             signIn.signOut()
-            DataManager.sharedInstance.deleteUser()
             UIControl().sendAction(#selector(URLSessionTask.suspend), to: UIApplication.shared, for: nil)
                 // Comment if you want to minimise app
                 Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false) { (_) in
@@ -246,7 +262,6 @@ class MyPageController: UIViewController {
         UserInfo.deleteUserData(userId: user.id) { result in
             switch result {
             case .success(_):
-                DataManager.sharedInstance.deleteUser()
                 var message = "성공적으로 회원탈퇴가 이루어졌습니다. 감사합니다."
                 if user.domain == .apple {
                     message += "애플 유저는 설정 > 암호 및 보안 > Apple ID를 사용하는 앱 에서 해당 앱을 삭제해야 정상적으로 탈퇴됩니다."

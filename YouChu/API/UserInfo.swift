@@ -26,6 +26,13 @@ class UserInfo {
             case .success(_):
                 guard let value = response.value else { return }
                 UserInfo.user = value.data
+                do {
+                    let encoder = JSONEncoder()
+                    let encoded = try encoder.encode(value.data)
+                    UserDefaults.standard.set(encoded, forKey: "user")
+                } catch let error {
+                    print(error)
+                }
                 completion(.success(value.data))
             case .failure(let err):
                 completion(.failure(err))

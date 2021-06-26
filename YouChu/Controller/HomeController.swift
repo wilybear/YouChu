@@ -157,19 +157,37 @@ class HomeController: UIViewController {
     // MARK: - API
 
     func fetchBanners() {
-        Service.fetchBanners { [self] result in
-            switch result {
-            case .success(let banners):
-                self.banners = banners
-                bannerCollectionView.reloadData()
-            case .failure(let err):
-                self.showMessage(withTitle: "Err", message: "Failed to fetch banners \(err)")
+
+        if !NetMonitor.shared.internetConnection {
+            if let channelsJson = UserDefaults.standard.object(forKey: "banner") as? Data {
+                let decoder = JSONDecoder()
+                if let banners = try? decoder.decode([Banner].self, from: channelsJson) {
+                    self.banners = banners
+                }
+            }
+        } else {
+
+            Service.fetchBanners { [self] result in
+                switch result {
+                case .success(let banners):
+                    self.banners = banners
+                    do {
+                        let encoder = JSONEncoder()
+                        let encoded = try encoder.encode(banners)
+                        UserDefaults.standard.set(encoded, forKey: "banner")
+                    } catch let error {
+                        print(error)
+                    }
+                    bannerCollectionView.reloadData()
+                case .failure(let err):
+                    self.showMessage(withTitle: "Err", message: "Failed to fetch banners \(err)")
+                }
             }
         }
     }
 
     func fetchUser() {
-        if UserInfo.user != nil {
+        if UserInfo.user != nil || !NetMonitor.shared.internetConnection {
             self.fetchRelatedChannels()
             self.fetchRecommendedChannels()
         } else {
@@ -180,9 +198,16 @@ class HomeController: UIViewController {
             showLoader(true)
             UserInfo.fetchUser(userId: userId) { result in
                 switch result {
-                case .success(_):
+                case .success(let data):
                     self.fetchRecommendedChannels()
                     self.fetchRelatedChannels()
+                    do {
+                        let encoder = JSONEncoder()
+                        let encoded = try encoder.encode(data)
+                        UserDefaults.standard.set(encoded, forKey: "user")
+                    } catch let error {
+                        print(error)
+                    }
                     self.showLoader(false)
                 case .failure(let err):
                     self.showMessage(withTitle: "Error", message: "Unable to fetch user \(err)")
@@ -193,6 +218,15 @@ class HomeController: UIViewController {
     }
 
     func fetchRecommendedChannels() {
+        if !NetMonitor.shared.internetConnection {
+            if let channelsJson = UserDefaults.standard.object(forKey: "recommend") as? Data {
+                let decoder = JSONDecoder()
+                if let channels = try? decoder.decode([Channel].self, from: channelsJson) {
+                    recommendedChannels = Array(channels.prefix(upTo: 12))
+                    recommendedChannelsMax = channels
+                }
+            }
+        }
         guard let user = UserInfo.user else {
             return
         }
@@ -202,7 +236,15 @@ class HomeController: UIViewController {
             case .success(let data):
                 self.recommendedChannels = Array(data.prefix(upTo: 12))
                 self.recommendedChannelsMax = data
-                DataManager.sharedInstance.saveChannels(data)
+                /// DataManager.sharedInstance.saveChannels(data)\
+                do {
+                    let encoder = JSONEncoder()
+                    let encoded = try encoder.encode(data)
+                    UserDefaults.standard.set(encoded, forKey: "recommend")
+                } catch let error {
+                    print(error)
+                }
+
                 self.circularCollectionView.reloadData()
             case .failure(_):
                 self.showMessage(withTitle: "Error", message: "Unable to fetch data from server")
@@ -218,6 +260,17 @@ class HomeController: UIViewController {
     }
 
     func fetchRelatedChannels() {
+
+        if !NetMonitor.shared.internetConnection {
+            if let channelsJson = UserDefaults.standard.object(forKey: "related") as? Data {
+                let decoder = JSONDecoder()
+                if let channels = try? decoder.decode([Channel].self, from: channelsJson) {
+                    relatedChannel = Array(channels.prefix(upTo: 12))
+                    relatedChannelMax = channels
+                }
+            }
+        }
+
         guard let user = UserInfo.user else {
             return
         }
@@ -233,6 +286,13 @@ class HomeController: UIViewController {
                 self.labelForSecondCollectionView.attributedText = (channelName + "와 연관된 채널".localized()).coloredAttributedColor(stringToColor: "연관된".localized(), color: .complementaryColor)
                 self.relatedChannel = Array(data.prefix(upTo: 12))
                 self.relatedChannelMax = data
+                do {
+                    let encoder = JSONEncoder()
+                    let encoded = try encoder.encode(data)
+                    UserDefaults.standard.set(encoded, forKey: "related")
+                } catch let error {
+                    print(error)
+                }
                 self.carouselCollectionView.reloadData()
             case .failure(_):
                 self.showMessage(withTitle: "Error", message: "Unable to fetch data from server")

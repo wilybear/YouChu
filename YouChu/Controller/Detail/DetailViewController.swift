@@ -54,7 +54,7 @@ class DetailViewController: UITableViewController {
             channel.viewCount?.addComma(),
             "",
             "",
-            channel.description
+            channel.introduction
         ]
 
         Service.fetchTopics(of: channel.channelIdx!) { topics in

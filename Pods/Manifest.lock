@@ -18,6 +18,7 @@ PODS:
   - JGProgressHUD (2.2)
   - JWTDecode (2.6.0)
   - Parchment (3.0.1)
+  - ReachabilitySwift (5.0.0)
   - SDWebImage (5.11.0):
     - SDWebImage/Core (= 5.11.0)
   - SDWebImage/Core (5.11.0)
@@ -31,6 +32,7 @@ DEPENDENCIES:
   - JGProgressHUD
   - JWTDecode (~> 2.6)
   - Parchment (~> 3.0)
+  - ReachabilitySwift
   - SDWebImage
   - SwiftRater
 
@@ -46,6 +48,7 @@ SPEC REPOS:
     - JGProgressHUD
     - JWTDecode
     - Parchment
+    - ReachabilitySwift
     - SDWebImage
     - SwiftRater
 
@@ -60,9 +63,10 @@ SPEC CHECKSUMS:
   JGProgressHUD: d83d7a981b85d11205e19ff8ad5bb9c40571c847
   JWTDecode: 480ca441ddbd5fbfb2abf17870af62f86436be58
   Parchment: 466a1cfb6151780db8acb4bbedc2d9c6bfa1e2ff
+  ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
   SDWebImage: 7acbb57630ac7db4a495547fb73916ff3e432f6b
   SwiftRater: 6094fa6e9b3866ff8beca0a871b4b5f9ab896a6d
 
-PODFILE CHECKSUM: 867aa5e88eea79a454452ecdb6bdb17c31f91f41
+PODFILE CHECKSUM: b153fbb7ed8439629426e537a4655f40eb5a28b8
 
 COCOAPODS: 1.10.1

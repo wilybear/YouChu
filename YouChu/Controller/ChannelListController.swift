@@ -66,6 +66,22 @@ class ChannelListController: UIViewController {
         guard let type = listType else {
             return
         }
+
+        if !NetMonitor.shared.internetConnection {
+            var key: String = ""
+            if type == .prefer {
+                key = "prefer"
+            } else if type == .dislike {
+                key = "dislike"
+            }
+            if let channelsJson = UserDefaults.standard.object(forKey: key) as? Data {
+                let decoder = JSONDecoder()
+                if let channels = try? decoder.decode([Channel].self, from: channelsJson) {
+                    self.channels = channels
+                }
+            }
+        }
+
         guard let user = UserInfo.user else {
             return
         }
@@ -75,6 +91,13 @@ class ChannelListController: UIViewController {
                 switch response {
                 case .success(let data):
                     self.channels = data
+                    do {
+                        let encoder = JSONEncoder()
+                        let encoded = try encoder.encode(data)
+                        UserDefaults.standard.set(encoded, forKey: "prefer")
+                    } catch let error {
+                        print(error)
+                    }
                     self.tableView.reloadData()
                 case .failure(_):
                     self.dismiss(animated: true, completion: nil)
@@ -85,6 +108,13 @@ class ChannelListController: UIViewController {
                 switch response {
                 case .success(let data):
                     self.channels = data
+                    do {
+                        let encoder = JSONEncoder()
+                        let encoded = try encoder.encode(data)
+                        UserDefaults.standard.set(encoded, forKey: "dislike")
+                    } catch let error {
+                        print(error)
+                    }
                     self.tableView.reloadData()
                 case .failure(_):
                     self.dismiss(animated: true, completion: nil)

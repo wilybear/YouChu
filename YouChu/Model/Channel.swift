@@ -7,36 +7,35 @@
 
 import UIKit
 
-public class Channel: NSObject, Codable, NSCoding, NSSecureCoding {
-    public static var supportsSecureCoding = true
+struct Channel: Codable {
 
-    public func encode(with coder: NSCoder) {
-        coder.encode(channelIdx, forKey: "channel_index")
-        coder.encode(channelId, forKey: "channel_id")
-        coder.encode(title, forKey: "title")
-        coder.encode(introduction, forKey: "introduction")
-        coder.encode(publishedAt, forKey: "published_at")
-        coder.encode(thumbnail, forKey: "thumbnail")
-        coder.encode(viewCount, forKey: "view_count")
-        coder.encode(bannerImage, forKey: "banner_image")
-        coder.encode(subscriberCount, forKey: "subscriber_count")
-        coder.encode(videoCount, forKey: "video_count")
-        coder.encode(isPreffered, forKey: "isPreferred")
-    }
-
-    public required init?(coder: NSCoder) {
-        self.channelIdx = coder.decodeObject(forKey: "channel_index") as? Int
-        self.channelId = coder.decodeObject(forKey: "channel_id") as? String
-        self.title = coder.decodeObject(forKey: "title") as? String
-        self.introduction = coder.decodeObject(forKey: "introduction") as? String
-        self.publishedAt = coder.decodeObject(forKey: "published_at") as? String
-        self.thumbnail = coder.decodeObject(forKey: "thumbnail") as? String
-        self.viewCount = coder.decodeObject(forKey: "view_count") as? Int
-        self.bannerImage = coder.decodeObject(forKey: "banner_image") as? String
-        self.subscriberCount = coder.decodeObject(forKey: "subscriber_count") as? Int
-        self.videoCount = coder.decodeObject(forKey: "video_count") as? Int
-        self.isPreffered = coder.decodeObject(forKey: "isPreferred") as? ChannelState ?? .normal
-    }
+//    public func encode(with coder: NSCoder) {
+//        coder.encode(channelIdx, forKey: "channel_index")
+//        coder.encode(channelId, forKey: "channel_id")
+//        coder.encode(title, forKey: "title")
+//        coder.encode(introduction, forKey: "introduction")
+//        coder.encode(publishedAt, forKey: "published_at")
+//        coder.encode(thumbnail, forKey: "thumbnail")
+//        coder.encode(viewCount, forKey: "view_count")
+//        coder.encode(bannerImage, forKey: "banner_image")
+//        coder.encode(subscriberCount, forKey: "subscriber_count")
+//        coder.encode(videoCount, forKey: "video_count")
+//        coder.encode(isPreffered, forKey: "isPreferred")
+//    }
+//
+//    public required init?(coder: NSCoder) {
+//        self.channelIdx = coder.decodeObject(forKey: "channel_index") as? Int
+//        self.channelId = coder.decodeObject(forKey: "channel_id") as? String
+//        self.title = coder.decodeObject(forKey: "title") as? String
+//        self.introduction = coder.decodeObject(forKey: "introduction") as? String
+//        self.publishedAt = coder.decodeObject(forKey: "published_at") as? String
+//        self.thumbnail = coder.decodeObject(forKey: "thumbnail") as? String
+//        self.viewCount = coder.decodeObject(forKey: "view_count") as? Int
+//        self.bannerImage = coder.decodeObject(forKey: "banner_image") as? String
+//        self.subscriberCount = coder.decodeObject(forKey: "subscriber_count") as? Int
+//        self.videoCount = coder.decodeObject(forKey: "video_count") as? Int
+//        self.isPreffered = coder.decodeObject(forKey: "isPreferred") as? ChannelState ?? .normal
+//    }
 
     var channelIdx: Int?
     var channelId: String?
@@ -72,7 +71,7 @@ public class Channel: NSObject, Codable, NSCoding, NSSecureCoding {
         case channelIdx = "channel_index"
         case channelId = "channel_id"
         case title
-        case introduction
+        case introduction = "description"
         case publishedAt = "published_at"
         case thumbnail
         case viewCount = "view_count"
@@ -82,7 +81,7 @@ public class Channel: NSObject, Codable, NSCoding, NSSecureCoding {
         case isPreffered = "isPreferred"
     }
 
-    required public init(from decoder: Decoder) throws {
+    init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         channelIdx = (try? values.decode(Int.self, forKey: .channelIdx)) ?? nil
         channelId = (try? values.decode(String.self, forKey: .channelId)) ?? nil

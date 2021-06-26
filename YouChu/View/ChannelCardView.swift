@@ -177,7 +177,7 @@ class ChannelCardView: UIView {
         }
         subscriberCount.text = "구독자 " + channel.subscriberCountText
         channelProfileView.title = channel.title
-        instruction.text = channel.description
+        instruction.text = channel.introduction
         Service.fetchKeywordList(channelIdx: channel.channelIdx!, completion: { result in
             guard let keywords = result else {return}
             self.keywords = keywords

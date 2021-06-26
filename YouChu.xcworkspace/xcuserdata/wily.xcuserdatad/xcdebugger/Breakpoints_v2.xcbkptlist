@@ -53,17 +53,17 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "AE42B472-7010-4B6A-A97F-D7CA992E1D9E"
+            uuid = "656B7A32-788D-40D4-A420-55202427965C"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "YouChu/Utils/DataManager.swift"
+            filePath = "YouChu/Controller/HomeController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "17"
-            endingLineNumber = "17"
-            landmarkName = "userEntity"
-            landmarkType = "24">
+            startingLineNumber = "183"
+            endingLineNumber = "183"
+            landmarkName = "fetchBanners()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
