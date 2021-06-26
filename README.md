@@ -10,7 +10,7 @@ IOS/UIkit/유튜브 채널 추천 어플리케이션
 <img src="https://user-images.githubusercontent.com/26200629/123509827-b7bbe800-d6b2-11eb-833e-ad8e6ab84733.PNG" width="30%"/> <img src="https://user-images.githubusercontent.com/26200629/123509832-bdb1c900-d6b2-11eb-93b8-e82b645e8e1a.PNG" width="30%"/>
 
 ## TestFlight Link
-~ 8/26
+가능 기간: ~ 8/26 <br>
 https://testflight.apple.com/join/76RqXVSV
 
 ## Youchu 소개
@@ -18,6 +18,7 @@ https://testflight.apple.com/join/76RqXVSV
 1. 맟춤으로 추천되는 채널을 살펴보세요
 2. 랜덤으로 추천되는 채널들을 탐색할 수 있습니다
 3. 카테고리 별 랭킹(구독자 순)을 확인해 보세요.
+<br><br>
 
 ### 개발 기간
 약 2달 (4월 ~ 5월 말)
